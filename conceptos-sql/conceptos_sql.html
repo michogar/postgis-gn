@@ -24,6 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ejemplos" href="ejemplos.html" />
     <link rel="prev" title="Teoría de base de datos" href="../bases-de-datos/teoria_bases_datos.html" /> 
   </head>
   <body>
@@ -33,6 +34,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ejemplos.html" title="Ejemplos"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../bases-de-datos/teoria_bases_datos.html" title="Teoría de base de datos"
              accesskey="P">previous</a> |</li>
@@ -128,16 +132,16 @@ campos o cambiando la definición de los campos.</td>
 <p>Ejemplo (crear una tabla):</p>
 <div class="highlight-python"><pre># CREATE TABLE Empleado
 (
-id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+id serial NOT NULL PRIMARY KEY,
 Nombre VARCHAR(50),
 Apellido VARCHAR(50),
 Direccion VARCHAR(255),
 Ciudad VARCHAR(60),
 Telefono VARCHAR(15),
 Peso VARCHAR (5),
-Edad (2),
-Actividad Específica (100),
-idCargo INT
+Edad integer,
+Actividad VARCHAR(100),
+idCargo integer
 )</pre>
 </div>
 </div>
@@ -169,9 +173,6 @@ idCargo INT
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="practicas">
-<h3>Prácticas<a class="headerlink" href="#practicas" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="lenguaje-de-manipulacion-de-datos-dml-data-manipulation-language">
 <h4>Lenguaje de manipulación de datos DML(Data Manipulation Language)<a class="headerlink" href="#lenguaje-de-manipulacion-de-datos-dml-data-manipulation-language" title="Permalink to this headline">¶</a></h4>
 <blockquote>
@@ -679,6 +680,8 @@ HAVING Sum(Stock) &gt; 100 AND NombreProducto Like BOS*;</div></blockquote>
 </pre></div>
 </div>
 <p>Opcionalmente se puede asignar un nombre a cada columna de la vista. Si se especifica, la lista de nombres de las columnas debe de tener el mismo número de elementos que elnúmero de columnas producidas por la consulta. Si se omiten, cada columna de la vista1 adopta el nombre de la columna correspondiente en la consulta.</p>
+<blockquote>
+<div></div></blockquote>
 </div>
 <div class="section" id="referencias">
 <h2>Referencias<a class="headerlink" href="#referencias" title="Permalink to this headline">¶</a></h2>
@@ -708,9 +711,6 @@ HAVING Sum(Stock) &gt; 100 AND NombreProducto Like BOS*;</div></blockquote>
 <li><a class="reference internal" href="#truncate">TRUNCATE</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a class="reference internal" href="#practicas">Prácticas</a><ul>
 <li><a class="reference internal" href="#lenguaje-de-manipulacion-de-datos-dml-data-manipulation-language">Lenguaje de manipulación de datos DML(Data Manipulation Language)</a><ul>
 <li><a class="reference internal" href="#definicion">Definición</a></li>
 <li><a class="reference internal" href="#insert">INSERT</a></li>
@@ -772,6 +772,9 @@ HAVING Sum(Stock) &gt; 100 AND NombreProducto Like BOS*;</div></blockquote>
   <h4>Previous topic</h4>
   <p class="topless"><a href="../bases-de-datos/teoria_bases_datos.html"
                         title="previous chapter">Teoría de <strong>base de datos</strong></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ejemplos.html"
+                        title="next chapter">Ejemplos</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/conceptos-sql/conceptos_sql.txt"
@@ -800,6 +803,9 @@ HAVING Sum(Stock) &gt; 100 AND NombreProducto Like BOS*;</div></blockquote>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="ejemplos.html" title="Ejemplos"
+             >next</a> |</li>
         <li class="right" >
           <a href="../bases-de-datos/teoria_bases_datos.html" title="Teoría de base de datos"
              >previous</a> |</li>

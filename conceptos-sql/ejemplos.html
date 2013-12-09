@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>&lt;no title&gt; &mdash; Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation</title>
+    <title>Ejemplos &mdash; Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,7 +23,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation" href="../index.html" /> 
+    <link rel="top" title="Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation" href="../index.html" />
+    <link rel="prev" title="Conceptos básicos de SQL" href="conceptos_sql.html" /> 
   </head>
   <body>
     <div class="related">
@@ -32,6 +33,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="conceptos_sql.html" title="Conceptos básicos de SQL"
+             accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -41,13 +45,144 @@
         <div class="bodywrapper">
           <div class="body">
             
-  
+  <div class="section" id="ejemplos">
+<h1>Ejemplos<a class="headerlink" href="#ejemplos" title="Permalink to this headline">¶</a></h1>
+<p>Crear tabla:</p>
+<div class="highlight-python"><pre># CREATE TABLE Empleado
+(
+id serial NOT NULL PRIMARY KEY,
+Nombre VARCHAR(50),
+Apellido VARCHAR(50),
+Direccion VARCHAR(255),
+Ciudad VARCHAR(60),
+Telefono VARCHAR(15),
+Peso VARCHAR (5),
+Edad integer,
+"Actividad" VARCHAR(100),
+idCargo integer
+);</pre>
+</div>
+<p>Añadir columna:</p>
+<div class="highlight-python"><pre>alter table empleado add column numero_sanitario varchar(9);</pre>
+</div>
+<p>Modificar columna a no nulo:</p>
+<div class="highlight-python"><pre>alter table empleado alter column numero_sanitario set not null;</pre>
+</div>
+<p>Eliminar columna:</p>
+<div class="highlight-python"><pre>alter table empleado drop column actividad;</pre>
+</div>
+<p>Eliminar base de datos:</p>
+<div class="highlight-python"><pre>drop database pruebas;</pre>
+</div>
+<p>Eliminar tabla:</p>
+<div class="highlight-python"><pre>drop table empleado;</pre>
+</div>
+<p>Insertar empleado:</p>
+<div class="highlight-python"><pre>insert into empleado ('id', 'nombre' ) values (1,'Pedro');
+
+insert into empleado ("nombre" ) values ("Pedro");
+
+insert into empleado ("nombre" ) values ('Pedro');
+insert into empleado ("nombre" ) values ('Martin');
+insert into empleado ("nombre" ) values ('Miguel');
+insert into empleado ("nombre" ) values ('Maria');
+insert into empleado ("nombre" ) values ('Luis');</pre>
+</div>
+<p>Modificar empleado:</p>
+<div class="highlight-python"><pre>update empleado set "nombre" = 'Luis' where nombre = 'Pedro';
+
+¿ update empleado set "nombre" = 'Luis'; ?</pre>
+</div>
+<p>Eliminar empleado:</p>
+<div class="highlight-python"><pre>delete from empleado where "nombre" = 'Luis';
+
+¿ delete from empleado; ?</pre>
+</div>
+<p>Cargamos datos de ejemplo:</p>
+<div class="highlight-python"><pre>psql -U alumno -d curso &lt; datos_ejemplo.sql</pre>
+</div>
+<p>Mostrar todos los departamentos:</p>
+<div class="highlight-python"><pre>select * from curso.departamento;
+
+¿ select id from curso.departamento; ?
+¿ select d.id from curso.departamento; ?</pre>
+</div>
+<p>Mostrar el departamento de los municipios:</p>
+<div class="highlight-python"><pre>select distinct departamento from municipio;
+
+¿ select departamento from municipio; ?</pre>
+</div>
+<p>Mostrar los municipios del departamento 1188 o 1201:</p>
+<div class="highlight-python"><pre>select * from municipio where departamento = 1188 OR departamento = 1201;</pre>
+</div>
+<p>Municipios que no sean el 1200:</p>
+<div class="highlight-python"><pre>select * from municipio where departamento &lt;&gt; 1200;</pre>
+</div>
+<p>Municipios con departamento entre 1196 y 1202:</p>
+<div class="highlight-python"><pre>select * from municipio where departamento between 1188 and 1200;
+
+¿ select * from municipio where departamento between 1188 and 1200 order by departamento; ?</pre>
+</div>
+<p>Trabajador que se llame Miguel:</p>
+<div class="highlight-python"><pre>select * from trabajador where nombre like 'Miguel'
+
+¿ select * from trabajador where nombre like 'Miguel' and apellidos like '%Gar%' ?;</pre>
+</div>
+<p>Media de la población de los municipios:</p>
+<div class="highlight-python"><pre>select avg(m.poblacion) from municipio as m;</pre>
+</div>
+<p>Municipio de mayor superficie y de menor perímetro:</p>
+<div class="highlight-python"><pre>select max(m.superficie) from municipio as m;
+select min(m.perimetro) from municipio as m;</pre>
+</div>
+<p>Suma total de la población de los municipios del departamento 1200:</p>
+<div class="highlight-python"><pre>select sum(m.poblacion) from municipio as m where m.departamento = 1200;</pre>
+</div>
+<p>Número de municipios agrupados por departamento:</p>
+<div class="highlight-python"><pre>select departamento, count(*) from municipio group by departamento;
+
+¿ select departamento, municipio from municipio group by departamento; ?
+
+¿ select departamento, municipio from municipio group by departamento, municipio; ?</pre>
+</div>
+<p>Seleccionar municipios con sus departamentos:</p>
+<div class="highlight-python"><pre>select * from municipio join departamento on municipio.departamento = departamento.id;
+
+select * from municipio as m, departamento as d where m.departamento = d.id;
+
+¿ select count(*) from municipio as m, departamento as d where m.departamento = d.id; ?
+
+¿ select count(*) from municipio; ?</pre>
+</div>
+<p>Seleccionar todos los municipios con sus departamentos:</p>
+<div class="highlight-python"><pre>select * from municipio left join departamento on municipio.departamento = departamento.id;
+
+select count(*) from municipio left join departamento on municipio.departamento = departamento.id;</pre>
+</div>
+<p>Seleccionar todos los municipios con departamento 1200 junto con los del departamento 1201</p>
+<blockquote>
+<div>select * from municipio where departamento = 1200 union select * from municipio where departamento = 1201</div></blockquote>
+<p>Crear una vista con los municipios del departamento de Choluteca</p>
+<blockquote>
+<div>create view municipos_choluteca as select m.id as id_mun, d.id as id_dep, m.municipio, m.poblacion, d.name from municipio as m, departamento as d where m.departamento = d.id and d.name = &#8216;Choluteca&#8217;;</div></blockquote>
+<p>Ejercicios:</p>
+<div class="highlight-python"><pre>* Mostrar los barrios que no tienen zonas asignadas
+* Mostrar que equipo tiene más zonas asignadas
+* ¿Cuantos barrios no tienen equipos designados?
+* ¿Existe algún equipo sin responsable?
+* ¿Qué población atiende la zona 3?</pre>
+</div>
+</div>
+
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="conceptos_sql.html"
+                        title="previous chapter">Conceptos básicos de SQL</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/conceptos-sql/ejemplos.txt"
@@ -76,6 +211,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="conceptos_sql.html" title="Conceptos básicos de SQL"
+             >previous</a> |</li>
         <li><a href="../index.html">Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
