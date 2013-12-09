@@ -16,7 +16,8 @@ Conceptos básicos de SQL
 	
 	Excepto donde quede reflejado de otra manera, la presente documentación se halla bajo licencia : Creative Commons (Creative Commons - Attribution - Share Alike: http://creativecommons.org/licenses/by-sa/3.0/deed.es)
 
-	.. note::
+
+.. attention::
 	Pueden descargarse los datos para los ejercicios desde `aquí`_
 
 .. _aquí: datos_ejemplo.sql
