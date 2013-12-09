@@ -534,6 +534,10 @@ La cláusula CREATE VIEW permite la creación de vistas. La cláusula asigna un 
 	
 Opcionalmente se puede asignar un nombre a cada columna de la vista. Si se especifica, la lista de nombres de las columnas debe de tener el mismo número de elementos que elnúmero de columnas producidas por la consulta. Si se omiten, cada columna de la vista1 adopta el nombre de la columna correspondiente en la consulta. 
 
+	.. note `ejemplos`_
+
+.. `ejemplos`_ ejemplos.html
+
 Referencias
 ===========
 

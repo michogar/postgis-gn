@@ -1,3 +1,7 @@
+********
+Ejemplos
+********
+
 Crear tabla::
 
 	# CREATE TABLE Empleado
