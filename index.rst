@@ -16,6 +16,7 @@ Contents:
    bases-de-datos/teoria_bases_datos
    conceptos-sql/conceptos_sql
    conceptos-sql/ejemplos
+   postgis-caracteristicas-espaciales/caracteristicas_espaciales
 
 
 Indices and tables
