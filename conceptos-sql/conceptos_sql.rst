@@ -16,6 +16,11 @@ Conceptos básicos de SQL
 	
 	Excepto donde quede reflejado de otra manera, la presente documentación se halla bajo licencia : Creative Commons (Creative Commons - Attribution - Share Alike: http://creativecommons.org/licenses/by-sa/3.0/deed.es)
 
+	.. note::
+	Pueden descargarse los datos para los ejercicios desde `aquí`_
+
+.. _aquí: datos_ejemplo.sql
+
 Introducción
 ============
 El lenguaje de consulta estructurado o SQL (por sus siglas en inglés **Structured Query Language**) es un lenguaje declarativo de acceso a bases de datos relacionales que permite especificar diversos tipos de operaciones en ellas. Una de sus características es el manejo del álgebra y el cálculo relacional que permiten efectuar consultas con el fin de recuperar de forma sencilla información de interés de bases de datos, así como hacer cambios en ella.
