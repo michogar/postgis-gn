@@ -65,16 +65,16 @@ Ejemplo (crear una tabla)::
 	
 	# CREATE TABLE Empleado
 	(
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id serial NOT NULL PRIMARY KEY,
 	Nombre VARCHAR(50),
 	Apellido VARCHAR(50),
 	Direccion VARCHAR(255),
 	Ciudad VARCHAR(60),
 	Telefono VARCHAR(15),
 	Peso VARCHAR (5),
-	Edad (2),
-	Actividad Específica (100),
-	idCargo INT
+	Edad integer,
+	Actividad VARCHAR(100),
+	idCargo integer
 	)
 
 ALTER
@@ -103,9 +103,6 @@ Este comando trunca todo el contenido de una tabla. La ventaja sobre el comando 
 Ejemplo::
 	
 	# TRUNCATE TABLE 'NOMBRE_TABLA';
-
-Prácticas
----------
 
 Lenguaje de manipulación de datos DML(Data Manipulation Language)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

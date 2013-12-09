@@ -15,6 +15,7 @@ Contents:
    linux/linux
    bases-de-datos/teoria_bases_datos
    conceptos-sql/conceptos_sql
+   conceptos-sql/ejemplos
 
 
 Indices and tables
