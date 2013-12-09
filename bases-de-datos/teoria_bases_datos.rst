@@ -297,6 +297,11 @@ Ejercicio práctico
 ------------------
 Se desea realizar una base de datos que gestione equipos de Catastro. Estos equipos están desplegados por todo el país. El país está dividido en departamentos que están divididos en municipios y estos a su vez en barrios. Las departamentos, municipios y barrios además de un identificador deberán guardar su nombre. Cada equipo tiene asignada una zona en la se pueden incluir varios barrios, pero ningún barrio podrá estar en dos zonas diferentes como tampoco podrá haber una zona en la que trabajen dos equipos. Las zonas se denominan por un número que a su vez hace de identificador. Los equipos vendrán identificados por su nombre. Cada equipo tiene un responsable que es el encargado de gestionarlo. Los trabajadores que son encargados no realizarán trabajo de campo. Se deben poder almacenar los datos personales de los usuarios y se identificarán por su numero sanitario. Los usuarios de un equipo podrán participar en campañas en diferentes zonas de ese mismo equipo de manera simultanea.
 
+	.. warning::
+	   `RESPUESTA`_
+
+.. _RESPUESTA: _images/resultado-ejemplo.png
+
 Referencias
 ============
 
