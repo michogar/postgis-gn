@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation" href="../index.html" />
     <link rel="next" title="Importación y exportación de datos" href="../postgis-importacion-exportacion/importacion_exportacion.html" />
-    <link rel="prev" title="Simple Feature Model" href="../postgis-simple-feature-model/simple_feature_model.html" /> 
+    <link rel="prev" title="Ejemplos SFA" href="../postgis-simple-feature-model/ejemplos.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,7 +38,7 @@
           <a href="../postgis-importacion-exportacion/importacion_exportacion.html" title="Importación y exportación de datos"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../postgis-simple-feature-model/simple_feature_model.html" title="Simple Feature Model"
+          <a href="../postgis-simple-feature-model/ejemplos.html" title="Ejemplos SFA"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation</a> &raquo;</li> 
       </ul>
@@ -81,30 +81,50 @@
 <p>©2012 Micho García</p>
 <p class="last">Excepto donde quede reflejado de otra manera, la presente documentación se halla bajo licencia : Creative Commons (Creative Commons - Attribution - Share Alike: <a class="reference external" href="http://creativecommons.org/licenses/by-sa/3.0/deed.es">http://creativecommons.org/licenses/by-sa/3.0/deed.es</a>)</p>
 </div>
-<p>La indexación espacial es una de las funcionalidades importantes de las bases de datos espaciales. Los indices consiguen que las búsquedas espaciales en un gran número de datos sean eficientes. Sin idenxación, la búsqueda se realizaria de manera secuencial teniendo que buscar en todos los registros de la base de datos. La indexación organiza los datos en una estructura de arbol que es recorrida rapidamente en la búsqueda de un registro.</p>
+<p>La indexación espacial es una de las funcionalidades importantes de las bases de datos espaciales. Los índices consiguen que las búsquedas espaciales en un gran número de datos sean eficientes. Sin indexación, la búsqueda se realizaría de manera secuencial teniendo que buscar en todos los registros de la base de datos. La indexación organiza los datos en una estructura de árbol que es recorrida rápidamente en la búsqueda de un registro.</p>
 <div class="section" id="como-funcionan-los-indices-espaciales">
 <h2>Como funcionan los índices espaciales<a class="headerlink" href="#como-funcionan-los-indices-espaciales" title="Permalink to this headline">¶</a></h2>
-<p>Las base de datos estándar crean un arbol jerarquico basados en los valores de las columnas. Los indice espaciales funcionan de una manera diferente, los índices no son capaces de indexar las geometrías, e indexarán las cajas (box) de las geometrías.</p>
+<p>Las base de datos estándar crean un árbol jerárquico basados en los valores de las columnas. Los índices espaciales funcionan de una manera diferente, los índices no son capaces de indexar las geometrías, e indexarán las cajas (box) de las geometrías.</p>
 <blockquote>
 <div><img alt="../_images/boundingbox.png" src="../_images/boundingbox.png" />
 </div></blockquote>
-<p>La caja (box) es el rectángulo definido por las máximas y mínimas coordenadas x e y de una geometría.</p>
+<p>La caja (box) es el rectángulo definido por las máximas y mínimas coordenadas X e Y de una geometría.</p>
 <blockquote>
 <div><img alt="../_images/bbox.png" src="../_images/bbox.png" />
 </div></blockquote>
 <p>En la figura se puede observar que solo la linea intersecta a la estrella amarilla, mientras que si utilizamos los índices comprobaremos que la caja amarilla es intersectada por dos figuras la caja roja y la azul. El camino eficiente para responder correctamente a la pregunta <strong>¿qué elemento intersecta la estrella amarilla?</strong> es primero responder a la pregunta <strong>¿qué cajas intersectan la caja amarilla?</strong> usando el índice (consulta rápida) y luego calcular exactamente <strong>¿quien intersecta a la estrella amarilla?</strong> sobre el resultado de la consulta de las cajas.</p>
 </div>
 <div class="section" id="creacion-de-indices-espaciales">
-<h2>Creación de indices espaciales<a class="headerlink" href="#creacion-de-indices-espaciales" title="Permalink to this headline">¶</a></h2>
-<p>La síntaxis será la siguiente:</p>
+<h2>Creación de índices espaciales<a class="headerlink" href="#creacion-de-indices-espaciales" title="Permalink to this headline">¶</a></h2>
+<p>La sintaxis será la siguiente:</p>
 <div class="highlight-python"><pre>CREATE INDEX [Nombre_del_indice] ON [Nombre_de_tabla] USING GIST ([campo_de_geometria]);</pre>
 </div>
 <p>Esta operación puede requerir bastante tiempo en tablas de gran tamaño.</p>
 </div>
 <div class="section" id="uso-de-indices-espaciales">
 <h2>Uso de índices espaciales<a class="headerlink" href="#uso-de-indices-espaciales" title="Permalink to this headline">¶</a></h2>
-<p>La mayor parte de las funciones en PostGIS (ST_Contains, ST_Intersects, ST_DWithin, etc) incluyen un filtrado por indice automáticamente.</p>
+<p>La mayor parte de las funciones en PostGIS (ST_Contains, ST_Intersects, ST_DWithin, etc) incluyen un filtrado por índice automáticamente.</p>
 <p>Para hacer que una función utilice el índice, hay que hacer uso del operador <strong>&amp;&amp;</strong>. Para las geometrías, el operador <strong>&amp;&amp;</strong> significa &#8220;la caja que toca (touch) o superpone (overlap)&#8221; de la misma manera que para un número el operador <strong>=</strong> significa &#8220;valores iguales&#8221;</p>
+</div>
+<div class="section" id="ejemplo">
+<h2>Ejemplo<a class="headerlink" href="#ejemplo" title="Permalink to this headline">¶</a></h2>
+<p>A partir de las capas ríos y suelos calcularemos el número de ríos que intersectan con los tipos de suelo:</p>
+<div class="highlight-python"><pre># select count(*) from suelos su, rios ri where (su.geom &amp;&amp; ri.geom) and st_relate(su.geom, ri.geom, 'T********');
+
+  count
+----------
+  5004</pre>
+</div>
+<p>Esta consulta tardará del orden de 10s</p>
+<blockquote>
+<div><p># select count(*) from suelos su, rios ri where (su.geom &amp;&amp; ri.geom)</p>
+<blockquote>
+<div>count</div></blockquote>
+<blockquote>
+<div>12739</div></blockquote>
+</div></blockquote>
+<p>En este último caso ha tardad muy pocos segundos.</p>
+<p>Si eliminamos los índices y repetimos la consulta, veremos que el tiempo de cálculo se incrementa</p>
 </div>
 <div class="section" id="analyze-y-vacuum">
 <h2>ANALYZE y VACUUM<a class="headerlink" href="#analyze-y-vacuum" title="Permalink to this headline">¶</a></h2>
@@ -116,11 +136,39 @@ VACUUM ANALYZE [Nombre_tabla] ([Nombre_columna])</pre>
 </div>
 <p>Esta orden actualiza las estadísticas y elimina los datos borrados que se encontraban marcados como eliminados.</p>
 </div>
-<div class="section" id="practicas">
-<h2>Prácticas<a class="headerlink" href="#practicas" title="Permalink to this headline">¶</a></h2>
-<ol class="arabic simple">
-<li>Compare los resultados de obtener la población del barrio West Village así como el tiempo necesario para ejecutar cada operación. Use el operador de caja en una si y en otra no.</li>
-</ol>
+<div class="section" id="planificador">
+<h2>Planificador<a class="headerlink" href="#planificador" title="Permalink to this headline">¶</a></h2>
+<p>¿Que pasa si ejecutamos la consulta invirtiendo el orden de los predicados?:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># select count(*) from suelos su, rios ri where st_relate(su.geom, ri.geom, &#39;T********&#39;) and (su.geom &amp;&amp; ri.geom);</span>
+</pre></div>
+</div>
+<p>Comprobaremos que el resultado es el mismo, ya que el orden en las consultas es indiferente para PostGIS siendo el planificador el que gestiona esto.</p>
+<p>Para utilizar el planificador:</p>
+<div class="highlight-python"><pre>EXPLAIN [ ANALYZE ] [ VERBOSE ] sentenciaSQL</pre>
+</div>
+<ul>
+<li><p class="first">ANALYZE ejecuta la consulta y muestra el plan de la misma mientras que si no se indica, PostgreSQL realiza una aproximación.:</p>
+<div class="highlight-python"><pre># explain analyze select count(*) from suelos su, rios ri where (su.geom &amp;&amp; ri.geom)
+
+Aggregate  (cost=415523.85..415523.86 rows=1 width=0) (actual time=27952.663..27952.664 rows=1 loops=1)"
+  -&gt;  Nested Loop  (cost=0.00..415494.59 rows=11703 width=0) (actual time=2.200..27944.733 rows=12379 loops=1)"
+        Join Filter: (su.geom &amp;&amp; ri.geom)"
+        -&gt;  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.007..2.607 rows=3871 loops=1)"
+        -&gt;  Seq Scan on rios ri  (cost=0.00..82.09 rows=2009 width=832) (actual time=0.002..0.958 rows=2009 loops=3871)"
+Total runtime: 27952.715 ms"
+
+# create index suelos_geom_gist on suelos using gist(geom);
+# create index rios_geom_gist on rios using gist(geom);
+
+Aggregate  (cost=1937.17..1937.18 rows=1 width=0) (actual time=218.263..218.264 rows=1 loops=1)"
+  -&gt;  Nested Loop  (cost=0.00..1907.91 rows=11703 width=0) (actual time=0.065..213.180 rows=12379 loops=1)"
+        -&gt;  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.005..2.644 rows=3871 loops=1)"
+        **-&gt;  Index Scan using rios_geom_gist on rios ri**  (cost=0.00..0.35 rows=1 width=832) (actual time=0.035..0.045 rows=3 loops=3871)"
+              Index Cond: (su.geom &amp;&amp; geom)"
+Total runtime: 218.310 ms"</pre>
+</div>
+</li>
+</ul>
 </div>
 </div>
 
@@ -134,17 +182,18 @@ VACUUM ANALYZE [Nombre_tabla] ([Nombre_columna])</pre>
   <ul>
 <li><a class="reference internal" href="#">Indexación espacial</a><ul>
 <li><a class="reference internal" href="#como-funcionan-los-indices-espaciales">Como funcionan los índices espaciales</a></li>
-<li><a class="reference internal" href="#creacion-de-indices-espaciales">Creación de indices espaciales</a></li>
+<li><a class="reference internal" href="#creacion-de-indices-espaciales">Creación de índices espaciales</a></li>
 <li><a class="reference internal" href="#uso-de-indices-espaciales">Uso de índices espaciales</a></li>
+<li><a class="reference internal" href="#ejemplo">Ejemplo</a></li>
 <li><a class="reference internal" href="#analyze-y-vacuum">ANALYZE y VACUUM</a></li>
-<li><a class="reference internal" href="#practicas">Prácticas</a></li>
+<li><a class="reference internal" href="#planificador">Planificador</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../postgis-simple-feature-model/simple_feature_model.html"
-                        title="previous chapter">Simple Feature Model</a></p>
+  <p class="topless"><a href="../postgis-simple-feature-model/ejemplos.html"
+                        title="previous chapter">Ejemplos SFA</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../postgis-importacion-exportacion/importacion_exportacion.html"
                         title="next chapter">Importación y exportación de datos</a></p>
@@ -180,7 +229,7 @@ VACUUM ANALYZE [Nombre_tabla] ([Nombre_columna])</pre>
           <a href="../postgis-importacion-exportacion/importacion_exportacion.html" title="Importación y exportación de datos"
              >next</a> |</li>
         <li class="right" >
-          <a href="../postgis-simple-feature-model/simple_feature_model.html" title="Simple Feature Model"
+          <a href="../postgis-simple-feature-model/ejemplos.html" title="Ejemplos SFA"
              >previous</a> |</li>
         <li><a href="../index.html">Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation</a> &raquo;</li> 
       </ul>
