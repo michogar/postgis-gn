@@ -151,7 +151,7 @@
 <div class="section" id="exportacion-desde-pg-a-archivos-de-tipo-esri-shapefile">
 <h2>Exportación desde PostGIS a archivos de tipo ESRI Shapefile<a class="headerlink" href="#exportacion-desde-pg-a-archivos-de-tipo-esri-shapefile" title="Permalink to this headline">¶</a></h2>
 <p>Para este proceso utilizaremos la herramienta <tt class="docutils literal"><span class="pre">pgsql2shp</span></tt>. Con ella podremos convertir los datos de nuestra base de datos en archivos ESRI Shape. Igual que para el caso anterior, la herramienta se utilizará desde la linea de comandos:</p>
-<div class="highlight-python"><pre>     $ pgsql2shp [&lt;opciones&gt;] &lt;basedatos&gt; [&lt;esquema&gt;.]&lt;tabla&gt;
+<div class="highlight-python"><pre>$ pgsql2shp [&lt;opciones&gt;] &lt;basedatos&gt; [&lt;esquema&gt;.]&lt;tabla&gt;
 $ pgsql2shp [&lt;opciones&gt;] &lt;basedatos&gt; &lt;consulta&gt;</pre>
 </div>
 <p>las opciones serán:</p>
@@ -165,7 +165,7 @@ $ pgsql2shp [&lt;opciones&gt;] &lt;basedatos&gt; &lt;consulta&gt;</pre>
 <div class="section" id="id1">
 <h3>Práctica<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div>Exportar algún fichero de la base de datos a Shapefile otra vez.</div></blockquote>
+<div>Exportar los barrios de la base de datos a Shapefile que tengan en el nombre la cadena &#8216;Residencial&#8217;.</div></blockquote>
 </div>
 </div>
 <div class="section" id="gdal-ogr">
@@ -219,10 +219,16 @@ $ pgsql2shp [&lt;opciones&gt;] &lt;basedatos&gt; &lt;consulta&gt;</pre>
 <h4>Cargar fichero KML<a class="headerlink" href="#cargar-fichero-kml" title="Permalink to this headline">¶</a></h4>
 <p>Descargar de <a class="reference external" href="http://forest.jrc.ec.europa.eu/effis/applications/firenews/kml/?&amp;from_date=08/09/2013&amp;to_date=15/09/2013">http://forest.jrc.ec.europa.eu/effis/applications/firenews/kml/?&amp;from_date=08/09/2013&amp;to_date=15/09/2013</a> el fichero firenews.kml</p>
 <p>A continuación, cargarlo en PostGIS con esta instrucción:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># ogr2ogr -a_srs epsg:4326 -f &quot;PostgreSQL&quot; PG:&quot;dbname=taller_semana_geomatica host=localhost user=postgres password=postgres port=5432&quot; firenews.kml</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># ogr2ogr -a_srs epsg:4326 -f &quot;PostgreSQL&quot; PG:&quot;dbname=gis host=localhost user=alumno password=alumn0 port=5432&quot; firenews.kml</span>
 </pre></div>
 </div>
 <p>Ya tendríamos el fichero cargado.</p>
+</div>
+<div class="section" id="exportar-a-kml">
+<h4>Exportar a KML<a class="headerlink" href="#exportar-a-kml" title="Permalink to this headline">¶</a></h4>
+<p>Exportar la tabla de barrios a KML utilizando ogr2ogr para poder publicarla en Google Maps</p>
+<blockquote>
+<div># ogr2ogr -f KML barrios.kml PG:&#8221;host=localhost dbname=gis user=alumno password=alumn0&#8221; -s_srs EPSG:32616 -t_srs EPSG:4326</div></blockquote>
 </div>
 <div class="section" id="cargar-fichero-csv">
 <h4>Cargar fichero CSV<a class="headerlink" href="#cargar-fichero-csv" title="Permalink to this headline">¶</a></h4>
@@ -330,18 +336,28 @@ $ osm2pgsql [opciones] ruta_planet.[gz, bz2]</pre>
 <div class="section" id="id3">
 <h3>Práctica<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Vamos a exportar datos de OpenStreetMap y cargarlos en PostGIS con osm2pgsql. Para ello, vamos primero a <a class="reference external" href="http://www.openstreetmap.org">http://www.openstreetmap.org</a>/export#</p>
-<p>Veremos que, si el área a exportar es muy grande, la página nos redireccionará a servicios de descarga masiva, como <a class="reference external" href="http://download.geofabrik.de/south-america/colombia.html">http://download.geofabrik.de/south-america/colombia.html</a>. De hecho, el enlace para descargar los datos de Colombia es <a class="reference external" href="http://download.geofabrik.de/south-america/colombia-latest.osm.bz2">http://download.geofabrik.de/south-america/colombia-latest.osm.bz2</a>. Pero, <strong>ojo</strong>: si hay muchos datos y la máquina no es muy potente, puede tardar mucho en cargarlos.</p>
+<p>Veremos que, si el área a exportar es muy grande, la página nos redireccionará a servicios de descarga masiva, como <a class="reference external" href="http://download.geofabrik.de">http://download.geofabrik.de</a>. Pero, <strong>ojo</strong>: si hay muchos datos y la máquina no es muy potente, puede tardar mucho en cargarlos.</p>
 <p>Una vez hemos descargado lo que queremos, vamos a proceder a activar en PostGIS la extensión hstore. Esto permite la creación de una nueva estructura de almacenamiento en PostGIS llamada hstore. No es más que una estructura de datos pensada para almacenar en una columna un dato de tipo <em>clave =&gt; valor</em>. Gracias a ello, podremos usar etiquetas en las consultas que lancemos:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># SELECT way, tags FROM planet_osm_polygon WHERE (tags -&gt; &#39;landcover&#39;) = &#39;trees&#39;;</span>
 </pre></div>
 </div>
 <p>Para tener más información, ir a <a class="reference external" href="http://wiki.openstreetmap.org/wiki/Osm2pgsql#hstore">http://wiki.openstreetmap.org/wiki/Osm2pgsql#hstore</a></p>
+<p>Para poder utilizar datos hstore primero debemos cargar esa extensión:</p>
+<div class="highlight-python"><pre>$ sudo apt-get install postgresql-contrib-9.1</pre>
+</div>
+<p>y después ejecutar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create extension hstore;</span>
+</pre></div>
+</div>
+<p>Seguidamente instalaremos osm2pgsql:</p>
+<div class="highlight-python"><pre>$ sudo apt-get install osm2pgsql</pre>
+</div>
 <p>Para cargar en PostGIS el fichero exportado, ejecutaríamos esta orden (<strong>no ejecutarla</strong>):</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># osm2pgsql -d taller_semana_geomatica -U postgres --hstore colombia-latest.osm</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># osm2pgsql -d gis -U alumno --hstore tegucigalpa.osm</span>
 </pre></div>
 </div>
 <p>El problema es que eso cargaría nuestros datos en una proyección 900913 (WebMercator). Si lo queremos en 4326 (WGS84), la instrucción es:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># osm2pgsql -d taller_semana_geomatica -U postgres --latlong --hstore colombia-latest.osm</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># osm2pgsql -d gis -U alumno --latlong --hstore tegucigalpa.osm</span>
 </pre></div>
 </div>
 <p>Si tras ejecutar la instrucción obtenemos este error:</p>
@@ -352,6 +368,47 @@ $ osm2pgsql [opciones] ruta_planet.[gz, bz2]</pre>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># export PROJ_LIB=/usr/local/share/proj</span>
 </pre></div>
 </div>
+<p>Si da un error al cargar los datos deben cargarse las funcionalidades legacy.sql y crear el operador:</p>
+<div class="highlight-python"><pre>CREATE OPERATOR CLASS gist_geometry_ops
+        FOR TYPE geometry USING GIST AS
+        STORAGE box2df,
+        OPERATOR        1        &lt;&lt;  ,
+        OPERATOR        2        &amp;&lt;      ,
+        OPERATOR        3        &amp;&amp;  ,
+        OPERATOR        4        &amp;&gt;      ,
+        OPERATOR        5        &gt;&gt;      ,
+        OPERATOR        6        ~=      ,
+        OPERATOR        7        ~       ,
+        OPERATOR        8        @       ,
+        OPERATOR        9        &amp;&lt;| ,
+        OPERATOR        10       &lt;&lt;| ,
+        OPERATOR        11       |&gt;&gt; ,
+        OPERATOR        12       |&amp;&gt; ,
+
+        OPERATOR        13       &lt;-&gt; FOR ORDER BY pg_catalog.float_ops,
+        OPERATOR        14       &lt;#&gt; FOR ORDER BY pg_catalog.float_ops,
+        FUNCTION        8        geometry_gist_distance_2d (internal, geometry, int4),
+
+        FUNCTION        1        geometry_gist_consistent_2d (internal, geometry, int4),
+        FUNCTION        2        geometry_gist_union_2d (bytea, internal),
+        FUNCTION        3        geometry_gist_compress_2d (internal),
+        FUNCTION        4        geometry_gist_decompress_2d (internal),
+        FUNCTION        5        geometry_gist_penalty_2d (internal, internal, internal),
+        FUNCTION        6        geometry_gist_picksplit_2d (internal, internal),
+        FUNCTION        7        geometry_gist_same_2d (geom1 geometry, geom2 geometry, internal);</pre>
+</div>
+<p>Cambiamos el esquema a la tabla ya que lo ha creado en public:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># ALTER TABLE planet_osm_line SET SCHEMA gis;</span>
+<span class="c"># ALTER TABLE planet_osm_point SET SCHEMA gis;</span>
+<span class="c"># ALTER TABLE planet_osm_polygon SET SCHEMA gis;</span>
+<span class="c"># ALTER TABLE planet_osm_roads SET SCHEMA gis;</span>
+</pre></div>
+</div>
+<p>Crearemos una tabla con las farmacias de Tegucigalpa:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create table gis.farmacias as select * from planet_osm_point where amenity=&#39;pharmacy&#39;;</span>
+</pre></div>
+</div>
+<p>Y la publicaremos con nuestro GeoServer.</p>
 <p>Esto cargaría los datos de OSM en nuestra base de datos. Si nos fijamos en la tabla de polígonos, vemos que tienen definido un campo <em>population</em>. Desde QGIS podemos configurar para que solo nos muestre los polígonos con los datos de población, y compararlos con los que hemos metido a mano en la tabla <em>barrios_de_bogota</em>, actualizados en 1998.</p>
 </div>
 <div class="section" id="osmosis">
@@ -401,6 +458,7 @@ $ osm2pgsql [opciones] ruta_planet.[gz, bz2]</pre>
 <li><a class="reference internal" href="#ogr2ogr">ogr2ogr</a></li>
 <li><a class="reference internal" href="#id2">Práctica</a><ul>
 <li><a class="reference internal" href="#cargar-fichero-kml">Cargar fichero KML</a></li>
+<li><a class="reference internal" href="#exportar-a-kml">Exportar a KML</a></li>
 <li><a class="reference internal" href="#cargar-fichero-csv">Cargar fichero CSV</a></li>
 </ul>
 </li>
