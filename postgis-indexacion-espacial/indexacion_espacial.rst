@@ -95,7 +95,7 @@ Para utilizar el planificador::
 	
 	EXPLAIN [ ANALYZE ] [ VERBOSE ] sentenciaSQL
 
-* ANALYZE ejecuta la consulta y muestra el plan de la misma mientras que si no se indica, PostgreSQL realiza una aproximación.::
+* ANALYZE ejecuta la consulta y muestra el plan de la misma mientras que si no se indica, PostgreSQL realiza una aproximación:
 
 	# explain analyze select count(*) from suelos su, rios ri where (su.geom && ri.geom)
 
