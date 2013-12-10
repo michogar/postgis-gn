@@ -88,6 +88,32 @@
 <div><a class="reference internal image-reference" href="../_images/matriz.png"><img alt="../_images/matriz.png" src="../_images/matriz.png" style="width: 358.0px; height: 280.0px;" /></a>
 </div></blockquote>
 <p>Figura: Mátriz DE-9IM de dos figuras geométricas dadas. Fuente: wikipedia en inglés [7] (<a class="reference external" href="http://en.wikipedia.org/wiki/DE-9IM">http://en.wikipedia.org/wiki/DE-9IM</a>)</p>
+<p>En esta matriz se muestra las diferentes combinaciones entre las geometrías, su interior, exterior y contorno. Los valores posibles son:</p>
+<ul class="simple">
+<li>0, 1, 2 como los valores de la dimensión</li>
+<li>F como el conjunto vacío.</li>
+</ul>
+<p>Los patrones vienen definidos por el uso de los siguientes valores:</p>
+<ul class="simple">
+<li>T para cualquier valor.</li>
+<li>F para el conjunto vacío.</li>
+</ul>
+<p>Por ejemplo en el caso de una intersección, el patrón que se debe cumplir debe ser:</p>
+<div class="highlight-python"><pre>T********, *T*******, **T****** o ***T*****</pre>
+</div>
+<p>lo que indica que o el interior de A con el interior de B, o el interior de A con el contorno de B o el interior de A con el exterior de B o el contorno de A con el interior de B deben tener alguna dimensión.
+Si comprobamos esto en varios casos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># select st_relate(&#39;POLYGON ((100 400, 300 400, 300 200, 100 200, 100 400))&#39;, &#39;LINESTRING (200 450, 130 300, 250 300, 150 150, 200 150)&#39;);</span>
+
+<span class="c"># select st_relate(&#39;POINT (200 200)&#39;, &#39;LINESTRING (100 400, 200 300, 200 200, 300 100)&#39;);</span>
+</pre></div>
+</div>
+<p>En el primer caso cumple todos los patrones menos el segundo, y en el segundo caso cumple con el primero. Podemos ver que en ambos casos se cumplen varios patrones, por lo que además de intersecarse, se cruzan y se tocan.</p>
+<p>Para el siguiente caso:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># select st_relate(&#39;LINESTRING (200 400, 200 300, 200 200, 200 100)&#39;, &#39;LINESTRING (100 400, 200 300, 200 200, 300 100, 300 200)&#39;)</span>
+</pre></div>
+</div>
+<p>el resultado será: &#8220;1F1FF0102&#8221;, indicándonos en este caso, que las geometrías se intersecan, pero no se cruzan, ya que la dimensión de sus interiores es igual a 1, mientras que el patrón nos dice que para cruzarse en el caso de dimensiones de las geometrías iguales, la dimensión de sus interiores debe ser 0.</p>
 </div>
 <div class="section" id="predicados-espaciales">
 <h2>Predicados espaciales<a class="headerlink" href="#predicados-espaciales" title="Permalink to this headline">¶</a></h2>
@@ -133,141 +159,93 @@
 <p>ST_Equals devuelve TRUE si dos geometrías del mismo tipo tienen identicas coordenadas x,y.</p>
 <div class="section" id="ejemplo">
 <h4>Ejemplo<a class="headerlink" href="#ejemplo" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-python"><pre># SELECT name, geom, ST_AsText(geom)
-FROM points
-WHERE name = 'Casa de Piedra';</pre>
-</div>
-<div class="highlight-python"><pre>        name    |                        geom                        |          st_astext
-----------------+----------------------------------------------------+------------------------------
- Casa de Piedra | 0101000020E6100000A6CC727E2F8052C0F9AF62A70EA81240 | POINT(-74.0028988 4.6641184)</pre>
-</div>
-<p>Si usamos el valor obtenido en <tt class="docutils literal"><span class="pre">geom</span></tt> y consultamos a la base de datos:</p>
-<div class="highlight-python"><pre># SELECT name
-FROM points
-WHERE ST_Equals(geom, '0101000020E6100000A6CC727E2F8052C0F9AF62A70EA81240');</pre>
-</div>
-<div class="highlight-python"><pre>        name
----------------
-Casa de Piedra</pre>
+<p>Sobre la capa paises vecinos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># select st_equals(tabla.geom, pv.geom) as iguales, pv.definicion from gis.paises_vecinos as pv, (select geom from gis.paises_vecinos where definicion = &#39;Guatemala&#39;) as tabla</span>
+</pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="st-intersects-st-disjoint-st-crosses-y-st-overlaps">
 <h3>ST_Intersects, ST_Disjoint, ST_Crosses y ST_Overlaps<a class="headerlink" href="#st-intersects-st-disjoint-st-crosses-y-st-overlaps" title="Permalink to this headline">¶</a></h3>
 <p>Comprueban la relación entre los interiores de las geometrías.</p>
-<div class="section" id="st-intersects">
-<h4>ST_Intersects<a class="headerlink" href="#st-intersects" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-python"><pre>ST_Intersects(geometry A, geometry B)</pre>
 </div>
-<p>Devuelve TRUE si la intersección no es un resultado vacio.</p>
-</div>
+<p>Devuelve TRUE si la intersección no es un resultado vacío.</p>
+<div class="section" id="id1">
+<h4>Ejemplo<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt>::</dt>
+<dd># select count(*) as tramos_rio from (select * from gis.honduras_departamentos as de) as departamentos, (select * from gis.rios) as rios where st_intersects(departamentos.geom, rios.geom) and departamentos.name_1 = &#8216;Choluteca&#8217;</dd>
+</dl>
 <div class="section" id="st-disjoint">
-<h4>ST_Disjoint<a class="headerlink" href="#st-disjoint" title="Permalink to this headline">¶</a></h4>
+<h5>ST_Disjoint<a class="headerlink" href="#st-disjoint" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-python"><pre>ST_Disjoint(geometry A , geometry B)</pre>
 </div>
 <p>Es el inverso de ST_Intersects. indica que dos geometrías no tienen ningún punto en común. Es menos eficiente que ST_Intersects ya que esta no está indexada. Se recomienda comprobar <tt class="docutils literal"><span class="pre">NOT</span> <span class="pre">ST_Intersects</span></tt></p>
 </div>
+</div>
+<div class="section" id="id2">
+<h4>Ejemplo<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><pre>Comprobar los departamentos que no tocan Choluteca
+
+# create table gis.disjuntos as select de.gid, de.name_1, de.geom from gis.honduras_departamentos as de, (select * from gis.honduras_departamentos where name_1 = 'Choluteca') as departamento where st_disjoint(de.geom, departamento.geom)</pre>
+</div>
+<p>Realizar la misma operación utilizando NOT ST_Intersects</p>
 <div class="section" id="st-crosses">
-<h4>ST_Crosses<a class="headerlink" href="#st-crosses" title="Permalink to this headline">¶</a></h4>
+<h5>ST_Crosses<a class="headerlink" href="#st-crosses" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-python"><pre>ST_Crosses(geometry A, geometry B)</pre>
 </div>
 <p>Se cumple esta relación si el resultado de la intesección de dos geometrías es de dimensión menor que la mayor de las dimensiones de las dos geometrías y además esta intersección está en el interior de ambas.</p>
 </div>
+</div>
+<div class="section" id="id3">
+<h4>Ejemplo<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt>::</dt>
+<dd># select count(*) as tramos_rio from (select * from gis.honduras_departamentos as de) as departamentos, (select * from gis.rios) as rios where st_crosses(departamentos.geom, rios.geom) and departamentos.name_1 = &#8216;Choluteca&#8217;</dd>
+</dl>
 <div class="section" id="st-overlap">
-<h4>ST_Overlap<a class="headerlink" href="#st-overlap" title="Permalink to this headline">¶</a></h4>
+<h5>ST_Overlap<a class="headerlink" href="#st-overlap" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-python"><pre>ST_Overlaps(geometry A, geometry B)</pre>
 </div>
 <p>compara dos geometrías de la misma dimensión y devuelve TRUE si su intersección resulta una geometría diferente de ambas pero de la misma dimensión</p>
-<div class="section" id="id1">
-<h5>Ejemplo<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h5>
-<p>Dada la siguiente imagen</p>
-<blockquote>
-<div><a class="reference internal image-reference" href="../_images/intersection.png"><img alt="../_images/intersection.png" src="../_images/intersection.png" style="width: 379.0px; height: 241.0px;" /></a>
-</div></blockquote>
-<p>Vemos que el poligono <strong>16</strong> intersecta a los poligonos <strong>8</strong> y <strong>15</strong>:</p>
-<div class="highlight-python"><pre># SELECT gid
-FROM barrios_de_bogota
-WHERE ST_Intersects(geom, (select geom from barrios_de_bogota where gid = 16))
-AND gid != 16</pre>
-</div>
-<div class="highlight-python"><pre>gid
------
-8
-15</pre>
-</div>
-</div>
 </div>
 <div class="section" id="st-touches">
-<h4>ST_Touches<a class="headerlink" href="#st-touches" title="Permalink to this headline">¶</a></h4>
+<h5>ST_Touches<a class="headerlink" href="#st-touches" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-python"><pre>ST_Touches(geometry A, geometry B)</pre>
 </div>
 <p>Devuelte TRUE si cualquiera de los contornos de las geometrías se cruzan o si sólo uno de los interiores de la geometría se cruza el contorno del otro.</p>
 </div>
+</div>
+<div class="section" id="id4">
+<h4>Ejemplo<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create table gis.juntos as select de.gid, de.name_1, de.geom from gis.honduras_departamentos as de, (select * from gis.honduras_departamentos where name_1 = &#39;Choluteca&#39;) as departamento where st_touches(de.geom, departamento.geom)</span>
+</pre></div>
+</div>
 <div class="section" id="st-within-y-st-contains">
-<h4>ST_Within y ST_Contains<a class="headerlink" href="#st-within-y-st-contains" title="Permalink to this headline">¶</a></h4>
+<h5>ST_Within y ST_Contains<a class="headerlink" href="#st-within-y-st-contains" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-python"><pre>ST_Within(geometry A , geometry B)</pre>
 </div>
 <p>es TRUE si la geometría A está completamente dentro de la geometría B. Es el inverso de ST_Contains</p>
 <div class="highlight-python"><pre>ST_Contains(geometry A, geometry B)</pre>
 </div>
 <p>Devuelve TRUE si la geometría B está contenida completamente en la geometría A</p>
-<div class="section" id="id2">
-<h5>Ejemplo<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h5>
-<p>¿En que barrio se encuentra el Museo del 20 de Julio?</p>
-<div class="highlight-python"><pre>#SELECT b.name from barrios_de_bogota b, points p
-WHERE ST_Contains(b.geom, p.geom) and
-p.name = 'Museo del 20 de Julio'</pre>
-</div>
-<div class="highlight-python"><pre>     name
----------------
-San Cristóbal</pre>
 </div>
 </div>
+<div class="section" id="id5">
+<h4>Ejemplo<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><pre>¿Cuantas escuelas hay en el Departamento de Valle?
+
+# select count(*) from (select * from gis.honduras_departamentos where name_1 = 'Valle') as departamento, (select * from gis.edificaciones where descripc like '%scuela%') as escuelas where ST_Contains(departamento.geom, escuelas.geom)</pre>
 </div>
 <div class="section" id="st-distance-and-st-dwithin">
-<h4>ST_Distance and ST_DWithin<a class="headerlink" href="#st-distance-and-st-dwithin" title="Permalink to this headline">¶</a></h4>
+<h5>ST_Distance and ST_DWithin<a class="headerlink" href="#st-distance-and-st-dwithin" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-python"><pre>ST_Distance(geometry A, geometry B)</pre>
 </div>
 <p>Calcula la menor distancia entre dos geometrías.</p>
 <div class="highlight-python"><pre>ST_DWithin(geometry A, geometry B, distance)</pre>
 </div>
 <p>Permite calcular si dos objetos se encuentran a una distancia dada uno del otro.</p>
-<div class="section" id="id3">
-<h5>Ejemplo<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h5>
-<p>Encontrar los puntos de interes a como maximo 2km de la oficina de turismo de <strong>Bogotanisimo.com</strong>:</p>
-<div class="highlight-python"><pre># SELECT name
-FROM points
-WHERE
-        name is not null and
-        name != 'Bogotanisimo.com' and
-        ST_DWithin(
-             ST_Transform(geom, 21818),
-             (SELECT ST_Transform(geom, 21818)
-                FROM points
-                WHERE name='Bogotanisimo.com'),
-             2000
-           );</pre>
-</div>
-<div class="highlight-python"><pre>  name
-------------------------
-panaderia Los Hornitos</pre>
-</div>
-<p>Hemos aplicado una transformación geométrica a otro sistema de referencia (EPSG:21818), para poder medir distancias en metros. Nuestros datos originales usan grados en lugar de metros para las coordenadas.</p>
-<p>Otra manera de realizar la misma operación pero sin necesidad de transformar los datos a un sistema de referencia diferente para poder usar metros es usar el tipo de datos <strong>geography</strong> de PostGIS:</p>
-<div class="highlight-python"><pre>#SELECT name
-FROM points
-WHERE
-        name is not null and
-        name != 'Bogotanisimo.com' and
-        ST_DWithin(
-             geography(geom),
-             (SELECT geography(geom)
-                FROM points
-                WHERE name='Bogotanisimo.com'),
-             2000
-           );</pre>
-</div>
-<p>El resultado es el mismo que el de la consulta anterior.</p>
 <p>El uso del tipo <strong>geography</strong> para medir distancias, no obstante, es el recomendado cuando se trata de medir la distancia entre dos puntos de la Tierra muy distantes entre sí.</p>
 <p>En estos casos, un sistema de refencia plano no es una buena elección. Estos sistemas suelen dar buenos resultados a la hora de mostrar mapas en planos, porque conservan las direcciones, pero las distancias y áreas pueden estar bastante distorsionadas con respecto a la realidad. Es necesario utilizar un sistema de referencia espacial que conserve las distancias, teniendo en cuenta la curvatura terrestre. El tipo <strong>geography</strong> de PostGIS es un buen ejemplo, puesto que realiza los cálculos sobre una esfera, y no sobre un esferoide.</p>
 </div>
@@ -277,19 +255,9 @@ WHERE
 <div class="section" id="joins-espaciales">
 <h2>JOINS espaciales<a class="headerlink" href="#joins-espaciales" title="Permalink to this headline">¶</a></h2>
 <p>Permite combinar información de diferentes tablas usando relaciones espaciales como clave dentro del JOIN. Es una de las caracteristicas más potentes de las bases de datos espaciales.</p>
-<p>Veamos un ejemplo: Los nombres de los barrios por los que cruza el rio Bogotá</p>
-<div class="highlight-python"><pre># SELECT b.name
-FROM barrios_de_bogota b JOIN waterways w
-ON ST_Crosses(b.geom, w.geom)
-WHERE w.name = 'Rio Bogotá'</pre>
-</div>
-<div class="highlight-python"><pre>name
-----------------
-Bosa
-Ciudad Kennedy
-Fontibón
-Engativá
-Suba</pre>
+<p>Veamos un ejemplo: Los nombres de los municpios del departamento Yoro</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># select * from gis.honduras_municipios as mu, gis.honduras_departamentos as de where st_contains(de.geom, mu.geom) and de.name_1 = &#39;Yoro&#39;</span>
+</pre></div>
 </div>
 <p>Cualquier función que permita crear relaciones TRUE/FALSE entre dos tablas puede ser usada para manejar un JOIN espacial, pero comunmente las más usadas son:</p>
 <blockquote>
@@ -302,38 +270,17 @@ Suba</pre>
 <div class="section" id="join-y-group-by">
 <h3>JOIN y GROUP BY<a class="headerlink" href="#join-y-group-by" title="Permalink to this headline">¶</a></h3>
 <p>El uso de las relaciones espaciales junto con funciones de agregacion, como <strong>group by</strong>, permite operaciones muy poderosas con nuestros datos. Veamos un ejemplo sencillo: El numero de escuelas que hay en cada uno de los barrios de Bogota:</p>
-<div class="highlight-python"><pre>#select b.name, count(p.type) as hospitals from barrios_de_bogota b join
-points p on st_contains(b.geom, p.geom) where p.type = 'hospital'
-group by b.name order by hospitals desc</pre>
-</div>
-<div class="highlight-python"><pre>      name      | schools
-----------------+---------
- Suba           |       8
- Usaquén        |       5
- Los Mártires   |       3
- Teusaquillo    |       3
- Antonio Nariño |       3
- Tunjuelito     |       2
- Ciudad Kennedy |       2
- Engativá       |       1
- Fontibón       |       1
- Santa Fé       |       1
- Barrios Unidos |       1
- Ciudad Bolívar |       1</pre>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># select de.name_1, count(*) from gis.honduras_departamentos as de, gis.honduras_municipios as mu where ST_Contains(de.geom, mu.geom) group by de.name_1</span>
+</pre></div>
 </div>
 <ol class="arabic simple">
-<li>La clausula JOIN crea una tabla virtual que incluye los datos de los barrios y de los puntos de interés</li>
-<li>WHERE filtra la tabla virtual solo para las columnas en las que el punto de interés es un hospital</li>
+<li>La clausula JOIN crea una tabla virtual que incluye los datos de los departamentos y de los municipios</li>
 <li>Las filas resultantes son agrupadas por el nombre del barrio y rellenadas con la función de agregación count().</li>
 </ol>
 </div>
 </div>
 <div class="section" id="practicas">
 <h2>Prácticas<a class="headerlink" href="#practicas" title="Permalink to this headline">¶</a></h2>
-<p>Comprueba si estas geometrías son iguales: LINESTRING(0 0, 10 0) Y MULTILINESTRING((10 0, 5 0),(0 0, 5 0)).</p>
-<p>Represente como texto el valor de la geometría del barrio &#8216;Ciudad Bolivar&#8217;.</p>
-<p>¿En que barrio se encuentra la Plaza de Las Americas? (Pista: buscar en tabla de edificios)</p>
-<p>¿Qué diferencias hay entre los predicados ST_Contains y ST_Covers? (Pista: <a class="reference external" href="http://lin-ear-th-inking.blogspot.com.es/2007/06/subtleties-of-ogc-covers-spatial.html">http://lin-ear-th-inking.blogspot.com.es/2007/06/subtleties-of-ogc-covers-spatial.html</a>)</p>
 </div>
 </div>
 
@@ -354,20 +301,25 @@ group by b.name order by hospitals desc</pre>
 </ul>
 </li>
 <li><a class="reference internal" href="#st-intersects-st-disjoint-st-crosses-y-st-overlaps">ST_Intersects, ST_Disjoint, ST_Crosses y ST_Overlaps</a><ul>
-<li><a class="reference internal" href="#st-intersects">ST_Intersects</a></li>
+<li><a class="reference internal" href="#id1">Ejemplo</a><ul>
 <li><a class="reference internal" href="#st-disjoint">ST_Disjoint</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">Ejemplo</a><ul>
 <li><a class="reference internal" href="#st-crosses">ST_Crosses</a></li>
-<li><a class="reference internal" href="#st-overlap">ST_Overlap</a><ul>
-<li><a class="reference internal" href="#id1">Ejemplo</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#id3">Ejemplo</a><ul>
+<li><a class="reference internal" href="#st-overlap">ST_Overlap</a></li>
 <li><a class="reference internal" href="#st-touches">ST_Touches</a></li>
-<li><a class="reference internal" href="#st-within-y-st-contains">ST_Within y ST_Contains</a><ul>
-<li><a class="reference internal" href="#id2">Ejemplo</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#st-distance-and-st-dwithin">ST_Distance and ST_DWithin</a><ul>
-<li><a class="reference internal" href="#id3">Ejemplo</a></li>
+<li><a class="reference internal" href="#id4">Ejemplo</a><ul>
+<li><a class="reference internal" href="#st-within-y-st-contains">ST_Within y ST_Contains</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">Ejemplo</a><ul>
+<li><a class="reference internal" href="#st-distance-and-st-dwithin">ST_Distance and ST_DWithin</a></li>
 </ul>
 </li>
 </ul>
