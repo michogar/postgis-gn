@@ -77,7 +77,7 @@ Exportación desde |PG| a archivos de tipo ESRI Shapefile
 Para este proceso utilizaremos la herramienta ``pgsql2shp``. Con ella podremos convertir los datos de nuestra base de datos en archivos ESRI Shape. Igual que para el caso anterior, la herramienta se utilizará desde la linea de comandos::
 
 	$ pgsql2shp [<opciones>] <basedatos> [<esquema>.]<tabla>
-   $ pgsql2shp [<opciones>] <basedatos> <consulta>
+   	$ pgsql2shp [<opciones>] <basedatos> <consulta>
    
 las opciones serán::
 
@@ -91,7 +91,7 @@ las opciones serán::
 Práctica
 --------
 
-	Exportar algún fichero de la base de datos a Shapefile otra vez.	
+	Exportar los barrios de la base de datos a Shapefile que tengan en el nombre la cadena 'Residencial'.
 
 GDAL/OGR
 ========
@@ -151,10 +151,17 @@ Descargar de http://forest.jrc.ec.europa.eu/effis/applications/firenews/kml/?&fr
 
 A continuación, cargarlo en PostGIS con esta instrucción::
 
-	# ogr2ogr -a_srs epsg:4326 -f "PostgreSQL" PG:"dbname=taller_semana_geomatica host=localhost user=postgres password=postgres port=5432" firenews.kml 
+	# ogr2ogr -a_srs epsg:4326 -f "PostgreSQL" PG:"dbname=gis host=localhost user=alumno password=alumn0 port=5432" firenews.kml 
 
 Ya tendríamos el fichero cargado.
 
+
+Exportar a KML
+^^^^^^^^^^^^^^
+
+Exportar la tabla de barrios a KML utilizando ogr2ogr para poder publicarla en Google Maps
+
+	# ogr2ogr -f KML barrios.kml PG:"host=localhost dbname=gis user=alumno password=alumn0" -s_srs EPSG:32616 -t_srs EPSG:4326
 
 Cargar fichero CSV
 ^^^^^^^^^^^^^^^^^^
