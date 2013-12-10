@@ -99,23 +99,58 @@ Para utilizar el planificador::
 
 	# explain analyze select count(*) from suelos su, rios ri where (su.geom && ri.geom)
 
-	Aggregate  (cost=415523.85..415523.86 rows=1 width=0) (actual time=27952.663..27952.664 rows=1 loops=1)"
-	  ->  Nested Loop  (cost=0.00..415494.59 rows=11703 width=0) (actual time=2.200..27944.733 rows=12379 loops=1)"
-	        Join Filter: (su.geom && ri.geom)"
-	        ->  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.007..2.607 rows=3871 loops=1)"
-	        ->  Seq Scan on rios ri  (cost=0.00..82.09 rows=2009 width=832) (actual time=0.002..0.958 rows=2009 loops=3871)"
+	Aggregate  (cost=415523.85..415523.86 rows=1 width=0) (actual time=27952.663..27952.664 rows=1 loops=1)
+	  ->  Nested Loop  (cost=0.00..415494.59 rows=11703 width=0) (actual time=2.200..27944.733 rows=12379 loops=1)
+	        Join Filter: (su.geom && ri.geom)
+	        ->  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.007..2.607 rows=3871 loops=1)
+	        ->  Seq Scan on rios ri  (cost=0.00..82.09 rows=2009 width=832) (actual time=0.002..0.958 rows=2009 loops=3871)
 	Total runtime: 27952.715 ms"
 
 	# create index suelos_geom_gist on suelos using gist(geom);
 	# create index rios_geom_gist on rios using gist(geom);
 
-	Aggregate  (cost=1937.17..1937.18 rows=1 width=0) (actual time=218.263..218.264 rows=1 loops=1)"
-	  ->  Nested Loop  (cost=0.00..1907.91 rows=11703 width=0) (actual time=0.065..213.180 rows=12379 loops=1)"
-	        ->  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.005..2.644 rows=3871 loops=1)"
-	        **->  Index Scan using rios_geom_gist on rios ri**  (cost=0.00..0.35 rows=1 width=832) (actual time=0.035..0.045 rows=3 loops=3871)"
+	Aggregate  (cost=1937.17..1937.18 rows=1 width=0) (actual time=218.263..218.264 rows=1 loops=1)
+	  ->  Nested Loop  (cost=0.00..1907.91 rows=11703 width=0) (actual time=0.065..213.180 rows=12379 loops=1)
+	        ->  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.005..2.644 rows=3871 loops=1)
+	        **->  Index Scan using rios_geom_gist on rios ri**  (cost=0.00..0.35 rows=1 width=832) (actual time=0.035..0.045 rows=3 loops=3871)
 	              Index Cond: (su.geom && geom)"
-	Total runtime: 218.310 ms"
+	Total runtime: 218.310 ms
 
+Operador embebido
+=================
+
+En el ejemplo anterior se realizaba la consulta con la función ST_Relate que no hace uso de los índices espaciales, de ahí que le hayamos forzado el uso mediante el operador de caja. ¿Qué resultado muestra el planificador si utilizamos simplemente ST_Intersects?
+
+	Aggregate  (cost=2885.42..2885.43 rows=1 width=0) (actual time=1791.892..1791.892 rows=1 loops=1)
+	  ->  Nested Loop  (cost=0.00..2875.66 rows=3901 width=0) (actual time=0.806..1786.258 rows=5004 loops=1)
+	        Join Filter: _st_intersects(su.geom, ri.geom)
+	        ->  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.007..4.484 rows=3871 loops=1)
+	        **->  Index Scan using rios_geom_gist on rios ri**  (cost=0.00..0.35 rows=1 width=832) (actual time=0.031..0.045 rows=3 loops=3871)
+	              Index Cond: (su.geom && geom)
+	Total runtime: 1791.959 ms
+	
+Vemos que es un resultado similar al anterior y que hace uso del operador de caja. Esto es porque en la definición de la función, ya lleva embebido la llamada al operador de caja::
+
+	CREATE OR REPLACE FUNCTION st_intersects(geom1 geometry, geom2 geometry)
+  		RETURNS boolean AS
+	'SELECT **$1 && $2** AND _ST_Intersects($1,$2)'
+ 	 LANGUAGE sql IMMUTABLE
+  		COST 100;
+	ALTER FUNCTION st_intersects(geometry, geometry)
+  	OWNER TO alumno;
+	COMMENT ON FUNCTION st_intersects(geometry, geometry) IS 'args: geomA, geomB - Returns TRUE if the Geometries/Geography "spatially intersect in 2D" - (share any portion of space) and FALSE if they dont (they are Disjoint). For geography -- tolerance is 0.00001 meters (so any points that close are considered to intersect)';
+
+Esta función en SQL lo que hace es llamar a una función _ST_Intersects cuya definición será::
+
+	CREATE OR REPLACE FUNCTION _st_intersects(geom1 geometry, geom2 geometry)
+  		RETURNS boolean AS
+	'$libdir/postgis-2.0', 'intersects'
+ 	 LANGUAGE c IMMUTABLE STRICT
+  		COST 100;
+	ALTER FUNCTION _st_intersects(geometry, geometry)
+  	OWNER TO alumno;
+  	
+Que es la que se comunica directamente con la librería GEOS.
 
 	
 
