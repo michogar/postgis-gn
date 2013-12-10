@@ -147,26 +147,38 @@ VACUUM ANALYZE [Nombre_tabla] ([Nombre_columna])</pre>
 <div class="highlight-python"><pre>EXPLAIN [ ANALYZE ] [ VERBOSE ] sentenciaSQL</pre>
 </div>
 <ul>
-<li><p class="first">ANALYZE ejecuta la consulta y muestra el plan de la misma mientras que si no se indica, PostgreSQL realiza una aproximación.:</p>
-<div class="highlight-python"><pre># explain analyze select count(*) from suelos su, rios ri where (su.geom &amp;&amp; ri.geom)
-
-Aggregate  (cost=415523.85..415523.86 rows=1 width=0) (actual time=27952.663..27952.664 rows=1 loops=1)
-  -&gt;  Nested Loop  (cost=0.00..415494.59 rows=11703 width=0) (actual time=2.200..27944.733 rows=12379 loops=1)
-        Join Filter: (su.geom &amp;&amp; ri.geom)
-        -&gt;  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.007..2.607 rows=3871 loops=1)
-        -&gt;  Seq Scan on rios ri  (cost=0.00..82.09 rows=2009 width=832) (actual time=0.002..0.958 rows=2009 loops=3871)
-Total runtime: 27952.715 ms"
-
-# create index suelos_geom_gist on suelos using gist(geom);
-# create index rios_geom_gist on rios using gist(geom);
-
-Aggregate  (cost=1937.17..1937.18 rows=1 width=0) (actual time=218.263..218.264 rows=1 loops=1)
-  -&gt;  Nested Loop  (cost=0.00..1907.91 rows=11703 width=0) (actual time=0.065..213.180 rows=12379 loops=1)
-        -&gt;  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.005..2.644 rows=3871 loops=1)
-        **-&gt;  Index Scan using rios_geom_gist on rios ri**  (cost=0.00..0.35 rows=1 width=832) (actual time=0.035..0.045 rows=3 loops=3871)
-              Index Cond: (su.geom &amp;&amp; geom)"
-Total runtime: 218.310 ms</pre>
-</div>
+<li><p class="first">ANALYZE ejecuta la consulta y muestra el plan de la misma mientras que si no se indica, PostgreSQL realiza una aproximación:</p>
+<blockquote>
+<div><p># explain analyze select count(*) from suelos su, rios ri where (su.geom &amp;&amp; ri.geom)</p>
+<dl class="docutils">
+<dt>Aggregate  (cost=415523.85..415523.86 rows=1 width=0) (actual time=27952.663..27952.664 rows=1 loops=1)</dt>
+<dd><dl class="first last docutils">
+<dt>-&gt;  Nested Loop  (cost=0.00..415494.59 rows=11703 width=0) (actual time=2.200..27944.733 rows=12379 loops=1)</dt>
+<dd><p class="first last">Join Filter: (su.geom &amp;&amp; ri.geom)
+-&gt;  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.007..2.607 rows=3871 loops=1)
+-&gt;  Seq Scan on rios ri  (cost=0.00..82.09 rows=2009 width=832) (actual time=0.002..0.958 rows=2009 loops=3871)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Total runtime: 27952.715 ms&#8221;</p>
+<p># create index suelos_geom_gist on suelos using gist(geom);
+# create index rios_geom_gist on rios using gist(geom);</p>
+<dl class="docutils">
+<dt>Aggregate  (cost=1937.17..1937.18 rows=1 width=0) (actual time=218.263..218.264 rows=1 loops=1)</dt>
+<dd><dl class="first last docutils">
+<dt>-&gt;  Nested Loop  (cost=0.00..1907.91 rows=11703 width=0) (actual time=0.065..213.180 rows=12379 loops=1)</dt>
+<dd><p class="first">-&gt;  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.005..2.644 rows=3871 loops=1)
+<strong>-&gt;  Index Scan using rios_geom_gist on rios ri</strong>  (cost=0.00..0.35 rows=1 width=832) (actual time=0.035..0.045 rows=3 loops=3871)</p>
+<blockquote class="last">
+<div><p>Index Cond: (su.geom &amp;&amp; geom)&#8221;</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Total runtime: 218.310 ms</p>
+</div></blockquote>
 </li>
 </ul>
 </div>
