@@ -155,7 +155,6 @@ A continuación, cargarlo en PostGIS con esta instrucción::
 
 Ya tendríamos el fichero cargado.
 
-
 Exportar a KML
 ^^^^^^^^^^^^^^
 
@@ -268,7 +267,7 @@ Práctica
 
 Vamos a exportar datos de OpenStreetMap y cargarlos en PostGIS con osm2pgsql. Para ello, vamos primero a http://www.openstreetmap.org/export#
 
-Veremos que, si el área a exportar es muy grande, la página nos redireccionará a servicios de descarga masiva, como http://download.geofabrik.de/south-america/colombia.html. De hecho, el enlace para descargar los datos de Colombia es http://download.geofabrik.de/south-america/colombia-latest.osm.bz2. Pero, **ojo**: si hay muchos datos y la máquina no es muy potente, puede tardar mucho en cargarlos.
+Veremos que, si el área a exportar es muy grande, la página nos redireccionará a servicios de descarga masiva, como http://download.geofabrik.de. Pero, **ojo**: si hay muchos datos y la máquina no es muy potente, puede tardar mucho en cargarlos.
 
 Una vez hemos descargado lo que queremos, vamos a proceder a activar en PostGIS la extensión hstore. Esto permite la creación de una nueva estructura de almacenamiento en PostGIS llamada hstore. No es más que una estructura de datos pensada para almacenar en una columna un dato de tipo *clave => valor*. Gracias a ello, podremos usar etiquetas en las consultas que lancemos::
 
@@ -276,13 +275,25 @@ Una vez hemos descargado lo que queremos, vamos a proceder a activar en PostGIS 
 
 Para tener más información, ir a http://wiki.openstreetmap.org/wiki/Osm2pgsql#hstore
 
+Para poder utilizar datos hstore primero debemos cargar esa extensión::
+
+	$ sudo apt-get install postgresql-contrib-9.1
+
+y después ejecutar::
+
+	# create extension hstore;
+
+Seguidamente instalaremos osm2pgsql::
+
+	$ sudo apt-get install osm2pgsql
+
 Para cargar en PostGIS el fichero exportado, ejecutaríamos esta orden (**no ejecutarla**)::
 
-	# osm2pgsql -d taller_semana_geomatica -U postgres --hstore colombia-latest.osm
+	# osm2pgsql -d gis -U alumno --hstore tegucigalpa.osm
 
 El problema es que eso cargaría nuestros datos en una proyección 900913 (WebMercator). Si lo queremos en 4326 (WGS84), la instrucción es::
 
-	# osm2pgsql -d taller_semana_geomatica -U postgres --latlong --hstore colombia-latest.osm
+	# osm2pgsql -d gis -U alumno --latlong --hstore tegucigalpa.osm
 
 Si tras ejecutar la instrucción obtenemos este error::
 
@@ -291,6 +302,49 @@ Si tras ejecutar la instrucción obtenemos este error::
 El problema es que osm2pgsql no sabe dónde buscar las definiciones de los sistemas de coordenadas. Debemos definir la variable de entorno *PROJ_LIB* para que apunte donde es debido. En Linux sería::
 
 	# export PROJ_LIB=/usr/local/share/proj
+
+Si da un error al cargar los datos deben cargarse las funcionalidades legacy.sql y crear el operador::
+
+	CREATE OPERATOR CLASS gist_geometry_ops
+		FOR TYPE geometry USING GIST AS
+		STORAGE box2df,
+		OPERATOR        1        <<  ,
+		OPERATOR        2        &<	 ,
+		OPERATOR        3        &&  ,
+		OPERATOR        4        &>	 ,
+		OPERATOR        5        >>	 ,
+		OPERATOR        6        ~=	 ,
+		OPERATOR        7        ~	 ,
+		OPERATOR        8        @	 ,
+		OPERATOR        9        &<| ,
+		OPERATOR        10       <<| ,
+		OPERATOR        11       |>> ,
+		OPERATOR        12       |&> ,
+
+		OPERATOR        13       <-> FOR ORDER BY pg_catalog.float_ops,
+		OPERATOR        14       <#> FOR ORDER BY pg_catalog.float_ops,
+		FUNCTION        8        geometry_gist_distance_2d (internal, geometry, int4),
+
+		FUNCTION        1        geometry_gist_consistent_2d (internal, geometry, int4),
+		FUNCTION        2        geometry_gist_union_2d (bytea, internal),
+		FUNCTION        3        geometry_gist_compress_2d (internal),
+		FUNCTION        4        geometry_gist_decompress_2d (internal),
+		FUNCTION        5        geometry_gist_penalty_2d (internal, internal, internal),
+		FUNCTION        6        geometry_gist_picksplit_2d (internal, internal),
+		FUNCTION        7        geometry_gist_same_2d (geom1 geometry, geom2 geometry, internal);
+
+Cambiamos el esquema a la tabla ya que lo ha creado en public::
+
+	# ALTER TABLE planet_osm_line SET SCHEMA gis;
+	# ALTER TABLE planet_osm_point SET SCHEMA gis;
+	# ALTER TABLE planet_osm_polygon SET SCHEMA gis;
+	# ALTER TABLE planet_osm_roads SET SCHEMA gis;
+
+Crearemos una tabla con las farmacias de Tegucigalpa::
+
+	# create table gis.farmacias as select * from planet_osm_point where amenity='pharmacy';
+
+Y la publicaremos con nuestro GeoServer.
 
 Esto cargaría los datos de OSM en nuestra base de datos. Si nos fijamos en la tabla de polígonos, vemos que tienen definido un campo *population*. Desde QGIS podemos configurar para que solo nos muestre los polígonos con los datos de población, y compararlos con los que hemos metido a mano en la tabla *barrios_de_bogota*, actualizados en 1998.
 	
