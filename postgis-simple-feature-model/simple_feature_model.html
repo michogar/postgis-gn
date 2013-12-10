@@ -83,10 +83,11 @@
 </div>
 <div class="section" id="ogc-y-el-simple-feature-model">
 <h2>OGC y el Simple Feature Model<a class="headerlink" href="#ogc-y-el-simple-feature-model" title="Permalink to this headline">¶</a></h2>
-<p>La OGC o Open Geospatial Consortium, define unas normas que serán utilizadas para la definición posterior de las geometrías. Estas son la SFA y la SQL/MM. Según esta última, las geometrías se definirán en función del siguiente esquema de herencia:</p>
+<p>La OGC o Open Geospatial Consortium y la International Organization for Standardadization o ISO, define unas normas que serán utilizadas para la definición posterior de las geometrías como son la SFA y la SQL/MM. Según estas, siendo la segunda una extensión de la primera, las geometrías se definirán en función del siguiente esquema de herencia:</p>
 <blockquote>
 <div><img alt="../_images/ogc_sfs.png" src="../_images/ogc_sfs.png" />
 </div></blockquote>
+<p>Aquí podremos comprobar que productos tienen implementadas la diferentes versiones del estandar <a class="reference external" href="http://www.opengeospatial.org/resource/products/byspec">Products by Spec</a></p>
 <p>Dentro de este esquema se definen tres tipos diferentes de geometrías:</p>
 <blockquote>
 <div><ul class="simple">
@@ -95,9 +96,10 @@
 <li><strong>Geometrías circulares</strong>, geometrías que soportan tramos circulares</li>
 </ul>
 </div></blockquote>
+<p>Para poder profundizar en el estándar deberemos conocer antes algunas definiciones como:</p>
 <div class="section" id="dimension-de-una-geometria">
 <h3>Dimensión de una geometría<a class="headerlink" href="#dimension-de-una-geometria" title="Permalink to this headline">¶</a></h3>
-<p>El concepto de dimensión se explica de una manera sencilla mediante el uso de algunos ejemplos:</p>
+<p>El concepto de dimensión se explica de una manera sencilla mediante el uso de algunos ejemplos. Hace referencia a las posibles direcciones en el plano en las que se puede uno desplazar dentro de la geometría:</p>
 <blockquote>
 <div><ul class="simple">
 <li>una entidad de tipo punto, tendrá dimensión 0</li>
@@ -105,7 +107,15 @@
 <li>una de tipo superficie, tendrá una dimensión igual a 2.</li>
 </ul>
 </div></blockquote>
-<p>En PostGIS utilizando una función especial podremos obtener el valor de esta dimensión. Si se trata de una colección de geometrías, el valor que se obtendrá será el de la dimensión de mayor valor de la colección.</p>
+<p>En PostGIS utilizando una función especial,  podremos obtener el valor de esta dimensión. Si se trata de una colección de geometrías, el valor que se obtendrá será el de la dimensión de mayor valor de la colección:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ST_Dimension</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Nos devolverá la dimensión de una geometría, que no hay que confundir con lo devuelto por:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ST_NDims</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>que nos devolverá la dimensión de las coordenadas de la geometría.</p>
 </div>
 <div class="section" id="interior-contorno-y-exterior-de-las-geometrias">
 <h3>Interior, contorno y exterior de las geometrías<a class="headerlink" href="#interior-contorno-y-exterior-de-las-geometrias" title="Permalink to this headline">¶</a></h3>
@@ -274,6 +284,17 @@ la dimensión.</p>
 </div></blockquote>
 </div>
 </div>
+<div class="section" id="practica">
+<h2>Práctica<a class="headerlink" href="#practica" title="Permalink to this headline">¶</a></h2>
+<p>Haciendo uso de las operaciones espaciales mediante PostGIS o a través del software JTS Builder representar:</p>
+<ul class="simple">
+<li>Un polígono que no sea simple.</li>
+<li>Dibujar un polígono y un multipolígono que no sean válidos.</li>
+<li>Una multilinestring con tres puntos de contorno.</li>
+<li>Una linestring abierta y que no sea símple.</li>
+<li>Una multilinestring cerrada y simple.</li>
+</ul>
+</div>
 <div class="section" id="referencias">
 <h2>Referencias<a class="headerlink" href="#referencias" title="Permalink to this headline">¶</a></h2>
 <p>Well Known Text en Wikipedia <a class="reference external" href="http://en.wikipedia.org/wiki/Well-known_text">http://en.wikipedia.org/wiki/Well-known_text</a></p>
@@ -306,6 +327,7 @@ la dimensión.</p>
 <li><a class="reference internal" href="#multipolygon">Multipolygon</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#practica">Práctica</a></li>
 <li><a class="reference internal" href="#referencias">Referencias</a></li>
 </ul>
 </li>
