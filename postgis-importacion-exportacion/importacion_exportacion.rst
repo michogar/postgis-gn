@@ -67,56 +67,6 @@ Comprobar que se ha actualizado correctamente la tabla ``geometry_columns``.
 
 Cargar alguno de los ficheros con la GUI de pgAdmin III.	
 
-Vamos a hacer algunos cambios dentro de la tabla *barrios_de_bogota*. Tras cargar el SHP, ejecutemos estas sentencias desde psql o pgAdmin III::
-
-	# update barrios_de_bogota set name='Usaquén' where gid = 1;
-	update barrios_de_bogota set name='Chapinero' where gid = 2;
-	update barrios_de_bogota set name='Santa Fé' where gid = 3;
-	update barrios_de_bogota set name='San Cristóbal' where gid = 4;
-	update barrios_de_bogota set name='Usme' where gid = 5;
-	update barrios_de_bogota set name='Tunjuelito' where gid = 6;
-	update barrios_de_bogota set name='Bosa' where gid = 7;
-	update barrios_de_bogota set name='Ciudad Kennedy' where gid = 8;
-	update barrios_de_bogota set name='Fontibón' where gid = 9;
-	update barrios_de_bogota set name='Engativá' where gid = 10;
-	update barrios_de_bogota set name='Suba' where gid = 11;
-	update barrios_de_bogota set name='Barrios Unidos' where gid = 12;
-	update barrios_de_bogota set name='Teusaquillo' where gid = 13;
-	update barrios_de_bogota set name='Los Mártires' where gid = 14;
-	update barrios_de_bogota set name='Antonio Nariño' where gid = 15;
-	update barrios_de_bogota set name='Puente Aranda' where gid = 16;
-	update barrios_de_bogota set name='Ciudad Bolívar' where gid = 17;
-	update barrios_de_bogota set name='Rafael Uribe' where gid = 18;
-	update barrios_de_bogota set name='Sumapáz' where gid = 19;
-
-Y posteriormente éstas::
-
-	# ALTER TABLE public.barrios_de_bogota ADD COLUMN population numeric DEFAULT 0;
-	update barrios_de_bogota set population=544924 where gid = 1;
-	update barrios_de_bogota set population=156274 where gid = 2;
-	update barrios_de_bogota set population=107044 where gid = 3;
-	update barrios_de_bogota set population=409653 where gid = 4;
-	update barrios_de_bogota set population=301621 where gid = 5;
-	update barrios_de_bogota set population=302342 where gid = 6;
-	update barrios_de_bogota set population=795283 where gid = 7;
-	update barrios_de_bogota set population=1344777 where gid = 8;
-	update barrios_de_bogota set population=327933 where gid = 9;
-	update barrios_de_bogota set population=893944 where gid = 10;
-	update barrios_de_bogota set population=1118580 where gid = 11;
-	update barrios_de_bogota set population=254162 where gid = 12;
-	update barrios_de_bogota set population=138993  where gid = 13;
-	update barrios_de_bogota set population=95866 where gid = 14;
-	update barrios_de_bogota set population=116648 where gid = 15;
-	update barrios_de_bogota set population=257090 where gid = 16;
-	update barrios_de_bogota set population=567861 where gid = 17;
-	update barrios_de_bogota set population=396711 where gid = 18;
-	update barrios_de_bogota set population=20952 where gid = 19;
-
-Por último, añadamos una nueva columna, que usaremos en un ejercicio posterior::
-
-# ALTER TABLE public.barrios_de_bogota ADD COLUMN city text DEFAULT '';
-
-	
 Exportación desde |PG| a archivos de tipo ESRI Shapefile
 ========================================================
 
@@ -311,7 +261,7 @@ Veremos que, si el área a exportar es muy grande, la página nos redireccionar�
 
 Una vez hemos descargado lo que queremos, vamos a proceder a activar en PostGIS la extensión hstore. Esto permite la creación de una nueva estructura de almacenamiento en PostGIS llamada hstore. No es más que una estructura de datos pensada para almacenar en una columna un dato de tipo *clave => valor*. Gracias a ello, podremos usar etiquetas en las consultas que lancemos::
 
-	# SELECT way, tags FROM planet_osm_polygon WHERE (tags -> 'landcover') = 'trees'; 
+	# SELECT way, tags FROM planet_osm_polygon WHERE (tags -> 'landcover') = 'trees'; 
 
 Para tener más información, ir a http://wiki.openstreetmap.org/wiki/Osm2pgsql#hstore
 
