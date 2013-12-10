@@ -54,7 +54,7 @@ entre las opciones encontraremos:
 Práctica
 --------
 
-Realizar la carga de estos conjuntos de datos en Shape en la misma tabla que llamaremos barrios. _`Descargar datos`
+Realizar la carga de estos conjuntos de datos en Shape en la misma tabla que llamaremos barrios. `Descargar datos`_
 
 .. _`Descargar datos` : expbarrios.tar.gz
 
