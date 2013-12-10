@@ -134,7 +134,7 @@
 </div></blockquote>
 <div class="section" id="practica">
 <h3>Práctica<a class="headerlink" href="#practica" title="Permalink to this headline">¶</a></h3>
-<p>Realizar la carga de estos conjuntos de datos en Shape en la misma tabla que llamaremos barrios. <span class="target" id="descargar-datos">Descargar datos</span></p>
+<p>Realizar la carga de estos conjuntos de datos en Shape en la misma tabla que llamaremos barrios. <a class="reference external" href="expbarrios.tar.gz">Descargar datos</a></p>
 <p>Realice la importación de los datos proporcionados para el taller. Se le proporcionará asistencia con los parámetros a usar.</p>
 <p>Es conveniente definir el encoding de la base de datos como LATIN1. Se puede hacer con una sentencia update:</p>
 <blockquote>
@@ -162,8 +162,8 @@ $ pgsql2shp [&lt;opciones&gt;] &lt;basedatos&gt; &lt;consulta&gt;</pre>
 * **-u &lt;user&gt;** Usuario
 * **-g &lt;geometry_column&gt;** Columna de geometría que será exportada</pre>
 </div>
-<div class="section" id="id2">
-<h3>Práctica<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h3>Práctica<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div>Exportar algún fichero de la base de datos a Shapefile otra vez.</div></blockquote>
 </div>
@@ -212,8 +212,8 @@ $ pgsql2shp [&lt;opciones&gt;] &lt;basedatos&gt; &lt;consulta&gt;</pre>
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="id3">
-<h3>Práctica<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>Práctica<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>Vamos a cargar en PostGIS directamente un fichero KML y un fichero CSV.</p>
 <div class="section" id="cargar-fichero-kml">
 <h4>Cargar fichero KML<a class="headerlink" href="#cargar-fichero-kml" title="Permalink to this headline">¶</a></h4>
@@ -327,8 +327,8 @@ $ osm2pgsql [opciones] ruta_planet.[gz, bz2]</pre>
 </div></blockquote>
 <p>En caso de no disponer del SRID 900913 en nuestro PostGIS podremos utilizar la definición que hay de él en <tt class="docutils literal"><span class="pre">osm2pgsql</span></tt>. Simplemente ejecutaremos el script 900913.sql</p>
 </div>
-<div class="section" id="id4">
-<h3>Práctica<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Práctica<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Vamos a exportar datos de OpenStreetMap y cargarlos en PostGIS con osm2pgsql. Para ello, vamos primero a <a class="reference external" href="http://www.openstreetmap.org">http://www.openstreetmap.org</a>/export#</p>
 <p>Veremos que, si el área a exportar es muy grande, la página nos redireccionará a servicios de descarga masiva, como <a class="reference external" href="http://download.geofabrik.de/south-america/colombia.html">http://download.geofabrik.de/south-america/colombia.html</a>. De hecho, el enlace para descargar los datos de Colombia es <a class="reference external" href="http://download.geofabrik.de/south-america/colombia-latest.osm.bz2">http://download.geofabrik.de/south-america/colombia-latest.osm.bz2</a>. Pero, <strong>ojo</strong>: si hay muchos datos y la máquina no es muy potente, puede tardar mucho en cargarlos.</p>
 <p>Una vez hemos descargado lo que queremos, vamos a proceder a activar en PostGIS la extensión hstore. Esto permite la creación de una nueva estructura de almacenamiento en PostGIS llamada hstore. No es más que una estructura de datos pensada para almacenar en una columna un dato de tipo <em>clave =&gt; valor</em>. Gracias a ello, podremos usar etiquetas en las consultas que lancemos:</p>
@@ -393,13 +393,13 @@ $ osm2pgsql [opciones] ruta_planet.[gz, bz2]</pre>
 </ul>
 </li>
 <li><a class="reference internal" href="#exportacion-desde-pg-a-archivos-de-tipo-esri-shapefile">Exportación desde PostGIS a archivos de tipo ESRI Shapefile</a><ul>
-<li><a class="reference internal" href="#id2">Práctica</a></li>
+<li><a class="reference internal" href="#id1">Práctica</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#gdal-ogr">GDAL/OGR</a><ul>
 <li><a class="reference internal" href="#ogrinfo">ogrinfo</a></li>
 <li><a class="reference internal" href="#ogr2ogr">ogr2ogr</a></li>
-<li><a class="reference internal" href="#id3">Práctica</a><ul>
+<li><a class="reference internal" href="#id2">Práctica</a><ul>
 <li><a class="reference internal" href="#cargar-fichero-kml">Cargar fichero KML</a></li>
 <li><a class="reference internal" href="#cargar-fichero-csv">Cargar fichero CSV</a></li>
 </ul>
@@ -408,7 +408,7 @@ $ osm2pgsql [opciones] ruta_planet.[gz, bz2]</pre>
 </li>
 <li><a class="reference internal" href="#importacion-datos-osm-a-postgis">Importación datos OSM a PostGIS</a><ul>
 <li><a class="reference internal" href="#osm2pgsql">osm2pgsql</a></li>
-<li><a class="reference internal" href="#id4">Práctica</a></li>
+<li><a class="reference internal" href="#id3">Práctica</a></li>
 <li><a class="reference internal" href="#osmosis">osmosis</a></li>
 </ul>
 </li>
