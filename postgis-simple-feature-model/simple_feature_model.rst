@@ -19,9 +19,13 @@ Simple Feature Model
 
 OGC y el Simple Feature Model
 =============================
-La OGC o Open Geospatial Consortium, define unas normas que serán utilizadas para la definición posterior de las geometrías. Estas son la SFA y la SQL/MM. Según esta última, las geometrías se definirán en función del siguiente esquema de herencia:
+La OGC o Open Geospatial Consortium y la International Organization for Standardadization o ISO, define unas normas que serán utilizadas para la definición posterior de las geometrías como son la SFA y la SQL/MM. Según estas, siendo la segunda una extensión de la primera, las geometrías se definirán en función del siguiente esquema de herencia:
 
 	.. image:: _images/ogc_sfs.png
+
+Aquí podremos comprobar que productos tienen implementadas la diferentes versiones del estandar `Products by Spec`_
+
+.. _`Products by Spec`: http://www.opengeospatial.org/resource/products/byspec
 	
 Dentro de este esquema se definen tres tipos diferentes de geometrías:
 
@@ -29,15 +33,26 @@ Dentro de este esquema se definen tres tipos diferentes de geometrías:
 	* **Geometrías básicas**, son las principales de |PG|, soportadas desde los inicios de este y que soportan un análisis espacial completo.
 	* **Geometrías circulares**, geometrías que soportan tramos circulares
 
+Para poder profundizar en el estándar deberemos conocer antes algunas definiciones como:
+
 Dimensión de una geometría	
 --------------------------
-El concepto de dimensión se explica de una manera sencilla mediante el uso de algunos ejemplos:
+El concepto de dimensión se explica de una manera sencilla mediante el uso de algunos ejemplos. Hace referencia a las posibles direcciones en el plano en las que se puede uno desplazar dentro de la geometría:
 
 	* una entidad de tipo punto, tendrá dimensión 0
 	* una de tipo linea, tendrá dimensión 1
 	* una de tipo superficie, tendrá una dimensión igual a 2.
 	
-En |PG| utilizando una función especial podremos obtener el valor de esta dimensión. Si se trata de una colección de geometrías, el valor que se obtendrá será el de la dimensión de mayor valor de la colección.
+En |PG| utilizando una función especial,  podremos obtener el valor de esta dimensión. Si se trata de una colección de geometrías, el valor que se obtendrá será el de la dimensión de mayor valor de la colección::
+
+	ST_Dimension(geom)
+
+Nos devolverá la dimensión de una geometría, que no hay que confundir con lo devuelto por::
+
+	ST_NDims(geom)
+
+que nos devolverá la dimensión de las coordenadas de la geometría.
+	
 
 Interior, contorno y exterior de las geometrías
 -----------------------------------------------
@@ -155,6 +170,17 @@ Multipolygon
 	* El interior de cualquiera de las superficies que contiene no puede intersecar
 	* El contorno de cualquiera de las superficies que contiene puede intersecar pero solo en un número finito de puntos
 	* Son simples
+
+Práctica
+========
+
+Haciendo uso de las operaciones espaciales mediante PostGIS o a través del software JTS Builder representar:
+
+* Un polígono que no sea simple.
+* Dibujar un polígono y un multipolígono que no sean válidos.
+* Una multilinestring con tres puntos de contorno.
+* Una linestring abierta y que no sea símple.
+* Una multilinestring cerrada y simple.
 
 Referencias
 ============
