@@ -31,6 +31,37 @@ Estas relaciones o predicados son descritas por la matriz DE-9IM (Dimensionally 
 
 Figura: Mátriz DE-9IM de dos figuras geométricas dadas. Fuente: wikipedia en inglés [7] (http://en.wikipedia.org/wiki/DE-9IM)
 
+En esta matriz se muestra las diferentes combinaciones entre las geometrías, su interior, exterior y contorno. Los valores posibles son:
+
+* 0, 1, 2 como los valores de la dimensión
+* F como el conjunto vacío.
+
+Los patrones vienen definidos por el uso de los siguientes valores:
+
+* T para cualquier valor.
+* F para el conjunto vacío.
+
+Por ejemplo en el caso de una intersección, el patrón que se debe cumplir debe ser::
+
+	 T********, *T*******, **T****** o ***T*****
+
+lo que indica que o el interior de A con el interior de B, o el interior de A con el contorno de B o el interior de A con el exterior de B o el contorno de A con el interior de B deben tener alguna dimensión.
+Si comprobamos esto en varios casos::
+
+	# select st_relate('POLYGON ((100 400, 300 400, 300 200, 100 200, 100 400))', 'LINESTRING (200 450, 130 300, 250 300, 150 150, 200 150)');
+
+	# select st_relate('POINT (200 200)', 'LINESTRING (100 400, 200 300, 200 200, 300 100)');
+
+En el primer caso cumple todos los patrones menos el segundo, y en el segundo caso cumple con el primero. Podemos ver que en ambos casos se cumplen varios patrones, por lo que además de intersecarse, se cruzan y se tocan.
+
+Para el siguiente caso::
+
+	# select st_relate('LINESTRING (200 400, 200 300, 200 200, 200 100)', 'LINESTRING (100 400, 200 300, 200 200, 300 100, 300 200)')
+
+el resultado será: "1F1FF0102", indicándonos en este caso, que las geometrías se intersecan, pero no se cruzan, ya que la dimensión de sus interiores es igual a 1, mientras que el patrón nos dice que para cruzarse en el caso de dimensiones de las geometrías iguales, la dimensión de sus interiores debe ser 0.
+
+	
+
 Predicados espaciales
 =====================
 
@@ -81,30 +112,11 @@ ST_Equals
 ST_Equals devuelve TRUE si dos geometrías del mismo tipo tienen identicas coordenadas x,y. 
 
 Ejemplo
-^^^^^^^
-::
-	
-	# SELECT name, geom, ST_AsText(geom)
-	FROM points
-	WHERE name = 'Casa de Piedra';
+"""""""
+Sobre la capa paises vecinos::
 
-::
+	# select st_equals(tabla.geom, pv.geom) as iguales, pv.definicion from gis.paises_vecinos as pv, (select geom from gis.paises_vecinos where definicion = 'Guatemala') as tabla
 
-		name   	|                        geom                        |          st_astext 
-	----------------+----------------------------------------------------+------------------------------
- 	 Casa de Piedra | 0101000020E6100000A6CC727E2F8052C0F9AF62A70EA81240 | POINT(-74.0028988 4.6641184)
-
-Si usamos el valor obtenido en ``geom`` y consultamos a la base de datos::
-
-	# SELECT name
-	FROM points
-	WHERE ST_Equals(geom, '0101000020E6100000A6CC727E2F8052C0F9AF62A70EA81240');
-
-::
-
-	   	name      
-	---------------
-	Casa de Piedra
 
 ST_Intersects, ST_Disjoint, ST_Crosses y ST_Overlaps
 ----------------------------------------------------
@@ -116,7 +128,13 @@ ST_Intersects
 
 	ST_Intersects(geometry A, geometry B) 
 	
-Devuelve TRUE si la intersección no es un resultado vacio. 
+Devuelve TRUE si la intersección no es un resultado vacío.
+
+Ejemplo
+"""""""
+::
+	# select count(*) as tramos_rio from (select * from gis.honduras_departamentos as de) as departamentos, (select * from gis.rios) as rios where st_intersects(departamentos.geom, rios.geom) and departamentos.name_1 = 'Choluteca'
+
 
 ST_Disjoint
 ^^^^^^^^^^^
@@ -126,6 +144,16 @@ ST_Disjoint
 	
 Es el inverso de ST_Intersects. indica que dos geometrías no tienen ningún punto en común. Es menos eficiente que ST_Intersects ya que esta no está indexada. Se recomienda comprobar ``NOT ST_Intersects``
 
+Ejemplo
+"""""""
+::
+
+	Comprobar los departamentos que no tocan Choluteca
+
+	# create table gis.disjuntos as select de.gid, de.name_1, de.geom from gis.honduras_departamentos as de, (select * from gis.honduras_departamentos where name_1 = 'Choluteca') as departamento where st_disjoint(de.geom, departamento.geom)
+
+Realizar la misma operación utilizando NOT ST_Intersects
+
 ST_Crosses
 ^^^^^^^^^^
 ::
@@ -133,6 +161,11 @@ ST_Crosses
 	ST_Crosses(geometry A, geometry B)
 	
 Se cumple esta relación si el resultado de la intesección de dos geometrías es de dimensión menor que la mayor de las dimensiones de las dos geometrías y además esta intersección está en el interior de ambas.
+
+Ejemplo
+"""""""
+::
+	# select count(*) as tramos_rio from (select * from gis.honduras_departamentos as de) as departamentos, (select * from gis.rios) as rios where st_crosses(departamentos.geom, rios.geom) and departamentos.name_1 = 'Choluteca'
 
 ST_Overlap
 ^^^^^^^^^^
@@ -142,27 +175,6 @@ ST_Overlap
 	
 compara dos geometrías de la misma dimensión y devuelve TRUE si su intersección resulta una geometría diferente de ambas pero de la misma dimensión
 
-Ejemplo
-"""""""
-Dada la siguiente imagen
-
-	.. image:: _images/intersection.png
-		:scale: 50 %
-
-Vemos que el poligono **16** intersecta a los poligonos **8** y **15**::
-
-	# SELECT gid 
-	FROM barrios_de_bogota 
-	WHERE ST_Intersects(geom, (select geom from barrios_de_bogota where gid = 16))
-	AND gid != 16
-	
-::
-
- 	gid 
-	-----
-   	8
-  	15
-
 
 ST_Touches
 ^^^^^^^^^^
@@ -171,6 +183,12 @@ ST_Touches
 	ST_Touches(geometry A, geometry B)
 	
 Devuelte TRUE si cualquiera de los contornos de las geometrías se cruzan o si sólo uno de los interiores de la geometría se cruza el contorno del otro.
+
+Ejemplo
+"""""""
+::
+
+	# create table gis.juntos as select de.gid, de.name_1, de.geom from gis.honduras_departamentos as de, (select * from gis.honduras_departamentos where name_1 = 'Choluteca') as departamento where st_touches(de.geom, departamento.geom)
 	
 ST_Within y ST_Contains
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -188,20 +206,11 @@ Devuelve TRUE si la geometría B está contenida completamente en la geometría 
 
 Ejemplo
 """""""
-
-¿En que barrio se encuentra el Museo del 20 de Julio?
-
 ::
 
-	#SELECT b.name from barrios_de_bogota b, points p 
-	WHERE ST_Contains(b.geom, p.geom) and
-	p.name = 'Museo del 20 de Julio'
-	
-::
+	¿Cuantas escuelas hay en el Departamento de Valle?
 
-	     name      
-	---------------
- 	San Cristóbal
+	# select count(*) from (select * from gis.honduras_departamentos where name_1 = 'Valle') as departamento, (select * from gis.edificaciones where descripc like '%scuela%') as escuelas where ST_Contains(departamento.geom, escuelas.geom)
 	
 
 ST_Distance and ST_DWithin
@@ -218,50 +227,6 @@ Calcula la menor distancia entre dos geometrías.
 	
 Permite calcular si dos objetos se encuentran a una distancia dada uno del otro.
 
-Ejemplo
-"""""""
-Encontrar los puntos de interes a como maximo 2km de la oficina de turismo de **Bogotanisimo.com**::
-	
-	# SELECT name
-	FROM points
-	WHERE 
-		name is not null and
-		name != 'Bogotanisimo.com' and
-		ST_DWithin(
-		     ST_Transform(geom, 21818),
-		     (SELECT ST_Transform(geom, 21818)
-			FROM points
-			WHERE name='Bogotanisimo.com'),
-		     2000
-		   );
-	
-::
-
-          name          
-	------------------------
- 	panaderia Los Hornitos
-
-
-Hemos aplicado una transformación geométrica a otro sistema de referencia (EPSG:21818), para poder medir distancias en metros. Nuestros datos originales usan grados en lugar de metros para las coordenadas.
-
-Otra manera de realizar la misma operación pero sin necesidad de transformar los datos a un sistema de referencia diferente para poder usar metros es usar el tipo de datos **geography** de PostGIS::
-
-	#SELECT name
-	FROM points
-	WHERE 
-		name is not null and
-		name != 'Bogotanisimo.com' and
-		ST_DWithin(
-		     geography(geom),
-		     (SELECT geography(geom)
-			FROM points
-			WHERE name='Bogotanisimo.com'),
-		     2000
-		   );
-
-
-El resultado es el mismo que el de la consulta anterior. 
-
 El uso del tipo **geography** para medir distancias, no obstante, es el recomendado cuando se trata de medir la distancia entre dos puntos de la Tierra muy distantes entre sí. 
 
 En estos casos, un sistema de refencia plano no es una buena elección. Estos sistemas suelen dar buenos resultados a la hora de mostrar mapas en planos, porque conservan las direcciones, pero las distancias y áreas pueden estar bastante distorsionadas con respecto a la realidad. Es necesario utilizar un sistema de referencia espacial que conserve las distancias, teniendo en cuenta la curvatura terrestre. El tipo **geography** de PostGIS es un buen ejemplo, puesto que realiza los cálculos sobre una esfera, y no sobre un esferoide. 
@@ -270,24 +235,11 @@ JOINS espaciales
 ================
 Permite combinar información de diferentes tablas usando relaciones espaciales como clave dentro del JOIN. Es una de las caracteristicas más potentes de las bases de datos espaciales. 
 
-Veamos un ejemplo: Los nombres de los barrios por los que cruza el rio Bogotá
+Veamos un ejemplo: Los nombres de los municpios del departamento Yoro
 
 ::
 
-	# SELECT b.name 
-	FROM barrios_de_bogota b JOIN waterways w 
-	ON ST_Crosses(b.geom, w.geom)
-	WHERE w.name = 'Rio Bogotá'
-
-::
-
-      	name      
-	----------------
- 	Bosa
- 	Ciudad Kennedy
- 	Fontibón
- 	Engativá
- 	Suba
+	# select * from gis.honduras_municipios as mu, gis.honduras_departamentos as de where st_contains(de.geom, mu.geom) and de.name_1 = 'Yoro'
 
 
 Cualquier función que permita crear relaciones TRUE/FALSE entre dos tablas puede ser usada para manejar un JOIN espacial, pero comunmente las más usadas son:
@@ -301,42 +253,14 @@ JOIN y GROUP BY
 
 El uso de las relaciones espaciales junto con funciones de agregacion, como **group by**, permite operaciones muy poderosas con nuestros datos. Veamos un ejemplo sencillo: El numero de escuelas que hay en cada uno de los barrios de Bogota::
 
-	#select b.name, count(p.type) as hospitals from barrios_de_bogota b join
-	points p on st_contains(b.geom, p.geom) where p.type = 'hospital' 
-	group by b.name order by hospitals desc
-
-::
-
-	name      | schools 
-  ----------------+---------
-   Suba           |       8
-   Usaquén        |       5
-   Los Mártires   |       3
-   Teusaquillo    |       3
-   Antonio Nariño |       3
-   Tunjuelito     |       2
-   Ciudad Kennedy |       2
-   Engativá       |       1
-   Fontibón       |       1
-   Santa Fé       |       1
-   Barrios Unidos |       1
-   Ciudad Bolívar |       1
- 
+	# select de.name_1, count(*) from gis.honduras_departamentos as de, gis.honduras_municipios as mu where ST_Contains(de.geom, mu.geom) group by de.name_1
 
 
-1. La clausula JOIN crea una tabla virtual que incluye los datos de los barrios y de los puntos de interés
-2. WHERE filtra la tabla virtual solo para las columnas en las que el punto de interés es un hospital
-3. Las filas resultantes son agrupadas por el nombre del barrio y rellenadas con la función de agregación count().
+1. La clausula JOIN crea una tabla virtual que incluye los datos de los departamentos y de los municipios
+2. Las filas resultantes son agrupadas por el nombre del barrio y rellenadas con la función de agregación count().
 
 Prácticas
 =========
 
 
-Comprueba si estas geometrías son iguales: LINESTRING(0 0, 10 0) Y MULTILINESTRING((10 0, 5 0),(0 0, 5 0)).
-
-Represente como texto el valor de la geometría del barrio 'Ciudad Bolivar'.
-
-¿En que barrio se encuentra la Plaza de Las Americas? (Pista: buscar en tabla de edificios)
-
-¿Qué diferencias hay entre los predicados ST_Contains y ST_Covers? (Pista: http://lin-ear-th-inking.blogspot.com.es/2007/06/subtleties-of-ogc-covers-spatial.html)
 
