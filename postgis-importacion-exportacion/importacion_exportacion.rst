@@ -54,6 +54,10 @@ entre las opciones encontraremos:
 Práctica
 --------
 
+Realizar la carga de estos conjuntos de datos en Shape en la misma tabla que llamaremos barrios. _`Descargar datos`
+
+.. _`Descargar datos` : expbarrios.tar.gz
+
 Realice la importación de los datos proporcionados para el taller. Se le proporcionará asistencia con los parámetros a usar. 
 
 Es conveniente definir el encoding de la base de datos como LATIN1. Se puede hacer con una sentencia update:
