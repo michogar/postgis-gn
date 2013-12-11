@@ -12,6 +12,7 @@ Indexación espacial
 	=================  ====================================================           
 	1 Noviembre 2012   * Micho García (micho.garcia@geomati.co)
 	15 Octubre  2013   * Jorge Arévalo(jorge.arevalo@geomati.co)
+	1 Diciembre 2013   * Micho García (micho.garcia@geomati.co)		
 	=================  ====================================================
 
 	©2012 Micho García
@@ -41,12 +42,6 @@ La sintaxis será la siguiente::
 	
 Esta operación puede requerir bastante tiempo en tablas de gran tamaño. 
 	
-Uso de índices espaciales
-=========================
-La mayor parte de las funciones en |PG| (ST_Contains, ST_Intersects, ST_DWithin, etc) incluyen un filtrado por índice automáticamente.
-
-Para hacer que una función utilice el índice, hay que hacer uso del operador **&&**. Para las geometrías, el operador **&&** significa "la caja que toca (touch) o superpone (overlap)" de la misma manera que para un número el operador **=** significa "valores iguales"
-
 Ejemplo
 =======
 
@@ -118,6 +113,10 @@ Para utilizar el planificador::
 
 Operador embebido
 =================
+
+La mayor parte de las funciones en |PG| (ST_Contains, ST_Intersects, ST_DWithin, etc) incluyen un filtrado por índice automáticamente.
+
+Para hacer que una función utilice el índice, hay que hacer uso del operador **&&**. Para las geometrías, el operador **&&** significa "la caja que toca (touch) o superpone (overlap)" de la misma manera que para un número el operador **=** significa "valores iguales"
 
 En el ejemplo anterior se realizaba la consulta con la función ST_Relate que no hace uso de los índices espaciales, de ahí que le hayamos forzado el uso mediante el operador de caja. ¿Qué resultado muestra el planificador si utilizamos simplemente ST_Intersects?
 

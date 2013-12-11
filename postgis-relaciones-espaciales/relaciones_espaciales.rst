@@ -10,6 +10,7 @@ Relaciones espaciales
 	=================  ====================================================           
 	1 Noviembre 2012   * Micho García (micho.garcia@geomati.co)
 	15 Octubre  2013   * Jorge Arévalo(jorge.arevalo@geomati.co)
+	1 Diciembre 2013   * Micho García (micho.garcia@geomati.co)		
 	=================  ====================================================
 
 	©2012 Micho García
@@ -133,6 +134,7 @@ Devuelve TRUE si la intersección no es un resultado vacío.
 Ejemplo
 """""""
 ::
+
 	# select count(*) as tramos_rio from (select * from gis.honduras_departamentos as de) as departamentos, (select * from gis.rios) as rios where st_intersects(departamentos.geom, rios.geom) and departamentos.name_1 = 'Choluteca'
 
 
@@ -165,6 +167,7 @@ Se cumple esta relación si el resultado de la intesección de dos geometrías e
 Ejemplo
 """""""
 ::
+
 	# select count(*) as tramos_rio from (select * from gis.honduras_departamentos as de) as departamentos, (select * from gis.rios) as rios where st_crosses(departamentos.geom, rios.geom) and departamentos.name_1 = 'Choluteca'
 
 ST_Overlap
@@ -174,7 +177,6 @@ ST_Overlap
 	ST_Overlaps(geometry A, geometry B) 
 	
 compara dos geometrías de la misma dimensión y devuelve TRUE si su intersección resulta una geometría diferente de ambas pero de la misma dimensión
-
 
 ST_Touches
 ^^^^^^^^^^
@@ -227,6 +229,28 @@ Calcula la menor distancia entre dos geometrías.
 	
 Permite calcular si dos objetos se encuentran a una distancia dada uno del otro.
 
+Ejemplo
+^^^^^^^
+::
+
+	Calcular las edificaciones del municipio de Choluteca que se encuentran a menos de 1Km de la mina
+	
+Primero creamos una tabla solo con las edificaciones del municipio para acelerar los procesos de análisis::
+
+	create table gis.ed_choluteca as select ed.* 
+	from gis.honduras_municipios as mu, gis.edificaciones as ed 
+	where ST_Contains(mu.geom, ed.geom) and mu.municipio = 'Choluteca';
+
+	create index ed_choluteca_gist on gis.ed_choluteca using gist(geom);
+
+	select count(*), descripc, tipo from gis.ed_choluteca group by descripc, tipo;
+	
+Creamos la tabla con las edificaciones que hay a menos de 1000m de la mina, edificación tipo=12.::
+
+	create table gis.ed_near_mina as select ed.geom, ed.tipo, ed.descripc 
+	from gis.ed_choluteca as ed, (select geom from gis.ed_choluteca where tipo = 12) as mina 
+	where ST_DWithin(ed.geom, mina.geom, 1000);
+
 El uso del tipo **geography** para medir distancias, no obstante, es el recomendado cuando se trata de medir la distancia entre dos puntos de la Tierra muy distantes entre sí. 
 
 En estos casos, un sistema de refencia plano no es una buena elección. Estos sistemas suelen dar buenos resultados a la hora de mostrar mapas en planos, porque conservan las direcciones, pero las distancias y áreas pueden estar bastante distorsionadas con respecto a la realidad. Es necesario utilizar un sistema de referencia espacial que conserve las distancias, teniendo en cuenta la curvatura terrestre. El tipo **geography** de PostGIS es un buen ejemplo, puesto que realiza los cálculos sobre una esfera, y no sobre un esferoide. 
@@ -235,11 +259,11 @@ JOINS espaciales
 ================
 Permite combinar información de diferentes tablas usando relaciones espaciales como clave dentro del JOIN. Es una de las caracteristicas más potentes de las bases de datos espaciales. 
 
-Veamos un ejemplo: Los nombres de los municpios del departamento Yoro
+Veamos un ejemplo: Los nombres de los municipios del departamento Yoro
 
 ::
 
-	# select * from gis.honduras_municipios as mu, gis.honduras_departamentos as de where st_contains(de.geom, mu.geom) and de.name_1 = 'Yoro'
+	# select mu.municipio, mu.depart from gis.honduras_municipios as mu, gis.honduras_departamentos as de where st_contains(de.geom, mu.geom) and de.name_1 = 'Yoro' order by mu.municipio
 
 
 Cualquier función que permita crear relaciones TRUE/FALSE entre dos tablas puede ser usada para manejar un JOIN espacial, pero comunmente las más usadas son:
@@ -251,16 +275,10 @@ Cualquier función que permita crear relaciones TRUE/FALSE entre dos tablas pued
 JOIN y GROUP BY
 ---------------
 
-El uso de las relaciones espaciales junto con funciones de agregacion, como **group by**, permite operaciones muy poderosas con nuestros datos. Veamos un ejemplo sencillo: El numero de escuelas que hay en cada uno de los barrios de Bogota::
+El uso de las relaciones espaciales junto con funciones de agregacion, como **group by**, permite operaciones muy poderosas con nuestros datos. Veamos un ejemplo sencillo: EL número de municipios de los departamentos de Honduras::
 
 	# select de.name_1, count(*) from gis.honduras_departamentos as de, gis.honduras_municipios as mu where ST_Contains(de.geom, mu.geom) group by de.name_1
 
 
 1. La clausula JOIN crea una tabla virtual que incluye los datos de los departamentos y de los municipios
 2. Las filas resultantes son agrupadas por el nombre del barrio y rellenadas con la función de agregación count().
-
-Prácticas
-=========
-
-
-
