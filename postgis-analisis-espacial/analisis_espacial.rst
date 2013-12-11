@@ -1,5 +1,19 @@
 .. |PG| replace:: PostGIS
 
+.. note::
+
+	=================  ====================================================
+	Fecha              Autores
+	=================  ====================================================           
+	1 Noviembre 2012   * Micho García (micho.garcia@geomati.co)
+	15 Octubre  2013   * Jorge Arévalo(jorge.arevalo@geomati.co)
+	1 Diciembre 2013   * Micho García (micho.garcia@geomati.co)	
+	=================  ====================================================
+
+	©2012 Micho García
+	
+	Excepto donde quede reflejado de otra manera, la presente documentación se halla bajo licencia : Creative Commons (Creative Commons - Attribution - Share Alike: http://creativecommons.org/licenses/by-sa/3.0/deed.es)
+	
 *****************
 Análisis espacial
 *****************
@@ -20,94 +34,60 @@ Es el conjunto de puntos situados a una determinada distancia de la geometría
 	
 Acepta distancias negativas, pero estas en lineas y puntos devolverán el conjunto vacio.
 	
-Práctica
-^^^^^^^^
-El uso de las funciones espaciales de PostGIS en unión con las funciones de agregación de PostgreSQL nos da la posibilidad de realizar análisis espaciales de datos agregados. Una característica muy potente y con diversas utilidades. Como ejemplo, vamos a ver la estimación proporcional de datos censales, usando como criterio la distancia entre elementos espaciales.
-
-Tomemos como base los datos vectoriales de los barrios de Bogotá y los datos vectoriales de vías de ferrocarril (tablas *barrios_de_bogota* y *railways*, respectivamente). Fijémonos en una línea de ferrocarril que cruza 3 barrios (Fontibón, Puente Aranda, Los Mártires)
-
-
-	.. image:: _images/railways_and_neighborhoods.png 
-		:scale: 50%
-
-En la imagen, se han coloreado los polígonos de los barrios, de manera que los colores más claros suponen menos población.
-
-Construyamos ahora un buffer de 1km alrededor de dicha línea de ferrocarril. Es de esperar que las personas que usen la línea sean las que vivan a una distancia razonable. Para ello, creamos una nueva tabla con el buffer::
-
-	#CREATE TABLE railway_buffer as 
-	SELECT 
-		1 as gid, 
-		ST_Transform(ST_Buffer(
-			(SELECT ST_Transform(geom, 21818) FROM railways WHERE gid = 2), 1000, 'endcap=round join=round'), 4326) as geom;
-
-
-Hemos usado la función *ST_Transform* para pasar los datos a un sistema de coordenadas proyectadas que use el metro como unidad de medida, y así poder especificar 1000m. Otra forma habría sido calcular cuántos grados suponen un metro en esa longitud, y usar ese número como parámetro para crear el buffer (más información en http://en.wikipedia.org/wiki/Decimal_degrees). 
-
-Al superponer dicho buffer sobre la línea, el resultado es éste:
-
-	.. image:: _images/railway_buffer.png
-		:scale: 50%
-
-
-
-Como se observa, hay 4 barrios que intersectan con ese buffer. Los tres anteriormente mencionados y Teusaquillo. 
-
-Una primera aproximación para saber la población potencial que usará el ferrocarril sería simplemente sumar las poblaciones de los barrios que el buffer intersecta. Para ello, usamos la siguiente consulta espacial::
-
-	# SELECT SUM(b.population) as pop 
-	FROM barrios_de_bogota b JOIN railway_buffer r 
-	ON ST_Intersects(b.geom, r.geom)
-
-Esta primera aproximación nos da un resultado de **819892** personas. 
-
-No obstante, mirando la forma de los barrios, podemos apreciar que estamos sobre-estimando la población, si utilizamos la de cada barrio completo. De igual forma, si contáramos solo los barrios cuyos centroides intersectan el buffer, probablemente infraestimaríamos el resultado.
-
-En lugar de esto, podemos asumir que la población estará distribuida de manera más o menos homogénea (esto no deja de ser una aproximación, pero más precisa que lo que tenemos hasta ahora). De manera que, si el 50% del polígono que representa a un barrio está dentro del área de influencia (1 km alrededor de la vía), podemos aceptar que el 50% de la población de ese barrio serán potenciales usuarios del ferrocarril. Sumando estas cantidades para todos los barrios involucrados, obtendremos una estimación algo más precisa. Habremos realizado una suma proporcional.
-
-Para realizar esta operación, vamos a construir una función en PL/pgSQL. Esta función la podremos llamar en una query, igual que cualquier función espacial de PostGIS::
-
-	#CREATE OR REPLACE FUNCTION public.proportional_sum(geometry, geometry, numeric)
-  	RETURNS numeric AS
-	$BODY$
-    	SELECT $3 * areacalc FROM
-           (
-           SELECT (ST_Area(ST_Intersection($1, $2))/ST_Area($2))::numeric AS areacalc
-           ) AS areac;
-	$BODY$
-  	LANGUAGE sql VOLATILE
-
-
-Esta función toma como argumentos las dos geometrías a intersectar y el valor total de población del cuál queremos estimar la población proporcional que usará el tren. Devuelve el número con la estimación. La operación que hace es simplemente multiplicar la proporción en la que los barrios se solapan con la zona de interés por la cantidad a *proporcionar* (la población).
-
-La llamada a la función es como sigue::
-
-	# SELECT ROUND(SUM(proportional_sum(a.geom, b.geom, b.population))) FROM
-	railway_buffer AS a, barrios_de_bogota as b
-	WHERE ST_Intersects(a.geom, b.geom)
-	GROUP BY a.gid;
-
-
-En este caso, el resultado obtenido es **248217**, que parece más razonable.
-
-	
 Intersección
 ------------
 Genera una geometría a partir de la intersección de las geometrías que se les pasa como parámetros. 
 	
 	.. image:: _images/intersection.jpg
 		:scale: 50%
-	
+
 ¿Cúal es el area en común de dos círculos situados en los puntos (0 0) y (3 0) de radio 2?::
 
 	SELECT ST_AsText(ST_Intersection(
 	  ST_Buffer('POINT(0 0)', 2),
 	  ST_Buffer('POINT(3 0)', 2)
 	));
+
+Práctica
+^^^^^^^^
+Trabajaremos con la capa honduras_carreteras y edificaciones. Comprobaremos en el estado de Olancho, cuantas casas se encuentran afectadas por el ruido de este tipo de vias. Para determinar si una vivienda se ve afectada por el ruido, tomaremos como valor 500m el mínimo recomendado para vivir alejado de este tipo de vías.
+
+Primero crearemos una capa con las vias de este tipo que se encuentren en Choluteca::
+
+	# SELECT * INTO gis.vias1_choluteca
+	FROM (
+		SELECT ca.gid, ca.tipo, ca.geom FROM gis.honduras_carreteras as ca, 
+		gis.honduras_departamentos as de
+		WHERE ST_Intersects(ca.geom, de.geom)
+		AND de.name_1 like 'Choluteca' 
+		AND ca.tipo like 'Primary Route'
+	) as foo
 	
+Ahora calcularemos el buffer de 500m para las vías y lo guardaremos en otra tabla::
+
+	# SELECT * INTO gis.buffer_vias1_choluteca
+	FROM (
+		SELECT ca.gid, ca.tipo, ST_Buffer(ca.geom, 500, 'endcap=round join=round')::geometry('POLYGON', 32616) as geom FROM gis.vias1_choluteca as ca
+	) as buf
+
+Y podremos obtener las edificaciones tipo casa que se encuentren a menos de 500m de la via::
+
+	# SELECT * INTO gis.casas_afectadas
+	FROM (
+		SELECT casas_cho.gid, casas_cho.geom
+		FROM  (
+			SELECT ed.gid,ed.geom
+			FROM gis.edificaciones as ed, gis.honduras_departamentos as dep
+			WHERE ST_Intersects(dep.geom, ed.geom)
+			AND ed.tipo = 1 
+			AND dep.name_1 like 'Choluteca'
+		) as casas_cho, gis.buffer_vias1_choluteca as buf
+		WHERE ST_Intersects(buf.geom, casas_cho.geom) 
+	) as foobar
 		
 Unión
 -----
-Al contrario que en el caso anterior, la unión produce un una geometría común con las geometrías que se le pasa a la función como argumento. Esta función acepta como parámetro dos opciones, las geometrías que serán unidas::
+Al contrario que en el caso anterior, la unión produce una geometría común con las geometrías que se le pasa a la función como argumento. Esta función acepta como parámetro dos opciones, las geometrías que serán unidas::
 
 	ST_Union(Geometría A, Geometría B)
 	
@@ -122,32 +102,25 @@ o una colección de geometrías::
 Práctica
 ^^^^^^^^
 
-	Tratar de simplificar todos los barrios de Bogotá en un único polígono. El aspecto que presenta la tabla con los barrios de Bogotá es el siguiente:
+Tratar de simplificar todos los municipios de Olancho en un único polígono y comprobar si generan una geometría identica a la de su departamento. 
 
-	.. image:: _images/barrios_de_bogota.png
-		:scale: 50%
-
-Una primera aproximación podría ser usar la versión agregada de **ST_Union**, que toma como entrada un conjunto de geometrías y devuelve la unión de las mismas también como geometría. El conjunto de geometrías lo obtenemos gracias al uso de *GROUP BY*, que agrupa las filas por un campo común (en este caso, el campo *city*, que en todos los casos tiene el valor *Bogota*). 
-
-Usamos adicionalmente la función **ST_SnapToGrid** para ajustar la geometría de salida lo más posible a la rejilla regular definida por su origen y su tamaño de celda. 
+Para esto se podría usar la versión agregada **ST_Union**, que toma como entrada un conjunto de geometrías y devuelve la unión de las mismas también como geometría. 
 
 La consulta SQL es ésta::
 
-	#CREATE TABLE bogota AS
- 	SELECT ST_Union(ST_SnapToGrid(geom,0.0001)) 
- 	FROM barrios_de_bogota
- 	GROUP BY city;
-
-Y el resultado es el conjunto de polígonos, algo más suavizados:
-
-.. image:: _images/bogota_union1.png
-	:scale: 50%
-
-Si queremos intentar simplificar aun más esta geometría, tendríamos dos opciones:
+	# SELECT * INTO gis.municipios_olancho
+	FROM (
+		SELECT mun.depart as nombre, ST_Union(mun.geom) as geom FROM gis.honduras_municipios as mun,
+		gis.honduras_departamentos as dep
+		WHERE mun.depart like 'Olancho' group by mun.depart
+	) as foo
 	
-	* Utilizar GRASS para obtener una simplificación topológica de la geometría
-	* Utilizar la extensión **topology** de PostGIS. Aunque ésta es una geometría dificil de unir. No todos los polígonos están unidos y algunos se montan sobre otros, de manera que habría que jugar con el concepto de tolerancia.
-	
+Para comprobar si son iguales::
+
+	# SELECT ST_Equals(mun.geom, dep.geom)
+	FROM gis.honduras_departamentos as dep, gis.municipios_olancho as mun
+	WHERE dep.name_1 like 'Olancho';
+
 Diferencia
 ----------
 La diferencía entre dos geometrías A y B, son los puntos que pertenecen a A, pero no pertenecen a B
@@ -196,19 +169,53 @@ En la tabla ``spatial_ref_sys`` encontraremos la definición de los sistemas de 
 
 	# select * from spatial_ref_sys where srid=4326;
 	
-Para transformar las geometrías en otros sistemas de coordenadas, lo primero que debemos saber es el sistema de coordenadas de origen y el de destino. Hemos de consultar que estos se encuentran en la tabla ``spatial_ref_sys``. En caso de que alguna de nuestras tablas no tenga asignado un SRID, el valor de este será -1, valor por defecto, por lo que habrá que asignarle el sistema de coordenadas antes de la transformación.
+Para transformar las geometrías en otros sistemas de coordenadas, lo primero que debemos saber es el sistema de coordenadas de origen y el de destino. Hemos de consultar que estos se encuentran en la tabla ``spatial_ref_sys``. En caso de que alguna de nuestras tablas no tenga asignado un SRID, el valor de este será 0, valor por defecto, por lo que habrá que asignarle el sistema de coordenadas antes de la transformación.
 
 Práctica
---------
+^^^^^^^^
 
-	¿Cuál es el área total de páramos contenidos en todos los barrios de Bogotá?
+Cambio del SRS de una tabla
+---------------------------
 
-	¿Cuál es la longitud del rio más largo que pasa por el barrio de Suba?
+Tras la importación de una capa mediante shp2pgsql nos damos cuenta de que en el momento de la carga no se eligió el SRS de la misma por lo que ahora nos aparece con el SRS por defecto 0 (versiones de PostGIS >= 2.0). Para no realizar la importación de nuevo vamos a ver como se puede cambiar el SRS de la capa.
 
-	Muestra el nombre de cada barrio junto con la longitud total de ríos que contiene, ordenado por longitud en orden descendiente
+	# UPDATE gis.farmacias SET geom = ST_SetSRID(geom, 32616);
 	
-	¿Cual es la provincia que más longitud de rios contiene?
-	
-	¿Cuál es el área de páramos que contiene **solo** el barrio de San Cristóbal?
+	ERROR:  Geometry SRID (32616) does not match column SRID (4326)
 
+	********** Error **********
+
+	ERROR: Geometry SRID (32616) does not match column SRID (4326)
+	SQL state: 22023
 	
+Esto nos indica que no es posible almacenar en la tabla datos con el SRS 32616 ya que solo permite SRS 4326.
+
+Podremos modificar el tipo de dato si tiene restricciones que comprueben el SRS mediante la eliminación de la restricción y la recreación de la misma con el nuevo SRS. PostGIS nos ofrece la función ``updateGeometrySRID`` que realizaría de manera automática las operaciones anteriores::
+
+	# SELECT ST_AsEWKT(way) FROM gis.farmacias; 
+	
+	"SRID=4326;POINT(-87.2238485 14.0978939)"
+	
+	# SELECT updateGeometrySRID('gis','farmacias', 'way', 32616);
+	
+	# SELECT ST_AsEWKT(way) FROM gis.farmacias; 
+	
+	"SRID=32616;POINT(-87.2238485 14.0978939)"
+	
+Podremos comprobar facilmente que se ha realizado el cambio del sistema de coordenadas, pero también veremos que el valor de las mismas no ha cambiado.
+ 
+Reproyección de la capa
+-----------------------
+
+Para realizar la reproyección de una capa disponemos de la función ``ST_Transform``. Si queremos reproyectar una capa podremos hacerlo facilmente transformando las coordenadas y creando con ellas una nueva tabla::
+
+	# SELECT * INTO gis.farmacias_reproyectadas
+	FROM (
+		SELECT osm_id,ST_Transform(way, 32616)  FROM gis.farmacias 
+	) as foo
+
+Si lo que queremos es reproyectar la misma capa::
+
+	# ALTER TABLE gis.farmacias ALTER COLUMN way TYPE geometry;
+	# UPDATE gis.farmacias SET way = ST_Transform(way, 32616);
+	# ALTER TABLE gis.farmacias ALTER COLUMN way TYPE geometry('POINT', 32616);
