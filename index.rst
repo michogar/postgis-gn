@@ -19,9 +19,11 @@ Contents:
    postgis-caracteristicas-espaciales/caracteristicas_espaciales
    postgis-simple-feature-model/simple_feature_model
    postgis-simple-feature-model/ejemplos
-   postgis-indexacion-espacial/indexacion_espacial
    postgis-importacion-exportacion/importacion_exportacion
+   postgis-indexacion-espacial/indexacion_espacial   
    postgis-relaciones-espaciales/relaciones_espaciales
+   postgis-validacion/validacion
+   postgis-analisis-espacial/analisis_espacial
 
 
 Indices and tables
