@@ -72,6 +72,12 @@
 </ul>
 </td>
 </tr>
+<tr class="row-even"><td>1 Diciembre 2013</td>
+<td><ul class="first last simple">
+<li>Micho García (<a class="reference external" href="mailto:micho&#46;garcia&#37;&#52;&#48;geomati&#46;co">micho<span>&#46;</span>garcia<span>&#64;</span>geomati<span>&#46;</span>co</a>)</li>
+</ul>
+</td>
+</tr>
 </tbody>
 </table>
 <p>©2012 Micho García</p>
@@ -173,10 +179,9 @@ Si comprobamos esto en varios casos:</p>
 <p>Devuelve TRUE si la intersección no es un resultado vacío.</p>
 <div class="section" id="id1">
 <h4>Ejemplo<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt>::</dt>
-<dd># select count(*) as tramos_rio from (select * from gis.honduras_departamentos as de) as departamentos, (select * from gis.rios) as rios where st_intersects(departamentos.geom, rios.geom) and departamentos.name_1 = &#8216;Choluteca&#8217;</dd>
-</dl>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># select count(*) as tramos_rio from (select * from gis.honduras_departamentos as de) as departamentos, (select * from gis.rios) as rios where st_intersects(departamentos.geom, rios.geom) and departamentos.name_1 = &#39;Choluteca&#39;</span>
+</pre></div>
+</div>
 <div class="section" id="st-disjoint">
 <h5>ST_Disjoint<a class="headerlink" href="#st-disjoint" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-python"><pre>ST_Disjoint(geometry A , geometry B)</pre>
@@ -200,10 +205,9 @@ Si comprobamos esto en varios casos:</p>
 </div>
 <div class="section" id="id3">
 <h4>Ejemplo<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt>::</dt>
-<dd># select count(*) as tramos_rio from (select * from gis.honduras_departamentos as de) as departamentos, (select * from gis.rios) as rios where st_crosses(departamentos.geom, rios.geom) and departamentos.name_1 = &#8216;Choluteca&#8217;</dd>
-</dl>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># select count(*) as tramos_rio from (select * from gis.honduras_departamentos as de) as departamentos, (select * from gis.rios) as rios where st_crosses(departamentos.geom, rios.geom) and departamentos.name_1 = &#39;Choluteca&#39;</span>
+</pre></div>
+</div>
 <div class="section" id="st-overlap">
 <h5>ST_Overlap<a class="headerlink" href="#st-overlap" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-python"><pre>ST_Overlaps(geometry A, geometry B)</pre>
@@ -246,6 +250,25 @@ Si comprobamos esto en varios casos:</p>
 <div class="highlight-python"><pre>ST_DWithin(geometry A, geometry B, distance)</pre>
 </div>
 <p>Permite calcular si dos objetos se encuentran a una distancia dada uno del otro.</p>
+</div>
+<div class="section" id="id6">
+<h5>Ejemplo<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-python"><pre>Calcular las edificaciones del municipio de Choluteca que se encuentran a menos de 1Km de la mina</pre>
+</div>
+<p>Primero creamos una tabla solo con las edificaciones del municipio para acelerar los procesos de análisis:</p>
+<div class="highlight-python"><pre>create table gis.ed_choluteca as select ed.*
+from gis.honduras_municipios as mu, gis.edificaciones as ed
+where ST_Contains(mu.geom, ed.geom) and mu.municipio = 'Choluteca';
+
+create index ed_choluteca_gist on gis.ed_choluteca using gist(geom);
+
+select count(*), descripc, tipo from gis.ed_choluteca group by descripc, tipo;</pre>
+</div>
+<p>Creamos la tabla con las edificaciones que hay a menos de 1000m de la mina, edificación tipo=12.:</p>
+<div class="highlight-python"><pre>create table gis.ed_near_mina as select ed.geom, ed.tipo, ed.descripc
+from gis.ed_choluteca as ed, (select geom from gis.ed_choluteca where tipo = 12) as mina
+where ST_DWithin(ed.geom, mina.geom, 1000);</pre>
+</div>
 <p>El uso del tipo <strong>geography</strong> para medir distancias, no obstante, es el recomendado cuando se trata de medir la distancia entre dos puntos de la Tierra muy distantes entre sí.</p>
 <p>En estos casos, un sistema de refencia plano no es una buena elección. Estos sistemas suelen dar buenos resultados a la hora de mostrar mapas en planos, porque conservan las direcciones, pero las distancias y áreas pueden estar bastante distorsionadas con respecto a la realidad. Es necesario utilizar un sistema de referencia espacial que conserve las distancias, teniendo en cuenta la curvatura terrestre. El tipo <strong>geography</strong> de PostGIS es un buen ejemplo, puesto que realiza los cálculos sobre una esfera, y no sobre un esferoide.</p>
 </div>
@@ -255,8 +278,8 @@ Si comprobamos esto en varios casos:</p>
 <div class="section" id="joins-espaciales">
 <h2>JOINS espaciales<a class="headerlink" href="#joins-espaciales" title="Permalink to this headline">¶</a></h2>
 <p>Permite combinar información de diferentes tablas usando relaciones espaciales como clave dentro del JOIN. Es una de las caracteristicas más potentes de las bases de datos espaciales.</p>
-<p>Veamos un ejemplo: Los nombres de los municpios del departamento Yoro</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># select * from gis.honduras_municipios as mu, gis.honduras_departamentos as de where st_contains(de.geom, mu.geom) and de.name_1 = &#39;Yoro&#39;</span>
+<p>Veamos un ejemplo: Los nombres de los municipios del departamento Yoro</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># select mu.municipio, mu.depart from gis.honduras_municipios as mu, gis.honduras_departamentos as de where st_contains(de.geom, mu.geom) and de.name_1 = &#39;Yoro&#39; order by mu.municipio</span>
 </pre></div>
 </div>
 <p>Cualquier función que permita crear relaciones TRUE/FALSE entre dos tablas puede ser usada para manejar un JOIN espacial, pero comunmente las más usadas son:</p>
@@ -269,7 +292,7 @@ Si comprobamos esto en varios casos:</p>
 </div></blockquote>
 <div class="section" id="join-y-group-by">
 <h3>JOIN y GROUP BY<a class="headerlink" href="#join-y-group-by" title="Permalink to this headline">¶</a></h3>
-<p>El uso de las relaciones espaciales junto con funciones de agregacion, como <strong>group by</strong>, permite operaciones muy poderosas con nuestros datos. Veamos un ejemplo sencillo: El numero de escuelas que hay en cada uno de los barrios de Bogota:</p>
+<p>El uso de las relaciones espaciales junto con funciones de agregacion, como <strong>group by</strong>, permite operaciones muy poderosas con nuestros datos. Veamos un ejemplo sencillo: EL número de municipios de los departamentos de Honduras:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># select de.name_1, count(*) from gis.honduras_departamentos as de, gis.honduras_municipios as mu where ST_Contains(de.geom, mu.geom) group by de.name_1</span>
 </pre></div>
 </div>
@@ -278,9 +301,6 @@ Si comprobamos esto en varios casos:</p>
 <li>Las filas resultantes son agrupadas por el nombre del barrio y rellenadas con la función de agregación count().</li>
 </ol>
 </div>
-</div>
-<div class="section" id="practicas">
-<h2>Prácticas<a class="headerlink" href="#practicas" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -320,6 +340,7 @@ Si comprobamos esto en varios casos:</p>
 </li>
 <li><a class="reference internal" href="#id5">Ejemplo</a><ul>
 <li><a class="reference internal" href="#st-distance-and-st-dwithin">ST_Distance and ST_DWithin</a></li>
+<li><a class="reference internal" href="#id6">Ejemplo</a></li>
 </ul>
 </li>
 </ul>
@@ -330,7 +351,6 @@ Si comprobamos esto en varios casos:</p>
 <li><a class="reference internal" href="#join-y-group-by">JOIN y GROUP BY</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#practicas">Prácticas</a></li>
 </ul>
 </li>
 </ul>

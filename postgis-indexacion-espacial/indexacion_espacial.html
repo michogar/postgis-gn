@@ -76,6 +76,12 @@
 </ul>
 </td>
 </tr>
+<tr class="row-even"><td>1 Diciembre 2013</td>
+<td><ul class="first last simple">
+<li>Micho García (<a class="reference external" href="mailto:micho&#46;garcia&#37;&#52;&#48;geomati&#46;co">micho<span>&#46;</span>garcia<span>&#64;</span>geomati<span>&#46;</span>co</a>)</li>
+</ul>
+</td>
+</tr>
 </tbody>
 </table>
 <p>©2012 Micho García</p>
@@ -100,11 +106,6 @@
 <div class="highlight-python"><pre>CREATE INDEX [Nombre_del_indice] ON [Nombre_de_tabla] USING GIST ([campo_de_geometria]);</pre>
 </div>
 <p>Esta operación puede requerir bastante tiempo en tablas de gran tamaño.</p>
-</div>
-<div class="section" id="uso-de-indices-espaciales">
-<h2>Uso de índices espaciales<a class="headerlink" href="#uso-de-indices-espaciales" title="Permalink to this headline">¶</a></h2>
-<p>La mayor parte de las funciones en PostGIS (ST_Contains, ST_Intersects, ST_DWithin, etc) incluyen un filtrado por índice automáticamente.</p>
-<p>Para hacer que una función utilice el índice, hay que hacer uso del operador <strong>&amp;&amp;</strong>. Para las geometrías, el operador <strong>&amp;&amp;</strong> significa &#8220;la caja que toca (touch) o superpone (overlap)&#8221; de la misma manera que para un número el operador <strong>=</strong> significa &#8220;valores iguales&#8221;</p>
 </div>
 <div class="section" id="ejemplo">
 <h2>Ejemplo<a class="headerlink" href="#ejemplo" title="Permalink to this headline">¶</a></h2>
@@ -184,6 +185,8 @@ VACUUM ANALYZE [Nombre_tabla] ([Nombre_columna])</pre>
 </div>
 <div class="section" id="operador-embebido">
 <h2>Operador embebido<a class="headerlink" href="#operador-embebido" title="Permalink to this headline">¶</a></h2>
+<p>La mayor parte de las funciones en PostGIS (ST_Contains, ST_Intersects, ST_DWithin, etc) incluyen un filtrado por índice automáticamente.</p>
+<p>Para hacer que una función utilice el índice, hay que hacer uso del operador <strong>&amp;&amp;</strong>. Para las geometrías, el operador <strong>&amp;&amp;</strong> significa &#8220;la caja que toca (touch) o superpone (overlap)&#8221; de la misma manera que para un número el operador <strong>=</strong> significa &#8220;valores iguales&#8221;</p>
 <p>En el ejemplo anterior se realizaba la consulta con la función ST_Relate que no hace uso de los índices espaciales, de ahí que le hayamos forzado el uso mediante el operador de caja. ¿Qué resultado muestra el planificador si utilizamos simplemente ST_Intersects?</p>
 <blockquote>
 <div><dl class="docutils">
@@ -235,7 +238,6 @@ OWNER TO alumno;</pre>
 <li><a class="reference internal" href="#">Indexación espacial</a><ul>
 <li><a class="reference internal" href="#como-funcionan-los-indices-espaciales">Como funcionan los índices espaciales</a></li>
 <li><a class="reference internal" href="#creacion-de-indices-espaciales">Creación de índices espaciales</a></li>
-<li><a class="reference internal" href="#uso-de-indices-espaciales">Uso de índices espaciales</a></li>
 <li><a class="reference internal" href="#ejemplo">Ejemplo</a></li>
 <li><a class="reference internal" href="#analyze-y-vacuum">ANALYZE y VACUUM</a></li>
 <li><a class="reference internal" href="#planificador">Planificador</a></li>
