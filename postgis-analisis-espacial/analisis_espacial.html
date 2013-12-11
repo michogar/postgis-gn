@@ -23,7 +23,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation" href="../index.html" /> 
+    <link rel="top" title="Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation" href="../index.html" />
+    <link rel="prev" title="Validación" href="../postgis-validacion/validacion.html" /> 
   </head>
   <body>
     <div class="related">
@@ -32,6 +33,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../postgis-validacion/validacion.html" title="Validación"
+             accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -41,7 +45,43 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="analisis-espacial">
+  <div class="admonition note">
+<p class="first admonition-title">Note</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Fecha</th>
+<th class="head">Autores</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1 Noviembre 2012</td>
+<td><ul class="first last simple">
+<li>Micho García (<a class="reference external" href="mailto:micho&#46;garcia&#37;&#52;&#48;geomati&#46;co">micho<span>&#46;</span>garcia<span>&#64;</span>geomati<span>&#46;</span>co</a>)</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>15 Octubre  2013</td>
+<td><ul class="first last simple">
+<li>Jorge Arévalo(<a class="reference external" href="mailto:jorge&#46;arevalo&#37;&#52;&#48;geomati&#46;co">jorge<span>&#46;</span>arevalo<span>&#64;</span>geomati<span>&#46;</span>co</a>)</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>1 Diciembre 2013</td>
+<td><ul class="first last simple">
+<li>Micho García (<a class="reference external" href="mailto:micho&#46;garcia&#37;&#52;&#48;geomati&#46;co">micho<span>&#46;</span>garcia<span>&#64;</span>geomati<span>&#46;</span>co</a>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>©2012 Micho García</p>
+<p class="last">Excepto donde quede reflejado de otra manera, la presente documentación se halla bajo licencia : Creative Commons (Creative Commons - Attribution - Share Alike: <a class="reference external" href="http://creativecommons.org/licenses/by-sa/3.0/deed.es">http://creativecommons.org/licenses/by-sa/3.0/deed.es</a>)</p>
+</div>
+<div class="section" id="analisis-espacial">
 <h1>Análisis espacial<a class="headerlink" href="#analisis-espacial" title="Permalink to this headline">¶</a></h1>
 <p>El análisis de datos con SIG tiene por finalidad descubrir estructuras espaciales, asociaciones y relaciones entre los datos, así como modelar fenómenos geográficos. Los resultados reflejan la naturaleza y calidad de los datos, además de la pertinencia de los métodos y funciones aplicadas. Las tareas y transformaciones que se llevan a cabo en el análisis espacial precisan datos estructurados, programas con las funciones apropiadas y conocimientos sobre la naturaleza del problema, para definir los métodos de análisis.</p>
 <p>El proceso convierte los datos en información útil para conocer un problema determinado. Es evidente que los resultados del análisis espacial añaden valor económico y, sobre todo, información y conocimiento a los datos geográficos</p>
@@ -55,55 +95,6 @@
 <div><a class="reference internal image-reference" href="../_images/st_buffer.png"><img alt="../_images/st_buffer.png" src="../_images/st_buffer.png" style="width: 250.0px; height: 187.5px;" /></a>
 </div></blockquote>
 <p>Acepta distancias negativas, pero estas en lineas y puntos devolverán el conjunto vacio.</p>
-<div class="section" id="practica">
-<h4>Práctica<a class="headerlink" href="#practica" title="Permalink to this headline">¶</a></h4>
-<p>El uso de las funciones espaciales de PostGIS en unión con las funciones de agregación de PostgreSQL nos da la posibilidad de realizar análisis espaciales de datos agregados. Una característica muy potente y con diversas utilidades. Como ejemplo, vamos a ver la estimación proporcional de datos censales, usando como criterio la distancia entre elementos espaciales.</p>
-<p>Tomemos como base los datos vectoriales de los barrios de Bogotá y los datos vectoriales de vías de ferrocarril (tablas <em>barrios_de_bogota</em> y <em>railways</em>, respectivamente). Fijémonos en una línea de ferrocarril que cruza 3 barrios (Fontibón, Puente Aranda, Los Mártires)</p>
-<blockquote>
-<div><a class="reference internal image-reference" href="../_images/railways_and_neighborhoods.png"><img alt="../_images/railways_and_neighborhoods.png" src="../_images/railways_and_neighborhoods.png" style="width: 254.5px; height: 239.0px;" /></a>
-</div></blockquote>
-<p>En la imagen, se han coloreado los polígonos de los barrios, de manera que los colores más claros suponen menos población.</p>
-<p>Construyamos ahora un buffer de 1km alrededor de dicha línea de ferrocarril. Es de esperar que las personas que usen la línea sean las que vivan a una distancia razonable. Para ello, creamos una nueva tabla con el buffer:</p>
-<div class="highlight-python"><pre>#CREATE TABLE railway_buffer as
-SELECT
-        1 as gid,
-        ST_Transform(ST_Buffer(
-                (SELECT ST_Transform(geom, 21818) FROM railways WHERE gid = 2), 1000, 'endcap=round join=round'), 4326) as geom;</pre>
-</div>
-<p>Hemos usado la función <em>ST_Transform</em> para pasar los datos a un sistema de coordenadas proyectadas que use el metro como unidad de medida, y así poder especificar 1000m. Otra forma habría sido calcular cuántos grados suponen un metro en esa longitud, y usar ese número como parámetro para crear el buffer (más información en <a class="reference external" href="http://en.wikipedia.org/wiki/Decimal_degrees">http://en.wikipedia.org/wiki/Decimal_degrees</a>).</p>
-<p>Al superponer dicho buffer sobre la línea, el resultado es éste:</p>
-<blockquote>
-<div><a class="reference internal image-reference" href="../_images/railway_buffer.png"><img alt="../_images/railway_buffer.png" src="../_images/railway_buffer.png" style="width: 239.5px; height: 200.5px;" /></a>
-</div></blockquote>
-<p>Como se observa, hay 4 barrios que intersectan con ese buffer. Los tres anteriormente mencionados y Teusaquillo.</p>
-<p>Una primera aproximación para saber la población potencial que usará el ferrocarril sería simplemente sumar las poblaciones de los barrios que el buffer intersecta. Para ello, usamos la siguiente consulta espacial:</p>
-<div class="highlight-python"><pre># SELECT SUM(b.population) as pop
-FROM barrios_de_bogota b JOIN railway_buffer r
-ON ST_Intersects(b.geom, r.geom)</pre>
-</div>
-<p>Esta primera aproximación nos da un resultado de <strong>819892</strong> personas.</p>
-<p>No obstante, mirando la forma de los barrios, podemos apreciar que estamos sobre-estimando la población, si utilizamos la de cada barrio completo. De igual forma, si contáramos solo los barrios cuyos centroides intersectan el buffer, probablemente infraestimaríamos el resultado.</p>
-<p>En lugar de esto, podemos asumir que la población estará distribuida de manera más o menos homogénea (esto no deja de ser una aproximación, pero más precisa que lo que tenemos hasta ahora). De manera que, si el 50% del polígono que representa a un barrio está dentro del área de influencia (1 km alrededor de la vía), podemos aceptar que el 50% de la población de ese barrio serán potenciales usuarios del ferrocarril. Sumando estas cantidades para todos los barrios involucrados, obtendremos una estimación algo más precisa. Habremos realizado una suma proporcional.</p>
-<p>Para realizar esta operación, vamos a construir una función en PL/pgSQL. Esta función la podremos llamar en una query, igual que cualquier función espacial de PostGIS:</p>
-<div class="highlight-python"><pre>#CREATE OR REPLACE FUNCTION public.proportional_sum(geometry, geometry, numeric)
-RETURNS numeric AS
-$BODY$
-SELECT $3 * areacalc FROM
-   (
-   SELECT (ST_Area(ST_Intersection($1, $2))/ST_Area($2))::numeric AS areacalc
-   ) AS areac;
-$BODY$
-LANGUAGE sql VOLATILE</pre>
-</div>
-<p>Esta función toma como argumentos las dos geometrías a intersectar y el valor total de población del cuál queremos estimar la población proporcional que usará el tren. Devuelve el número con la estimación. La operación que hace es simplemente multiplicar la proporción en la que los barrios se solapan con la zona de interés por la cantidad a <em>proporcionar</em> (la población).</p>
-<p>La llamada a la función es como sigue:</p>
-<div class="highlight-python"><pre># SELECT ROUND(SUM(proportional_sum(a.geom, b.geom, b.population))) FROM
-railway_buffer AS a, barrios_de_bogota as b
-WHERE ST_Intersects(a.geom, b.geom)
-GROUP BY a.gid;</pre>
-</div>
-<p>En este caso, el resultado obtenido es <strong>248217</strong>, que parece más razonable.</p>
-</div>
 </div>
 <div class="section" id="interseccion">
 <h3>Intersección<a class="headerlink" href="#interseccion" title="Permalink to this headline">¶</a></h3>
@@ -117,10 +108,44 @@ GROUP BY a.gid;</pre>
   ST_Buffer('POINT(3 0)', 2)
 ));</pre>
 </div>
+<div class="section" id="practica">
+<h4>Práctica<a class="headerlink" href="#practica" title="Permalink to this headline">¶</a></h4>
+<p>Trabajaremos con la capa honduras_carreteras y edificaciones. Comprobaremos en el estado de Olancho, cuantas casas se encuentran afectadas por el ruido de este tipo de vias. Para determinar si una vivienda se ve afectada por el ruido, tomaremos como valor 500m el mínimo recomendado para vivir alejado de este tipo de vías.</p>
+<p>Primero crearemos una capa con las vias de este tipo que se encuentren en Choluteca:</p>
+<div class="highlight-python"><pre># SELECT * INTO gis.vias1_choluteca
+FROM (
+        SELECT ca.gid, ca.tipo, ca.geom FROM gis.honduras_carreteras as ca,
+        gis.honduras_departamentos as de
+        WHERE ST_Intersects(ca.geom, de.geom)
+        AND de.name_1 like 'Choluteca'
+        AND ca.tipo like 'Primary Route'
+) as foo</pre>
+</div>
+<p>Ahora calcularemos el buffer de 500m para las vías y lo guardaremos en otra tabla:</p>
+<div class="highlight-python"><pre># SELECT * INTO gis.buffer_vias1_choluteca
+FROM (
+        SELECT ca.gid, ca.tipo, ST_Buffer(ca.geom, 500, 'endcap=round join=round')::geometry('POLYGON', 32616) as geom FROM gis.vias1_choluteca as ca
+) as buf</pre>
+</div>
+<p>Y podremos obtener las edificaciones tipo casa que se encuentren a menos de 500m de la via:</p>
+<div class="highlight-python"><pre># SELECT * INTO gis.casas_afectadas
+FROM (
+        SELECT casas_cho.gid, casas_cho.geom
+        FROM  (
+                SELECT ed.gid,ed.geom
+                FROM gis.edificaciones as ed, gis.honduras_departamentos as dep
+                WHERE ST_Intersects(dep.geom, ed.geom)
+                AND ed.tipo = 1
+                AND dep.name_1 like 'Choluteca'
+        ) as casas_cho, gis.buffer_vias1_choluteca as buf
+        WHERE ST_Intersects(buf.geom, casas_cho.geom)
+) as foobar</pre>
+</div>
+</div>
 </div>
 <div class="section" id="union">
 <h3>Unión<a class="headerlink" href="#union" title="Permalink to this headline">¶</a></h3>
-<p>Al contrario que en el caso anterior, la unión produce un una geometría común con las geometrías que se le pasa a la función como argumento. Esta función acepta como parámetro dos opciones, las geometrías que serán unidas:</p>
+<p>Al contrario que en el caso anterior, la unión produce una geometría común con las geometrías que se le pasa a la función como argumento. Esta función acepta como parámetro dos opciones, las geometrías que serán unidas:</p>
 <div class="highlight-python"><pre>ST_Union(Geometría A, Geometría B)</pre>
 </div>
 <p>o una colección de geometrías:</p>
@@ -130,27 +155,21 @@ GROUP BY a.gid;</pre>
 <a class="reference internal image-reference" href="../_images/union.jpg"><img alt="../_images/union.jpg" src="../_images/union.jpg" style="width: 461.0px; height: 133.5px;" /></a>
 <div class="section" id="id1">
 <h4>Práctica<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
-<blockquote>
-<div><p>Tratar de simplificar todos los barrios de Bogotá en un único polígono. El aspecto que presenta la tabla con los barrios de Bogotá es el siguiente:</p>
-<a class="reference internal image-reference" href="../_images/barrios_de_bogota.png"><img alt="../_images/barrios_de_bogota.png" src="../_images/barrios_de_bogota.png" style="width: 212.5px; height: 334.5px;" /></a>
-</div></blockquote>
-<p>Una primera aproximación podría ser usar la versión agregada de <strong>ST_Union</strong>, que toma como entrada un conjunto de geometrías y devuelve la unión de las mismas también como geometría. El conjunto de geometrías lo obtenemos gracias al uso de <em>GROUP BY</em>, que agrupa las filas por un campo común (en este caso, el campo <em>city</em>, que en todos los casos tiene el valor <em>Bogota</em>).</p>
-<p>Usamos adicionalmente la función <strong>ST_SnapToGrid</strong> para ajustar la geometría de salida lo más posible a la rejilla regular definida por su origen y su tamaño de celda.</p>
+<p>Tratar de simplificar todos los municipios de Olancho en un único polígono y comprobar si generan una geometría identica a la de su departamento.</p>
+<p>Para esto se podría usar la versión agregada <strong>ST_Union</strong>, que toma como entrada un conjunto de geometrías y devuelve la unión de las mismas también como geometría.</p>
 <p>La consulta SQL es ésta:</p>
-<div class="highlight-python"><pre>#CREATE TABLE bogota AS
-SELECT ST_Union(ST_SnapToGrid(geom,0.0001))
-FROM barrios_de_bogota
-GROUP BY city;</pre>
+<div class="highlight-python"><pre># SELECT * INTO gis.municipios_olancho
+FROM (
+        SELECT mun.depart as nombre, ST_Union(mun.geom) as geom FROM gis.honduras_municipios as mun,
+        gis.honduras_departamentos as dep
+        WHERE mun.depart like 'Olancho' group by mun.depart
+) as foo</pre>
 </div>
-<p>Y el resultado es el conjunto de polígonos, algo más suavizados:</p>
-<a class="reference internal image-reference" href="../_images/bogota_union1.png"><img alt="../_images/bogota_union1.png" src="../_images/bogota_union1.png" style="width: 211.0px; height: 331.0px;" /></a>
-<p>Si queremos intentar simplificar aun más esta geometría, tendríamos dos opciones:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Utilizar GRASS para obtener una simplificación topológica de la geometría</li>
-<li>Utilizar la extensión <strong>topology</strong> de PostGIS. Aunque ésta es una geometría dificil de unir. No todos los polígonos están unidos y algunos se montan sobre otros, de manera que habría que jugar con el concepto de tolerancia.</li>
-</ul>
-</div></blockquote>
+<p>Para comprobar si son iguales:</p>
+<div class="highlight-python"><pre># SELECT ST_Equals(mun.geom, dep.geom)
+FROM gis.honduras_departamentos as dep, gis.municipios_olancho as mun
+WHERE dep.name_1 like 'Olancho';</pre>
+</div>
 </div>
 </div>
 <div class="section" id="diferencia">
@@ -205,16 +224,46 @@ GROUP BY city;</pre>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># select * from spatial_ref_sys where srid=4326;</span>
 </pre></div>
 </div>
-<p>Para transformar las geometrías en otros sistemas de coordenadas, lo primero que debemos saber es el sistema de coordenadas de origen y el de destino. Hemos de consultar que estos se encuentran en la tabla <tt class="docutils literal"><span class="pre">spatial_ref_sys</span></tt>. En caso de que alguna de nuestras tablas no tenga asignado un SRID, el valor de este será -1, valor por defecto, por lo que habrá que asignarle el sistema de coordenadas antes de la transformación.</p>
-<div class="section" id="id4">
-<h3>Práctica<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Para transformar las geometrías en otros sistemas de coordenadas, lo primero que debemos saber es el sistema de coordenadas de origen y el de destino. Hemos de consultar que estos se encuentran en la tabla <tt class="docutils literal"><span class="pre">spatial_ref_sys</span></tt>. En caso de que alguna de nuestras tablas no tenga asignado un SRID, el valor de este será 0, valor por defecto, por lo que habrá que asignarle el sistema de coordenadas antes de la transformación.</p>
+<div class="section" id="cambio-del-srs-de-una-tabla">
+<h3>Cambio del SRS de una tabla<a class="headerlink" href="#cambio-del-srs-de-una-tabla" title="Permalink to this headline">¶</a></h3>
+<p>Tras la importación de una capa mediante shp2pgsql nos damos cuenta de que en el momento de la carga no se eligió el SRS de la misma por lo que ahora nos aparece con el SRS por defecto 0 (versiones de PostGIS &gt;= 2.0). Para no realizar la importación de nuevo vamos a ver como se puede cambiar el SRS de la capa.</p>
 <blockquote>
-<div><p>¿Cuál es el área total de páramos contenidos en todos los barrios de Bogotá?</p>
-<p>¿Cuál es la longitud del rio más largo que pasa por el barrio de Suba?</p>
-<p>Muestra el nombre de cada barrio junto con la longitud total de ríos que contiene, ordenado por longitud en orden descendiente</p>
-<p>¿Cual es la provincia que más longitud de rios contiene?</p>
-<p>¿Cuál es el área de páramos que contiene <strong>solo</strong> el barrio de San Cristóbal?</p>
+<div><p># UPDATE gis.farmacias SET geom = ST_SetSRID(geom, 32616);</p>
+<p>ERROR:  Geometry SRID (32616) does not match column SRID (4326)</p>
+<p><strong>******</strong> Error <strong>******</strong></p>
+<p>ERROR: Geometry SRID (32616) does not match column SRID (4326)
+SQL state: 22023</p>
 </div></blockquote>
+<p>Esto nos indica que no es posible almacenar en la tabla datos con el SRS 32616 ya que solo permite SRS 4326.</p>
+<p>Podremos modificar el tipo de dato si tiene restricciones que comprueben el SRS mediante la eliminación de la restricción y la recreación de la misma con el nuevo SRS. PostGIS nos ofrece la función <tt class="docutils literal"><span class="pre">updateGeometrySRID</span></tt> que realizaría de manera automática las operaciones anteriores:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># SELECT ST_AsEWKT(way) FROM gis.farmacias;</span>
+
+<span class="s">&quot;SRID=4326;POINT(-87.2238485 14.0978939)&quot;</span>
+
+<span class="c"># SELECT updateGeometrySRID(&#39;gis&#39;,&#39;farmacias&#39;, &#39;way&#39;, 32616);</span>
+
+<span class="c"># SELECT ST_AsEWKT(way) FROM gis.farmacias;</span>
+
+<span class="s">&quot;SRID=32616;POINT(-87.2238485 14.0978939)&quot;</span>
+</pre></div>
+</div>
+<p>Podremos comprobar facilmente que se ha realizado el cambio del sistema de coordenadas, pero también veremos que el valor de las mismas no ha cambiado.</p>
+</div>
+<div class="section" id="reproyeccion-de-la-capa">
+<h3>Reproyección de la capa<a class="headerlink" href="#reproyeccion-de-la-capa" title="Permalink to this headline">¶</a></h3>
+<p>Para realizar la reproyección de una capa disponemos de la función <tt class="docutils literal"><span class="pre">ST_Transform</span></tt>. Si queremos reproyectar una capa podremos hacerlo facilmente transformando las coordenadas y creando con ellas una nueva tabla:</p>
+<div class="highlight-python"><pre># SELECT * INTO gis.farmacias_reproyectadas
+FROM (
+        SELECT osm_id,ST_Transform(way, 32616)  FROM gis.farmacias
+) as foo</pre>
+</div>
+<p>Si lo que queremos es reproyectar la misma capa:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># ALTER TABLE gis.farmacias ALTER COLUMN way TYPE geometry;</span>
+<span class="c"># UPDATE gis.farmacias SET way = ST_Transform(way, 32616);</span>
+<span class="c"># ALTER TABLE gis.farmacias ALTER COLUMN way TYPE geometry(&#39;POINT&#39;, 32616);</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -229,11 +278,11 @@ GROUP BY city;</pre>
   <ul>
 <li><a class="reference internal" href="#">Análisis espacial</a><ul>
 <li><a class="reference internal" href="#operadores-espaciales">Operadores espaciales</a><ul>
-<li><a class="reference internal" href="#buffer">Buffer</a><ul>
+<li><a class="reference internal" href="#buffer">Buffer</a></li>
+<li><a class="reference internal" href="#interseccion">Intersección</a><ul>
 <li><a class="reference internal" href="#practica">Práctica</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#interseccion">Intersección</a></li>
 <li><a class="reference internal" href="#union">Unión</a><ul>
 <li><a class="reference internal" href="#id1">Práctica</a></li>
 </ul>
@@ -244,13 +293,17 @@ GROUP BY city;</pre>
 </ul>
 </li>
 <li><a class="reference internal" href="#transformacion-y-edicion-de-coordenadas">Transformación y edición de coordenadas</a><ul>
-<li><a class="reference internal" href="#id4">Práctica</a></li>
+<li><a class="reference internal" href="#cambio-del-srs-de-una-tabla">Cambio del SRS de una tabla</a></li>
+<li><a class="reference internal" href="#reproyeccion-de-la-capa">Reproyección de la capa</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../postgis-validacion/validacion.html"
+                        title="previous chapter">Validación</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/postgis-analisis-espacial/analisis_espacial.txt"
@@ -279,6 +332,9 @@ GROUP BY city;</pre>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="../postgis-validacion/validacion.html" title="Validación"
+             >previous</a> |</li>
         <li><a href="../index.html">Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
