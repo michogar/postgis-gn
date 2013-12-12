@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation" href="../index.html" />
-    <link rel="next" title="Importación y exportación de datos" href="../postgis-importacion-exportacion/importacion_exportacion.html" />
-    <link rel="prev" title="Ejemplos SFA" href="../postgis-simple-feature-model/ejemplos.html" /> 
+    <link rel="next" title="Relaciones espaciales" href="../postgis-relaciones-espaciales/relaciones_espaciales.html" />
+    <link rel="prev" title="Importación y exportación de datos" href="../postgis-importacion-exportacion/importacion_exportacion.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,10 +35,10 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../postgis-importacion-exportacion/importacion_exportacion.html" title="Importación y exportación de datos"
+          <a href="../postgis-relaciones-espaciales/relaciones_espaciales.html" title="Relaciones espaciales"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../postgis-simple-feature-model/ejemplos.html" title="Ejemplos SFA"
+          <a href="../postgis-importacion-exportacion/importacion_exportacion.html" title="Importación y exportación de datos"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation</a> &raquo;</li> 
       </ul>
@@ -120,9 +120,8 @@
 <blockquote>
 <div><p># select count(*) from suelos su, rios ri where (su.geom &amp;&amp; ri.geom)</p>
 <blockquote>
-<div>count</div></blockquote>
-<blockquote>
-<div>12739</div></blockquote>
+<div>count
+12739</div></blockquote>
 </div></blockquote>
 <p>En este último caso ha tardad muy pocos segundos.</p>
 <p>Si eliminamos los índices y repetimos la consulta, veremos que el tiempo de cálculo se incrementa</p>
@@ -147,18 +146,16 @@ VACUUM ANALYZE [Nombre_tabla] ([Nombre_columna])</pre>
 <p>Para utilizar el planificador:</p>
 <div class="highlight-python"><pre>EXPLAIN [ ANALYZE ] [ VERBOSE ] sentenciaSQL</pre>
 </div>
-<ul>
-<li><p class="first">ANALYZE ejecuta la consulta y muestra el plan de la misma mientras que si no se indica, PostgreSQL realiza una aproximación:</p>
+<p>ANALYZE ejecuta la consulta y muestra el plan de la misma mientras que si no se indica, PostgreSQL realiza una aproximación:</p>
 <blockquote>
 <div><p># explain analyze select count(*) from suelos su, rios ri where (su.geom &amp;&amp; ri.geom)</p>
 <dl class="docutils">
 <dt>Aggregate  (cost=415523.85..415523.86 rows=1 width=0) (actual time=27952.663..27952.664 rows=1 loops=1)</dt>
 <dd><dl class="first last docutils">
 <dt>-&gt;  Nested Loop  (cost=0.00..415494.59 rows=11703 width=0) (actual time=2.200..27944.733 rows=12379 loops=1)</dt>
-<dd><p class="first last">Join Filter: (su.geom &amp;&amp; ri.geom)
+<dd>Join Filter: (su.geom &amp;&amp; ri.geom)
 -&gt;  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.007..2.607 rows=3871 loops=1)
--&gt;  Seq Scan on rios ri  (cost=0.00..82.09 rows=2009 width=832) (actual time=0.002..0.958 rows=2009 loops=3871)</p>
-</dd>
+-&gt;  Seq Scan on rios ri  (cost=0.00..82.09 rows=2009 width=832) (actual time=0.002..0.958 rows=2009 loops=3871)</dd>
 </dl>
 </dd>
 </dl>
@@ -172,16 +169,13 @@ VACUUM ANALYZE [Nombre_tabla] ([Nombre_columna])</pre>
 <dd><p class="first">-&gt;  Seq Scan on suelos su  (cost=0.00..513.71 rows=3871 width=6752) (actual time=0.005..2.644 rows=3871 loops=1)
 <strong>-&gt;  Index Scan using rios_geom_gist on rios ri</strong>  (cost=0.00..0.35 rows=1 width=832) (actual time=0.035..0.045 rows=3 loops=3871)</p>
 <blockquote class="last">
-<div><p>Index Cond: (su.geom &amp;&amp; geom)&#8221;</p>
-</div></blockquote>
+<div>Index Cond: (su.geom &amp;&amp; geom)&#8221;</div></blockquote>
 </dd>
 </dl>
 </dd>
 </dl>
 <p>Total runtime: 218.310 ms</p>
 </div></blockquote>
-</li>
-</ul>
 </div>
 <div class="section" id="operador-embebido">
 <h2>Operador embebido<a class="headerlink" href="#operador-embebido" title="Permalink to this headline">¶</a></h2>
@@ -247,11 +241,11 @@ OWNER TO alumno;</pre>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../postgis-simple-feature-model/ejemplos.html"
-                        title="previous chapter">Ejemplos SFA</a></p>
-  <h4>Next topic</h4>
   <p class="topless"><a href="../postgis-importacion-exportacion/importacion_exportacion.html"
-                        title="next chapter">Importación y exportación de datos</a></p>
+                        title="previous chapter">Importación y exportación de datos</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../postgis-relaciones-espaciales/relaciones_espaciales.html"
+                        title="next chapter">Relaciones espaciales</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/postgis-indexacion-espacial/indexacion_espacial.txt"
@@ -281,10 +275,10 @@ OWNER TO alumno;</pre>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../postgis-importacion-exportacion/importacion_exportacion.html" title="Importación y exportación de datos"
+          <a href="../postgis-relaciones-espaciales/relaciones_espaciales.html" title="Relaciones espaciales"
              >next</a> |</li>
         <li class="right" >
-          <a href="../postgis-simple-feature-model/ejemplos.html" title="Ejemplos SFA"
+          <a href="../postgis-importacion-exportacion/importacion_exportacion.html" title="Importación y exportación de datos"
              >previous</a> |</li>
         <li><a href="../index.html">Curso de PostGIS 2.0 - PATHII, Tegucigalpa 2013 1.0 documentation</a> &raquo;</li> 
       </ul>
