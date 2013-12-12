@@ -219,3 +219,26 @@ Si lo que queremos es reproyectar la misma capa::
 	# ALTER TABLE gis.farmacias ALTER COLUMN way TYPE geometry;
 	# UPDATE gis.farmacias SET way = ST_Transform(way, 32616);
 	# ALTER TABLE gis.farmacias ALTER COLUMN way TYPE geometry('POINT', 32616);
+	
+Simplificacióon de geometrías
+=============================
+
+``ST_RemoveRepeatedPoints(geom)``, elimina los puntos repetidos de los vértices. En el modelo usado por PostGIS se permiten vertices con puntos repetidos.
+::
+	
+	# SELECT ST_AsText(ST_RemoveRepeatedPoints('LINESTRING(0 0, 1 0, 1 0, 3 0, 3 0, 6 0, 8 0)');
+		
+	"LINESTRING(0 0, 1 0, 3 0, 6 0, 8 0)"
+		
+``ST_SnapToGrid(geom)``, realiza un redondeo de las coordenadas de los vértices de una geometría. Además el uso de esta función elimina los vértices que se encuentran en una misma celda. Para realizar el proceso se utiliza una rejilla que se pasa a la función como parte de los parámetros.
+
+	# SELECT st_isvalid(geom) FROM gis.honduras;
+
+	# SELECT * INTO gis.honduras_snap
+	FROM (select st_snaptogrid(geom, 100)::geometry('MULTIPOLYGON', 32616) as geom from gis.honduras) as foo
+
+	# SELECT sum(st_npoints(geom)) FROM gis.honduras_snap
+	
+	# SELECT st_isvalid(geom) FROM gis.honduras_snap;
+	
+Otras herramientas de simplificación de geometrías son ``ST_Simplify`` y ``ST_SimplifyPreserveTopology``
