@@ -274,14 +274,16 @@ FROM (
 <span class="s">&quot;LINESTRING(0 0, 1 0, 3 0, 6 0, 8 0)&quot;</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">ST_SnapToGrid(geom)</span></tt>, realiza un redondeo de las coordenadas de los vértices de una geometría. Además el uso de esta función elimina los vértices que se encuentran en una misma celda. Para realizar el proceso se utiliza una rejilla que se pasa a la función como parte de los parámetros.</p>
-<blockquote>
-<div><p># SELECT st_isvalid(geom) FROM gis.honduras;</p>
-<p># SELECT * INTO gis.honduras_snap
-FROM (select st_snaptogrid(geom, 100)::geometry(&#8216;MULTIPOLYGON&#8217;, 32616) as geom from gis.honduras) as foo</p>
-<p># SELECT sum(st_npoints(geom)) FROM gis.honduras_snap</p>
-<p># SELECT st_isvalid(geom) FROM gis.honduras_snap;</p>
-</div></blockquote>
+<p><tt class="docutils literal"><span class="pre">ST_SnapToGrid(geom)</span></tt>, realiza un redondeo de las coordenadas de los vértices de una geometría. Además el uso de esta función elimina los vértices que se encuentran en una misma celda. Para realizar el proceso se utiliza una rejilla que se pasa a la función como parte de los parámetros:</p>
+<div class="highlight-python"><pre># SELECT st_isvalid(geom) FROM gis.honduras;
+
+# SELECT * INTO gis.honduras_snap
+FROM (select st_snaptogrid(geom, 100)::geometry('MULTIPOLYGON', 32616) as geom from gis.honduras) as foo
+
+# SELECT sum(st_npoints(geom)) FROM gis.honduras_snap
+
+# SELECT st_isvalid(geom) FROM gis.honduras_snap;</pre>
+</div>
 <p>Otras herramientas de simplificación de geometrías son <tt class="docutils literal"><span class="pre">ST_Simplify</span></tt> y <tt class="docutils literal"><span class="pre">ST_SimplifyPreserveTopology</span></tt></p>
 </div>
 </div>
