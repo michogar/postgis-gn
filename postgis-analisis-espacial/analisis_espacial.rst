@@ -230,7 +230,7 @@ Simplificacióon de geometrías
 		
 	"LINESTRING(0 0, 1 0, 3 0, 6 0, 8 0)"
 		
-``ST_SnapToGrid(geom)``, realiza un redondeo de las coordenadas de los vértices de una geometría. Además el uso de esta función elimina los vértices que se encuentran en una misma celda. Para realizar el proceso se utiliza una rejilla que se pasa a la función como parte de los parámetros.
+``ST_SnapToGrid(geom)``, realiza un redondeo de las coordenadas de los vértices de una geometría. Además el uso de esta función elimina los vértices que se encuentran en una misma celda. Para realizar el proceso se utiliza una rejilla que se pasa a la función como parte de los parámetros::
 
 	# SELECT st_isvalid(geom) FROM gis.honduras;
 
