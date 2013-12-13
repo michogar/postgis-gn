@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Metadata generated with CatMDEdit version 4.6.6-->
+<gmd:MD_Metadata xmlns:gco="http://www.isotc211.org/2005/gco"
+    xmlns:gmd="http://www.isotc211.org/2005/gmd"
+    xmlns:gml="http://www.opengis.net/gml"
+    xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <gmd:fileIdentifier>
+        <gco:CharacterString>NOHME_HN_PRUEBA</gco:CharacterString>
+    </gmd:fileIdentifier>
+    <gmd:language>
+        <gmd:LanguageCode
+            codeList="./resources/codeList.xml#LanguageCode" codeListValue="spa">spa</gmd:LanguageCode>
+    </gmd:language>
+    <gmd:characterSet gco:nilReason="inapplicable"/>
+    <gmd:parentIdentifier gco:nilReason="inapplicable"/>
+    <gmd:hierarchyLevel>
+        <gmd:MD_ScopeCode
+            codeList="./resources/codeList.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+    </gmd:hierarchyLevel>
+    <gmd:hierarchyLevelName gco:nilReason="inapplicable"/>
+    <gmd:contact>
+        <gmd:CI_ResponsibleParty>
+            <gmd:individualName>
+                <gco:CharacterString>PRUEBA</gco:CharacterString>
+            </gmd:individualName>
+            <gmd:organisationName>
+                <gco:CharacterString>PRUEBA</gco:CharacterString>
+            </gmd:organisationName>
+            <gmd:positionName>
+                <gco:CharacterString>PRUEBA</gco:CharacterString>
+            </gmd:positionName>
+            <gmd:role>
+                <gmd:CI_RoleCode
+                    codeList="./resources/codeList.xml#CI_RoleCode" codeListValue="originator">originator</gmd:CI_RoleCode>
+            </gmd:role>
+        </gmd:CI_ResponsibleParty>
+    </gmd:contact>
+    <gmd:dateStamp>
+        <gco:Date>2013-12-12</gco:Date>
+    </gmd:dateStamp>
+    <gmd:metadataStandardName>
+        <gco:CharacterString>ISO 19115</gco:CharacterString>
+    </gmd:metadataStandardName>
+    <gmd:metadataStandardVersion>
+        <gco:CharacterString>ISO19115:2003/Cor 1 2006</gco:CharacterString>
+    </gmd:metadataStandardVersion>
+    <gmd:identificationInfo>
+        <gmd:MD_DataIdentification>
+            <gmd:citation>
+                <gmd:CI_Citation>
+                    <gmd:title>
+                        <gco:CharacterString>PRUEBA</gco:CharacterString>
+                    </gmd:title>
+                    <gmd:date>
+                        <gmd:CI_Date>
+                            <gmd:date>
+                                <gco:Date>2013-12-12</gco:Date>
+                            </gmd:date>
+                            <gmd:dateType>
+                                <gmd:CI_DateTypeCode
+                                    codeList="./resources/codeList.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                            </gmd:dateType>
+                        </gmd:CI_Date>
+                    </gmd:date>
+                </gmd:CI_Citation>
+            </gmd:citation>
+            <gmd:abstract>
+                <gco:CharacterString>PRUEBA</gco:CharacterString>
+            </gmd:abstract>
+            <gmd:purpose>
+                <gco:CharacterString>PRUEBA</gco:CharacterString>
+            </gmd:purpose>
+            <gmd:language>
+                <gmd:LanguageCode
+                    codeList="./resources/codeList.xml#LanguageCode" codeListValue="spa">spa</gmd:LanguageCode>
+            </gmd:language>
+            <gmd:characterSet gco:nilReason="inapplicable"/>
+            <gmd:topicCategory gco:nilReason="inapplicable"/>
+            <gmd:extent gco:nilReason="inapplicable"/>
+        </gmd:MD_DataIdentification>
+    </gmd:identificationInfo>
+</gmd:MD_Metadata>

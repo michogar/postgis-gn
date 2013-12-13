@@ -1,0 +1,1084 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmd:MD_Metadata xmlns:gmd="http://www.isotc211.org/2005/gmd"
+                 xmlns:gts="http://www.isotc211.org/2005/gts"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:gml="http://www.opengis.net/gml"
+                 xmlns:gco="http://www.isotc211.org/2005/gco"
+                 xmlns:xlink="http://www.w3.org/1999/xlink"
+                 xmlns:geonet="http://www.fao.org/geonetwork"
+                 xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd">
+  <gmd:fileIdentifier>
+      <gco:CharacterString>06bf035e-2f99-40c1-a98b-f9fb4b8934da</gco:CharacterString>
+  </gmd:fileIdentifier>
+  <gmd:language>
+      <gco:CharacterString>spa</gco:CharacterString>
+  </gmd:language>
+  <gmd:characterSet>
+      <gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CharacterSetCode"
+                               codeListValue="utf8"/>
+  </gmd:characterSet>
+  <gmd:hierarchyLevel>
+      <gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ScopeCode"
+                        codeListValue="series"/>
+  </gmd:hierarchyLevel>
+  <gmd:contact>
+      <gmd:CI_ResponsibleParty>
+         <gmd:organisationName>
+            <gco:CharacterString>Ministerio de Agricultura, Alimentación y Medio Ambiente (MAGRAMA)</gco:CharacterString>
+         </gmd:organisationName>
+         <gmd:positionName>
+            <gco:CharacterString>Subdirección General de Medios de Producción Agrícolas y Oficina Española de Variedades Vegetales (MPAYOEVV)</gco:CharacterString>
+         </gmd:positionName>
+         <gmd:contactInfo>
+            <gmd:CI_Contact>
+               <gmd:address>
+                  <gmd:CI_Address>
+                     <gmd:deliveryPoint>
+                        <gco:CharacterString>C/ Almagro, 33</gco:CharacterString>
+                     </gmd:deliveryPoint>
+                     <gmd:city>
+                        <gco:CharacterString>Madrid</gco:CharacterString>
+                     </gmd:city>
+                     <gmd:administrativeArea>
+                        <gco:CharacterString>Madrid</gco:CharacterString>
+                     </gmd:administrativeArea>
+                     <gmd:postalCode>
+                        <gco:CharacterString>28010</gco:CharacterString>
+                     </gmd:postalCode>
+                     <gmd:country>
+                        <gco:CharacterString>España</gco:CharacterString>
+                     </gmd:country>
+                     <gmd:electronicMailAddress>
+                        <gco:CharacterString>mpayoevv@magrama.es</gco:CharacterString>
+                     </gmd:electronicMailAddress>
+                  </gmd:CI_Address>
+               </gmd:address>
+               <gmd:onlineResource>
+                  <gmd:CI_OnlineResource>
+                     <gmd:linkage>
+                        <gmd:URL>http://www.magrama.gob.es</gmd:URL>
+                     </gmd:linkage>
+                  </gmd:CI_OnlineResource>
+               </gmd:onlineResource>
+            </gmd:CI_Contact>
+         </gmd:contactInfo>
+         <gmd:role>
+            <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"
+                             codeListValue="originator"/>
+         </gmd:role>
+      </gmd:CI_ResponsibleParty>
+  </gmd:contact>
+  <gmd:dateStamp>
+      <gco:Date>2011-09-01</gco:Date>
+  </gmd:dateStamp>
+  <gmd:metadataStandardName>
+      <gco:CharacterString>ISO19115 - Perfil INSPIRE</gco:CharacterString>
+  </gmd:metadataStandardName>
+  <gmd:metadataStandardVersion>
+      <gco:CharacterString>2003/Cor.1:2006</gco:CharacterString>
+  </gmd:metadataStandardVersion>
+  <gmd:referenceSystemInfo>
+      <gmd:MD_ReferenceSystem>
+         <gmd:referenceSystemIdentifier>
+            <gmd:RS_Identifier>
+               <gmd:code>
+                  <gco:CharacterString>EPSG:25830-Proyección UTM ETRS89 Huso 30 N</gco:CharacterString>
+               </gmd:code>
+            </gmd:RS_Identifier>
+         </gmd:referenceSystemIdentifier>
+      </gmd:MD_ReferenceSystem>
+  </gmd:referenceSystemInfo>
+  <gmd:identificationInfo>
+      <gmd:MD_DataIdentification>
+         <gmd:citation>
+            <gmd:CI_Citation>
+               <gmd:title>
+                  <gco:CharacterString>NDVI medio mensual: índices de vegetación medios del mes de enero del año 2008</gco:CharacterString>
+               </gmd:title>
+               <gmd:alternateTitle>
+                  <gco:CharacterString>NDVI medio mensual sin máscara del mes de enero del año 2008</gco:CharacterString>
+               </gmd:alternateTitle>
+               <gmd:date>
+                  <gmd:CI_Date>
+                     <gmd:date>
+                        <gco:Date>2008-01-01</gco:Date>
+                     </gmd:date>
+                     <gmd:dateType>
+                        <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                             codeListValue="creation"/>
+                     </gmd:dateType>
+                  </gmd:CI_Date>
+               </gmd:date>
+               <gmd:identifier>
+                  <gmd:MD_Identifier>
+                     <gmd:code>
+                        <gco:CharacterString>ESMAGRAMANDVIMEDIOMENSUALSINMASCARA0108201109010108</gco:CharacterString>
+                     </gmd:code>
+                  </gmd:MD_Identifier>
+               </gmd:identifier>
+               <gmd:citedResponsibleParty>
+                  <gmd:CI_ResponsibleParty>
+                     <gmd:organisationName>
+                        <gco:CharacterString>Ministerio de Agricultura, Alimentación y Medio Ambiente (MAGRAMA)</gco:CharacterString>
+                     </gmd:organisationName>
+                     <gmd:positionName>
+                        <gco:CharacterString>Subdirección General de Medios de Producción Agrícolas y Oficina Española de Variedades Vegetales (MPAYOEVV)</gco:CharacterString>
+                     </gmd:positionName>
+                     <gmd:contactInfo>
+                        <gmd:CI_Contact>
+                           <gmd:address>
+                              <gmd:CI_Address>
+                                 <gmd:deliveryPoint>
+                                    <gco:CharacterString>C/ Almagro, 33</gco:CharacterString>
+                                 </gmd:deliveryPoint>
+                                 <gmd:city>
+                                    <gco:CharacterString>Madrid</gco:CharacterString>
+                                 </gmd:city>
+                                 <gmd:administrativeArea>
+                                    <gco:CharacterString>Madrid</gco:CharacterString>
+                                 </gmd:administrativeArea>
+                                 <gmd:postalCode>
+                                    <gco:CharacterString>28010</gco:CharacterString>
+                                 </gmd:postalCode>
+                                 <gmd:country>
+                                    <gco:CharacterString>España</gco:CharacterString>
+                                 </gmd:country>
+                                 <gmd:electronicMailAddress>
+                                    <gco:CharacterString>mpayoevv@magrama.es</gco:CharacterString>
+                                 </gmd:electronicMailAddress>
+                              </gmd:CI_Address>
+                           </gmd:address>
+                           <gmd:onlineResource>
+                              <gmd:CI_OnlineResource>
+                                 <gmd:linkage>
+                                    <gmd:URL>http://www.magrama.gob.es</gmd:URL>
+                                 </gmd:linkage>
+                              </gmd:CI_OnlineResource>
+                           </gmd:onlineResource>
+                        </gmd:CI_Contact>
+                     </gmd:contactInfo>
+                     <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"
+                                         codeListValue="custodian"/>
+                     </gmd:role>
+                  </gmd:CI_ResponsibleParty>
+               </gmd:citedResponsibleParty>
+               <gmd:presentationForm>
+                  <gmd:CI_PresentationFormCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_PresentationFormCode"
+                                               codeListValue="mapDigital"/>
+               </gmd:presentationForm>
+            </gmd:CI_Citation>
+         </gmd:citation>
+         <gmd:abstract>
+            <gco:CharacterString>El conjunto de datos ráster de índices de vegetación medios mensuales de NDVI (Indice de Vegetación de Diferencias Normalizado) del mes de enero del año 2008, del estudio de Seguimiento de la Evolución Anual de cultivos y Aprovechamientos contiene el mapas con el índice de vegetación con el valor medio del mes de enero del año 2008 para toda la superficie de las comarcas estudiadas. 
+				Para la obtención de los resultados, el Ministerio de Agricultura, Alimentación y Medio Ambiente (MAGRAMA) dispone de un sistema para el seguimiento de la evolución de los cultivos de secano y pastizales, basado fundamentalmente en la información proporcionada por los índices de vegetación (NDVI) generados con imágenes de satélite diarias NOAA-AVHRR. Este sistema, está en funcionamiento desde 1993, presta especial atención a la detección y localización de situaciones de sequía a lo largo de las sucesivas campañas agrícolas, con objeto de prever las medidas que sean necesarias tomar para paliar sus efectos. El sistema está en funcionamiento entre los meses de enero y junio, período en el cual se desarrollan los cultivos estudiados. 
+				El estudio se lleva a cabo en las comunidades autónomas de Navarra, Aragón, Cataluña, Castilla y León, La Rioja, Madrid, Castilla-La Mancha, Comunidad Valenciana, Andalucía, Región Murciana, Extremadura y Baleares, pues son las que comprenden en la práctica la totalidad de los cultivos de secano y los pastizales.</gco:CharacterString>
+         </gmd:abstract>
+         <gmd:purpose>
+            <gco:CharacterString>La aportación principal del sistema de seguimiento de la evolución de los cultivos de secano y pastizales es la de ofrecer criterios objetivos para la descripción del estado de los cultivos, permitiendo la realización de comparaciones entre zonas y temporales, así como aportar información sobre la variabilidad geográfica del fenómeno, hecho que escapa generalmente a los recursos meteorológicos tradicionales. Los índices de vegetación medios del mes se generan en las primeras fases del seguimiento de los cultivos.</gco:CharacterString>
+         </gmd:purpose>
+         <gmd:credit>
+            <gco:CharacterString>· La Agencia Estatal de Meteorología (AEMET), antiguo Instituto Meteorológico Nacional, aportando las series de datos termométricos (1803 estaciones) y pluviométricos (4189 estaciones).
+				· Laboratorio de Teledetección de la Universidad de Valladolid, suministrando las imágenes de satélite diarias.</gco:CharacterString>
+         </gmd:credit>
+         <gmd:pointOfContact>
+            <gmd:CI_ResponsibleParty>
+               <gmd:organisationName>
+                  <gco:CharacterString>Ministerio de Agricultura, Alimentación y Medio Ambiente (MAGRAMA) - Subdirección General de Medios de Producción Agrícolas y Oficina Española de Variedades Vegetales (MPAYOEVV)</gco:CharacterString>
+               </gmd:organisationName>
+               <gmd:contactInfo>
+                  <gmd:CI_Contact>
+                     <gmd:address>
+                        <gmd:CI_Address>
+                           <gmd:deliveryPoint>
+                              <gco:CharacterString>C/ Almagro, 33</gco:CharacterString>
+                           </gmd:deliveryPoint>
+                           <gmd:city>
+                              <gco:CharacterString>Madrid</gco:CharacterString>
+                           </gmd:city>
+                           <gmd:administrativeArea>
+                              <gco:CharacterString>Madrid</gco:CharacterString>
+                           </gmd:administrativeArea>
+                           <gmd:postalCode>
+                              <gco:CharacterString>28010</gco:CharacterString>
+                           </gmd:postalCode>
+                           <gmd:country>
+                              <gco:CharacterString>España</gco:CharacterString>
+                           </gmd:country>
+                           <gmd:electronicMailAddress>
+                              <gco:CharacterString>mpayoevv@magrama.es</gco:CharacterString>
+                           </gmd:electronicMailAddress>
+                        </gmd:CI_Address>
+                     </gmd:address>
+                  </gmd:CI_Contact>
+               </gmd:contactInfo>
+               <gmd:role>
+                  <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode"
+                                   codeListValue="pointOfContact"/>
+               </gmd:role>
+            </gmd:CI_ResponsibleParty>
+         </gmd:pointOfContact>
+         <gmd:resourceMaintenance>
+            <gmd:MD_MaintenanceInformation>
+               <gmd:maintenanceAndUpdateFrequency>
+                  <gmd:MD_MaintenanceFrequencyCode codeList="http://www.isotc211.org/2005/resources/gmxCodeLists.xml#MD_MaintenanceFrequencyCode"
+                                                   codeListValue="asNeeded"/>
+               </gmd:maintenanceAndUpdateFrequency>
+            </gmd:MD_MaintenanceInformation>
+         </gmd:resourceMaintenance>
+         <gmd:graphicOverview xmlns:srv="http://www.isotc211.org/2005/srv">
+            <gmd:MD_BrowseGraphic>
+               <gmd:fileName>
+                  <gco:CharacterString>ESMAGRAMANDVIMEDIOMENSUALSINMASCARA0108201109010108_vInspire_s.png</gco:CharacterString>
+               </gmd:fileName>
+               <gmd:fileDescription>
+                  <gco:CharacterString>thumbnail</gco:CharacterString>
+               </gmd:fileDescription>
+               <gmd:fileType>
+                  <gco:CharacterString>png</gco:CharacterString>
+               </gmd:fileType>
+            </gmd:MD_BrowseGraphic>
+         </gmd:graphicOverview>
+         <gmd:graphicOverview xmlns:srv="http://www.isotc211.org/2005/srv">
+            <gmd:MD_BrowseGraphic>
+               <gmd:fileName>
+                  <gco:CharacterString>ESMAGRAMANDVIMEDIOMENSUALSINMASCARA0108201109010108_vInspire.png</gco:CharacterString>
+               </gmd:fileName>
+               <gmd:fileDescription>
+                  <gco:CharacterString>large_thumbnail</gco:CharacterString>
+               </gmd:fileDescription>
+               <gmd:fileType>
+                  <gco:CharacterString>png</gco:CharacterString>
+               </gmd:fileType>
+            </gmd:MD_BrowseGraphic>
+         </gmd:graphicOverview>
+         <gmd:descriptiveKeywords>
+            <gmd:MD_Keywords>
+               <gmd:keyword>
+                  <gco:CharacterString>Land cover</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Cubierta terrestre</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Land use</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Uso del suelo</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:thesaurusName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>2008-05-12</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                   codeListValue="publication"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:thesaurusName>
+            </gmd:MD_Keywords>
+         </gmd:descriptiveKeywords>
+         <gmd:descriptiveKeywords>
+            <gmd:MD_Keywords>
+               <gmd:keyword>
+                  <gco:CharacterString>Human activities and products</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Effects on the environment</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Resources(utilisation of resources)</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Resource utilisation</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Land use</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Social aspects</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Environmental policy measures</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Research</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Sciences</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Environmental data</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Geo-referenced data</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Land cover</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Aspectos sociales</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Política ambiental</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Medidas</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Investigación</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Ciencias</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Datos ambientales</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Datos de referencia geográfica</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Cubierta terrestre</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Actividades y productos humanos</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Efectos sobre el medio ambiente</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Recursos (uso de los recursos)</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Aprovechamiento de recursos</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Uso del suelo</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Parámetro</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Índice</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Índice ambiental</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Información</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Educación</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Cultura</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Conciencia ambiental</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Documentación</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Documento</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Tipo de documento</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Proyección geográfica</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Mapas</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Medio natural</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Medio antrópico</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Biosfera (organismos, ecosistemas)</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Biosfera</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Ecología</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Sinecología</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Comunidad ecológica</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Comunidad vegetal</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Vegetación</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Nivel de vegetación</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Atmósfera (aire, clima)</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Clima</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Fenómenos meteorológicos</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Sequías</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Agricultura</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Silvicultura</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Cría de animales</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Pesca</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Métodos agrícolas</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Técnica de cultivo</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Agricultura de secano</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:thesaurusName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>GEMET</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>2010-01-13</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                   codeListValue="publication"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:thesaurusName>
+            </gmd:MD_Keywords>
+         </gmd:descriptiveKeywords>
+         <gmd:descriptiveKeywords>
+            <gmd:MD_Keywords>
+               <gmd:keyword>
+                  <gco:CharacterString>España</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:thesaurusName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>EuropeanTerritorialUnits</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>2009-09-16</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                   codeListValue="publication"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:thesaurusName>
+            </gmd:MD_Keywords>
+         </gmd:descriptiveKeywords>
+         <gmd:descriptiveKeywords>
+            <gmd:MD_Keywords>
+               <gmd:keyword>
+                  <gco:CharacterString>Agricultura en general</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Agricultura - aspectos generales</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Recursos naturales</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Recursos no renovables</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Recursos de la tierra</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Tierras de pastoreo</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Pastizales</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:thesaurusName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>AGROVOC</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>2008-04-14</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                   codeListValue="publication"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:thesaurusName>
+            </gmd:MD_Keywords>
+         </gmd:descriptiveKeywords>
+         <gmd:descriptiveKeywords>
+            <gmd:MD_Keywords>
+               <gmd:keyword>
+                  <gco:CharacterString>SIGA</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Actividad vegetativa</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Índice de vegetación medio mensual</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Evolución de cultivos y aprovechamientos</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Índice de Vegetación de Diferencias Normalizado</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>NDVI</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Cultivos secano</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Campaña agrícola</gco:CharacterString>
+               </gmd:keyword>
+               <gmd:keyword>
+                  <gco:CharacterString>Índice de vegetación</gco:CharacterString>
+               </gmd:keyword>
+            </gmd:MD_Keywords>
+         </gmd:descriptiveKeywords>
+         <gmd:resourceSpecificUsage>
+            <gmd:MD_Usage>
+               <gmd:specificUsage>
+                  <gco:CharacterString>La aplicación más inmediata de este trabajo es el seguimiento de la evolución de las cosechas, sirviendo como instrumento para la toma de decisiones. Otras aplicaciones están en el campo de los seguros agrarios, como método de predicción y contrastación, así como en estudios de productividad para valoraciones agrarias y tasaciones.</gco:CharacterString>
+               </gmd:specificUsage>
+               <gmd:userContactInfo>
+                  <gmd:CI_ResponsibleParty>
+                     <gmd:organisationName>
+                        <gco:CharacterString>Ministerio de Agricultura, Alimentación y Medio Ambiente (MAGRAMA)</gco:CharacterString>
+                     </gmd:organisationName>
+                     <gmd:role>
+                        <gmd:CI_RoleCode codeList="./resources/codeList.xml#CI_RoleCode" codeListValue="originator">originator</gmd:CI_RoleCode>
+                     </gmd:role>
+                  </gmd:CI_ResponsibleParty>
+               </gmd:userContactInfo>
+            </gmd:MD_Usage>
+         </gmd:resourceSpecificUsage>
+         <gmd:resourceConstraints>
+            <gmd:MD_LegalConstraints>
+               <gmd:useLimitation>
+                  <gco:CharacterString>Nombrar a la fuente.</gco:CharacterString>
+               </gmd:useLimitation>
+               <gmd:accessConstraints>
+                  <gmd:MD_RestrictionCode codeListValue="copyright"
+                                          codeList="http:/www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode"/>
+               </gmd:accessConstraints>
+               <gmd:accessConstraints>
+                  <gmd:MD_RestrictionCode codeListValue="intellectualPropertyRights"
+                                          codeList="http:/www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode"/>
+               </gmd:accessConstraints>
+               <gmd:useConstraints>
+                  <gmd:MD_RestrictionCode codeListValue="copyright"
+                                          codeList="http:/www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode"/>
+               </gmd:useConstraints>
+               <gmd:useConstraints>
+                  <gmd:MD_RestrictionCode codeListValue="intellectualPropertyRights"
+                                          codeList="http:/www.isotc211.org/2005/resources/codeList.xml#MD_RestrictionCode"/>
+               </gmd:useConstraints>
+            </gmd:MD_LegalConstraints>
+         </gmd:resourceConstraints>
+         <gmd:resourceConstraints>
+            <gmd:MD_SecurityConstraints>
+               <gmd:classification>
+                  <gmd:MD_ClassificationCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ClassificationCode"
+                                             codeListValue="unclassified"/>
+               </gmd:classification>
+            </gmd:MD_SecurityConstraints>
+         </gmd:resourceConstraints>
+         <gmd:aggregationInfo>
+            <gmd:MD_AggregateInformation>
+               <gmd:aggregateDataSetName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>NDVI medio secano: índices de vegetación medios del mes para las zonas de cultivos de secano y pastizales</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>2001-01-01</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                   codeListValue="creation"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:aggregateDataSetName>
+               <gmd:aggregateDataSetIdentifier>
+                  <gmd:MD_Identifier>
+                     <gmd:code>
+                        <gco:CharacterString>ESMAGRAMANDVIMEDIOMENSUAL201101260000</gco:CharacterString>
+                     </gmd:code>
+                  </gmd:MD_Identifier>
+               </gmd:aggregateDataSetIdentifier>
+               <gmd:associationType>
+                  <gmd:DS_AssociationTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_AssociationTypeCode"
+                                              codeListValue="crossReference"/>
+               </gmd:associationType>
+               <gmd:initiativeType>
+                  <gmd:DS_InitiativeTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_InitiativeTypeCode"
+                                             codeListValue="process"/>
+               </gmd:initiativeType>
+            </gmd:MD_AggregateInformation>
+         </gmd:aggregationInfo>
+         <gmd:aggregationInfo>
+            <gmd:MD_AggregateInformation>
+               <gmd:aggregateDataSetName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>Diferencias NDVI: comparativa entre los índices de vegetación del mes del año actual y los de la media histórica</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>2001-01-01</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                   codeListValue="creation"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:aggregateDataSetName>
+               <gmd:aggregateDataSetIdentifier>
+                  <gmd:MD_Identifier>
+                     <gmd:code>
+                        <gco:CharacterString>ESMAGRAMADIFERENCIASNDVI201101270000</gco:CharacterString>
+                     </gmd:code>
+                  </gmd:MD_Identifier>
+               </gmd:aggregateDataSetIdentifier>
+               <gmd:associationType>
+                  <gmd:DS_AssociationTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_AssociationTypeCode"
+                                              codeListValue="crossReference"/>
+               </gmd:associationType>
+               <gmd:initiativeType>
+                  <gmd:DS_InitiativeTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_InitiativeTypeCode"
+                                             codeListValue="process"/>
+               </gmd:initiativeType>
+            </gmd:MD_AggregateInformation>
+         </gmd:aggregationInfo>
+         <gmd:aggregationInfo>
+            <gmd:MD_AggregateInformation>
+               <gmd:aggregateDataSetName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>Diferencias acumuladas NDVI: comparativa entre los índices de vegetación acumulados del año actual y los de la media histórica</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>2001-06-01</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                   codeListValue="creation"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:aggregateDataSetName>
+               <gmd:aggregateDataSetIdentifier>
+                  <gmd:MD_Identifier>
+                     <gmd:code>
+                        <gco:CharacterString>ESMAGRAMADIFERENCIASACUMULADASNDVI201101270000</gco:CharacterString>
+                     </gmd:code>
+                  </gmd:MD_Identifier>
+               </gmd:aggregateDataSetIdentifier>
+               <gmd:associationType>
+                  <gmd:DS_AssociationTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_AssociationTypeCode"
+                                              codeListValue="crossReference"/>
+               </gmd:associationType>
+               <gmd:initiativeType>
+                  <gmd:DS_InitiativeTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_InitiativeTypeCode"
+                                             codeListValue="process"/>
+               </gmd:initiativeType>
+            </gmd:MD_AggregateInformation>
+         </gmd:aggregationInfo>
+         <gmd:aggregationInfo>
+            <gmd:MD_AggregateInformation>
+               <gmd:aggregateDataSetName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>Diferencias comarcales: diferencias medias relativas de los índices de vegetación acumulados del año actual y los de la media histórica, por comarca agraria</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>2001-06-01</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                   codeListValue="creation"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:aggregateDataSetName>
+               <gmd:associationType>
+                  <gmd:DS_AssociationTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_AssociationTypeCode"
+                                              codeListValue="crossReference"/>
+               </gmd:associationType>
+               <gmd:initiativeType>
+                  <gmd:DS_InitiativeTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_InitiativeTypeCode"
+                                             codeListValue="process"/>
+               </gmd:initiativeType>
+            </gmd:MD_AggregateInformation>
+         </gmd:aggregationInfo>
+         <gmd:aggregationInfo>
+            <gmd:MD_AggregateInformation>
+               <gmd:aggregateDataSetName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>Diagnóstico: diagnóstico definitivo de la evolución de los cultivos de secano y los pastizales para la campaña actual</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>2001-07-01</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                   codeListValue="creation"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:aggregateDataSetName>
+               <gmd:associationType>
+                  <gmd:DS_AssociationTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_AssociationTypeCode"
+                                              codeListValue="crossReference"/>
+               </gmd:associationType>
+               <gmd:initiativeType>
+                  <gmd:DS_InitiativeTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_InitiativeTypeCode"
+                                             codeListValue="process"/>
+               </gmd:initiativeType>
+            </gmd:MD_AggregateInformation>
+         </gmd:aggregationInfo>
+         <gmd:aggregationInfo>
+            <gmd:MD_AggregateInformation>
+               <gmd:aggregateDataSetName>
+                  <gmd:CI_Citation>
+                     <gmd:title>
+                        <gco:CharacterString>Mapa de Cultivos y Aprovechamientos de España 1:50.000 del año 1980-1990 del Ministerio de Agricultura, Alimentación y Medio Ambiente</gco:CharacterString>
+                     </gmd:title>
+                     <gmd:date>
+                        <gmd:CI_Date>
+                           <gmd:date>
+                              <gco:Date>1990-12-01</gco:Date>
+                           </gmd:date>
+                           <gmd:dateType>
+                              <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                                                   codeListValue="creation"/>
+                           </gmd:dateType>
+                        </gmd:CI_Date>
+                     </gmd:date>
+                  </gmd:CI_Citation>
+               </gmd:aggregateDataSetName>
+               <gmd:aggregateDataSetIdentifier>
+                  <gmd:MD_Identifier>
+                     <gmd:code>
+                        <gco:CharacterString>ESMAGRAMAMCA501980-1990201012150000</gco:CharacterString>
+                     </gmd:code>
+                  </gmd:MD_Identifier>
+               </gmd:aggregateDataSetIdentifier>
+               <gmd:associationType>
+                  <gmd:DS_AssociationTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_AssociationTypeCode"
+                                              codeListValue="crossReference"/>
+               </gmd:associationType>
+               <gmd:initiativeType>
+                  <gmd:DS_InitiativeTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#DS_InitiativeTypeCode"
+                                             codeListValue="process"/>
+               </gmd:initiativeType>
+            </gmd:MD_AggregateInformation>
+         </gmd:aggregationInfo>
+         <gmd:spatialRepresentationType>
+            <gmd:MD_SpatialRepresentationTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_SpatialRepresentationTypeCode"
+                                                  codeListValue="grid"/>
+         </gmd:spatialRepresentationType>
+         <gmd:spatialResolution>
+            <gmd:MD_Resolution>
+               <gmd:equivalentScale>
+                  <gmd:MD_RepresentativeFraction>
+                     <gmd:denominator>
+                        <gco:Integer>50000</gco:Integer>
+                     </gmd:denominator>
+                  </gmd:MD_RepresentativeFraction>
+               </gmd:equivalentScale>
+            </gmd:MD_Resolution>
+         </gmd:spatialResolution>
+         <gmd:language>
+            <gco:CharacterString>spa</gco:CharacterString>
+         </gmd:language>
+         <gmd:characterSet>
+            <gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CharacterSetCode"
+                                     codeListValue="utf8"/>
+         </gmd:characterSet>
+         <gmd:topicCategory>
+            <gmd:MD_TopicCategoryCode>farming</gmd:MD_TopicCategoryCode>
+         </gmd:topicCategory>
+         <gmd:topicCategory>
+            <gmd:MD_TopicCategoryCode>environment</gmd:MD_TopicCategoryCode>
+         </gmd:topicCategory>
+         <gmd:topicCategory>
+            <gmd:MD_TopicCategoryCode>climatologyMeteorologyAtmosphere</gmd:MD_TopicCategoryCode>
+         </gmd:topicCategory>
+         <gmd:extent>
+            <gmd:EX_Extent>
+               <gmd:description>
+                  <gco:CharacterString>El estudio se lleva a cabo en las comunidades autónomas de Navarra, Aragón, Cataluña, Castilla y León, La Rioja, Madrid, Castilla-La Mancha, Comunidad Valenciana, Andalucía, Región Murciana, Extremadura y Baleares, pues son las que comprenden la práctica totalidad de los cultivos de secano y los pastizales.</gco:CharacterString>
+               </gmd:description>
+               <gmd:geographicElement>
+                  <gmd:EX_GeographicBoundingBox>
+                     <gmd:westBoundLongitude>
+                        <gco:Decimal>-10.00</gco:Decimal>
+                     </gmd:westBoundLongitude>
+                     <gmd:eastBoundLongitude>
+                        <gco:Decimal>4.57</gco:Decimal>
+                     </gmd:eastBoundLongitude>
+                     <gmd:southBoundLatitude>
+                        <gco:Decimal>35.00</gco:Decimal>
+                     </gmd:southBoundLatitude>
+                     <gmd:northBoundLatitude>
+                        <gco:Decimal>44.00</gco:Decimal>
+                     </gmd:northBoundLatitude>
+                  </gmd:EX_GeographicBoundingBox>
+               </gmd:geographicElement>
+               <gmd:temporalElement>
+                  <gmd:EX_TemporalExtent>
+                     <gmd:extent>
+                        <gml:TimePeriod gml:id="ESMAGRAMANDVIMEDIOMENSUALSINMASCARA0108201109010108">
+                           <gml:beginPosition>2008-01-01</gml:beginPosition>
+                           <gml:endPosition/>
+                        </gml:TimePeriod>
+                     </gmd:extent>
+                  </gmd:EX_TemporalExtent>
+               </gmd:temporalElement>
+            </gmd:EX_Extent>
+         </gmd:extent>
+         <gmd:supplementalInformation>
+            <gco:CharacterString>- La evaluación de fenómenos como la sequía agronómica a escala global, hoy solamente puede realizarse de manera precisa y económica a través de los datos de Teledetección ofrecidos por los satélites meteorológicos debido a tres causas fundamentales: la frecuencia diaria de sus observaciones, el permitir realizar estudios a escala global debido a su resolución espacial y la adecuación de los sensores que transportan a bordo. 
+				- Estos conjuntos de datos se obtienen gracias a la sonda TOVS y al sensor AVHRR, la primera permite determinar, entre otras cosas, los perfiles verticales de temperatura y humedad, corregir de Corrección radiométrica. Es decir, permite eliminar el efecto de la inclinación del satélite o de la posición del Sol, e incluso el estado de la atmósfera, de tal forma que las medidas de sucesivas pasadas del satélite sean comparables entre sí. 
+				- El sensor AVHRR (Advanced Very High Resolution Radiometer), a bordo de la serie de satélites americanos NOAA, con una resolución espacial de 1 km2 en el nadir y su alta frecuencia en resolución temporal con varias pasadas diarias sobre la Península, con imágenes NOAA-AVHRR es fácil obtener un compuesto decenal de España prácticamente libre de nubes como los utilizados en el presente trabajo. 
+				- El sensor  AVHRR  empleado en el presente estudio, consta de cinco canales de medida en el espectro electromagnético, situados sobre el visible en la banda del rojo, el infrarrojo cercano el infrarrojo medio y, los dos últimos, sobre el infrarrojo térmico. Los dos primeros canales los que han resultado ser enormemente valiosos para el estudio de la vegetación. 
+				- Esta información está incluida en el visor del Sistema de Información Geográfica de Datos Agrarios (SIGA) y en el Visor GeoPortal del Ministerio.</gco:CharacterString>
+         </gmd:supplementalInformation>
+      </gmd:MD_DataIdentification>
+  </gmd:identificationInfo>
+  <gmd:distributionInfo>
+      <gmd:MD_Distribution>
+         <gmd:distributionFormat>
+            <gmd:MD_Format>
+               <gmd:name>
+                  <gco:CharacterString>TIFF-Tagged Image File Format</gco:CharacterString>
+               </gmd:name>
+               <gmd:version>
+                  <gco:CharacterString/>
+               </gmd:version>
+            </gmd:MD_Format>
+         </gmd:distributionFormat>
+         <gmd:distributionFormat>
+            <gmd:MD_Format>
+               <gmd:name>
+                  <gco:CharacterString>ArcSDE sobre Oracle</gco:CharacterString>
+               </gmd:name>
+               <gmd:version>
+                  <gco:CharacterString/>
+               </gmd:version>
+            </gmd:MD_Format>
+         </gmd:distributionFormat>
+         <gmd:transferOptions>
+            <gmd:MD_DigitalTransferOptions>
+               <gmd:onLine>
+                  <gmd:CI_OnlineResource>
+                     <gmd:linkage>
+                        <gmd:URL>http://sig.magrama.es/siga/</gmd:URL>
+                     </gmd:linkage>
+                     <gmd:description>
+                        <gco:CharacterString>El conjunto de datos catalogado se encuentra incluido dentro del visor del Sistema de Información Geográfica de Datos Agrarios (SIGA) del Ministerio de Agricultura, Alimentación y Medio Ambiente (MAGRAMA), cuyo objetivo es visualizar información geográfica relativa al Mapa de Cultivos y Estaciones Meteorológicas:</gco:CharacterString>
+                     </gmd:description>
+                     <gmd:function>
+                        <gmd:CI_OnLineFunctionCode codeList="./resources/codeList.xml#CI_OnLineFunctionCode"
+                                                   codeListValue="information">information</gmd:CI_OnLineFunctionCode>
+                     </gmd:function>
+                  </gmd:CI_OnlineResource>
+               </gmd:onLine>
+               <gmd:onLine>
+                  <gmd:CI_OnlineResource>
+                     <gmd:linkage>
+                        <gmd:URL>http://sig.magrama.es/geoportal/</gmd:URL>
+                     </gmd:linkage>
+                     <gmd:description>
+                        <gco:CharacterString>El conjunto de datos catalogado se encuentra incluido dentro del visor del Sistema de Información Geográfica del Ministerio de Agricultura, Alimentación y Medio Ambiente (GeoPortal), cuyo objetivo es la publicación y difusión de información geográfica relativa al ministerio:</gco:CharacterString>
+                     </gmd:description>
+                     <gmd:function>
+                        <gmd:CI_OnLineFunctionCode codeList="./resources/codeList.xml#CI_OnLineFunctionCode"
+                                                   codeListValue="information">information</gmd:CI_OnLineFunctionCode>
+                     </gmd:function>
+                  </gmd:CI_OnlineResource>
+               </gmd:onLine>
+               <gmd:onLine>
+                  <gmd:CI_OnlineResource>
+                     <gmd:linkage>
+                        <gmd:URL>http://sig.magrama.es/Docs/PDFServiciosProd2/NDVIMedioMensualSinMascara.pdf</gmd:URL>
+                     </gmd:linkage>
+                     <gmd:description>
+                        <gco:CharacterString>Documento PDF con la descripción del conjunto de datos:</gco:CharacterString>
+                     </gmd:description>
+                     <gmd:function>
+                        <gmd:CI_OnLineFunctionCode codeList="./resources/codeList.xml#CI_OnLineFunctionCode"
+                                                   codeListValue="information">information</gmd:CI_OnLineFunctionCode>
+                     </gmd:function>
+                  </gmd:CI_OnlineResource>
+               </gmd:onLine>
+               <gmd:onLine>
+                  <gmd:CI_OnlineResource>
+                     <gmd:linkage>
+                        <gmd:URL>http://www.magrama.gob.es/es/agricultura/temas/sistema-de-vigilancia-y-alerta-de-la-evolucion-anual-de-los-cultivos-y-aprovechamientos/campana-2008/enero/1_enero08.aspx</gmd:URL>
+                     </gmd:linkage>
+                     <gmd:description>
+                        <gco:CharacterString>Página web donde se encuentra documentación de las diferentes campañas anuales realizadas y de los diferentes estudios realizados en cada año:</gco:CharacterString>
+                     </gmd:description>
+                     <gmd:function>
+                        <gmd:CI_OnLineFunctionCode codeList="./resources/codeList.xml#CI_OnLineFunctionCode"
+                                                   codeListValue="information">information</gmd:CI_OnLineFunctionCode>
+                     </gmd:function>
+                  </gmd:CI_OnlineResource>
+               </gmd:onLine>
+            </gmd:MD_DigitalTransferOptions>
+         </gmd:transferOptions>
+      </gmd:MD_Distribution>
+  </gmd:distributionInfo>
+  <gmd:dataQualityInfo>
+      <gmd:DQ_DataQuality>
+         <gmd:scope>
+            <gmd:DQ_Scope>
+               <gmd:level>
+                  <gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ScopeCode"
+                                    codeListValue="series"/>
+               </gmd:level>
+               <gmd:extent>
+                  <gmd:EX_Extent>
+                     <gmd:description>
+                        <gco:CharacterString>El estudio se lleva a cabo en las comunidades autónomas de Navarra, Aragón, Cataluña, Castilla y León, La Rioja, Madrid, Castilla-La Mancha, Comunidad Valenciana, Andalucía, Región Murciana, Extremadura y Baleares, pues son las que comprenden la práctica totalidad de los cultivos de secano y los pastizales.</gco:CharacterString>
+                     </gmd:description>
+                  </gmd:EX_Extent>
+               </gmd:extent>
+            </gmd:DQ_Scope>
+         </gmd:scope>
+         <gmd:report>
+            <gmd:DQ_DomainConsistency>
+               <gmd:result>
+                  <gmd:DQ_ConformanceResult>
+                     <gmd:specification>
+                        <gmd:CI_Citation>
+                           <gmd:title>
+                              <gco:CharacterString>REGLAMENTO (UE) N o 1089/2010 DE LA COMISIÓN de 23 de noviembre de 2010 por el que se aplica la Directiva 2007/2/CE del Parlamento Europeo y del Consejo en lo que se refiere a la interoperabilidad de los conjuntos y los servicios de datos espaciales</gco:CharacterString>
+                           </gmd:title>
+                           <gmd:date>
+                              <gmd:CI_Date>
+                                 <gmd:date>
+                                    <gco:Date>2010-12-08</gco:Date>
+                                 </gmd:date>
+                                 <gmd:dateType>
+                                    <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                                                         codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                                 </gmd:dateType>
+                              </gmd:CI_Date>
+                           </gmd:date>
+                        </gmd:CI_Citation>
+                     </gmd:specification>
+                     <gmd:explanation>
+                        <gco:CharacterString>· Se comprueba en la tabla asociada a la imagen generada que todos los valores están en rango.
+								· Se comprueba visualmente que las imágenes de partida están bien georreferenciadas. Se procede igualmente con la imagen generada.</gco:CharacterString>
+                     </gmd:explanation>
+                     <gmd:pass>
+                        <gco:Boolean>1</gco:Boolean>
+                     </gmd:pass>
+                  </gmd:DQ_ConformanceResult>
+               </gmd:result>
+            </gmd:DQ_DomainConsistency>
+         </gmd:report>
+         <gmd:lineage>
+            <gmd:LI_Lineage>
+               <gmd:statement>
+                  <gco:CharacterString>La metodología desarrollada para la creación de los conjuntos de datos del NDVI medio mensual: índices de vegetación medios del mes de enero del año 2008 se basa en los valores medios del mes en la campaña agrícola del año 2008 del índice NDVI a escala comarcal. 
+						El principio del Indice de Vegetación de Diferencias Normalizadas (NDVI)  combina la longitud de banda roja del visible con la del infrarrojo cercano, la vegetación sana o con fuerte vigor presenta los mínimos de reflectividad generalmente en la banda del rojo, mientras que para el infrarrojo cercano la vegetación sana o vigorosa presenta sus máximos de reflectividad. 
+						Frente a este principio el sensor AVHRR (Advanced Very High Resolution Radiometer) proporciona los valores de reflectividad de las bandas roja e infrarroja. Posteriormente se realiza la corrección atmosférica de las bandas y se transforman los valores digitales relativos de las bandas a valores de albedo, esta transformación es necesaria para la comparación multitemporal de las diferentes imágenes utilizadas. El NDVI  se obtiene dividiendo los valores del albedo de la banda del rojo y el albedo de la banda del infrarrojo cercano y finalmente se realiza la media de los valores del mes. 
+						Además de los índices de vegetación se emplean diversas fuentes de información para el diagnóstico de los posibles problemas, especialmente datos meteorológicos y visitas al campo cuando se considera pertinente. 
+						Con las imágenes diarias de NDVI se componen medias decenales y medias mensuales.</gco:CharacterString>
+               </gmd:statement>
+               <gmd:processStep>
+                  <gmd:LI_ProcessStep>
+                     <gmd:description>
+                        <gco:CharacterString>· Eliminación de nubes. Se analizan las imágenes de partida sobre el canal 1 de una determinada zona para eliminar los píxeles contaminados por nubes bajas. Después se procede a examinar el canal 5 para eliminar las nubes altas, y así se crea una máscara de nubes que se aplica a toda la imagen.
+								· Calibrado de imágenes. Los valores espectrales relativos de las imágenes AVHRR son traducciones digitales de la radiancia espectral detectada por el sensor. Por tanto pueden convertirse de nuevo a valores de radiancia a partir de los coeficientes de calibrado del sensor.
+								· Cálculo de los índices de vegetación normalizados NDVI. Se obtienen de los porcentajes de albedo a partir de los valores de radiancia obtenidos para los canales 1 y 2 (rojo e infrarrojo cercano, respectivamente) y se aplican a la fórmula de cálculo.
+								· Correcciones atmosféricas. Se realiza según el modelo llamado CODIGO 5S (Simulation of the Satellite Signal in the Solar Spectrum).
+								· Correcciones geométricas. Se parte de la imagen en proyección Mercator y se localizan en ella una serie de puntos de control. Se establece una relación entre las coordenadas imagen de los puntos de control en la imagen original y las coordenadas UTM que corresponderían a esos puntos.
+								· Generación de imágenes de NDVI de síntesis. Con las imágenes diarias se generan imágenes de máximos decenales y con las 3 decenas de cada mes se genera la imagen de medías mensuales.
+								· Traducción a escala de colores. En un sistema Arc info se asignan los valores de NDVI a una escala de colores entre el verde y rojo.</gco:CharacterString>
+                     </gmd:description>
+                     <gmd:dateTime>
+                        <gco:DateTime>2008-01-01T00:00:00</gco:DateTime>
+                     </gmd:dateTime>
+                  </gmd:LI_ProcessStep>
+               </gmd:processStep>
+               <gmd:source>
+                  <gmd:LI_Source>
+                     <gmd:description>
+                        <gco:CharacterString>- Conjunto de valores procedentes del sensor AVHRR (Advanced Very High Resolution Radiometer) a bordo de la serie de satélites americanos NOAA. Del Laboratorio de Teledetección de la Universidad de Valladolid. Este sensor ha demostrado la mayor idoneidad para estos estudios debido a su resolución espacial de 1 km2 en el nadir y su alta frecuencia en resolución temporal con varias pasadas diarias sobre la Península, lo que es muy conveniente para la realización de análisis que requieran una evolución temporal.
+								- Cartografía digital administrativa del Instituto Geográfico Nacional (IGN) a escala 1:50.000 que contiene la representación de las coberturas de las comarcas agrarias y de las provincias de España.</gco:CharacterString>
+                     </gmd:description>
+                  </gmd:LI_Source>
+               </gmd:source>
+            </gmd:LI_Lineage>
+         </gmd:lineage>
+      </gmd:DQ_DataQuality>
+  </gmd:dataQualityInfo>
+</gmd:MD_Metadata>
