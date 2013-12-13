@@ -24,6 +24,7 @@ Contents:
    postgis-relaciones-espaciales/relaciones_espaciales
    postgis-validacion/validacion
    postgis-analisis-espacial/analisis_espacial
+   geonetwork/geonetwork
 
 
 Indices and tables
